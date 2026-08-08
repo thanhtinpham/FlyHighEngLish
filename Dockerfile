@@ -1,7 +1,8 @@
 FROM php:8.2-apache
 
-# Install system dependencies & PHP extensions
+# Install system dependencies, ca-certificates & PHP extensions
 RUN apt-get update && apt-get install -y \
+    ca-certificates \
     libpng-dev \
     libonig-dev \
     libxml2-dev \
