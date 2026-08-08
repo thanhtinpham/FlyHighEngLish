@@ -41,4 +41,4 @@ RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cac
 EXPOSE 8080
 
 # Auto run migration & start apache
-CMD sh -c "php artisan config:clear && php artisan migrate --seed --force && apache2-foreground"
+CMD sh -c "php artisan config:clear && php artisan migrate --force && php artisan db:seed --force || true && apache2-foreground"

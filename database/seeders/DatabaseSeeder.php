@@ -11,28 +11,31 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // 1. Create Users
-        $admin = User::create([
-            'name' => 'Quản Trị Viên (Admin)',
-            'email' => 'admin@flyhighenglish.com',
-            'password' => Hash::make('password'),
-            'role' => 'admin',
-            'phone' => '0988888888',
-        ]);
+        // 1. Create Users (safe with firstOrCreate)
+        $admin = User::firstOrCreate(
+            ['email' => 'admin@flyhighenglish.com'],
+            [
+                'name' => 'Quản Trị Viên (Admin)',
+                'password' => Hash::make('password'),
+                'role' => 'admin',
+                'phone' => '0988888888',
+            ]
+        );
 
-        $student = User::create([
-            'name' => 'Nguyễn Văn Học Viên',
-            'email' => 'user@flyhighenglish.com',
-            'password' => Hash::make('password'),
-            'role' => 'student',
-            'phone' => '0912345678',
-        ]);
+        $student = User::firstOrCreate(
+            ['email' => 'user@flyhighenglish.com'],
+            [
+                'name' => 'Nguyễn Văn Học Viên',
+                'password' => Hash::make('password'),
+                'role' => 'student',
+                'phone' => '0912345678',
+            ]
+        );
 
         // Ensure storage folder exists
         Storage::disk('public')->makeDirectory('lessons');
@@ -137,7 +140,10 @@ class DatabaseSeeder extends Seeder
 
         $createdCourses = [];
         foreach ($coursesData as $cData) {
-            $createdCourses[$cData['category']] = Course::create($cData);
+            $createdCourses[$cData['category']] = Course::firstOrCreate(
+                ['slug' => $cData['slug']],
+                $cData
+            );
         }
 
         // 3. Create HTML Interactive Lessons for Courses
@@ -146,114 +152,125 @@ class DatabaseSeeder extends Seeder
         $toeicCourse = $createdCourses['toeic'];
         $kidsCourse = $createdCourses['tre-em'];
 
-        // Lesson 1 (Preview for Giao Tiep)
-        $l1 = Lesson::create([
-            'course_id' => $giaoTiepCourse->id,
-            'title' => 'Bài 1: Essential Daily English Greetings & Introductions',
-            'slug' => 'bai-1-essential-daily-english-greetings',
-            'level_or_week' => 'Tuần 1 - Buổi 1',
-            'description' => 'Bài học tương tác chào hỏi cơ bản, luyện nghe phát âm chuẩn giọng Mỹ và hoàn thành đoạn thoại.',
-            'html_file_path' => 'lessons/lesson_sample_1.html',
-            'is_preview' => true, // Preview allowed for Guest
-            'order' => 1,
-        ]);
+        $l1 = Lesson::firstOrCreate(
+            ['slug' => 'bai-1-essential-daily-english-greetings'],
+            [
+                'course_id' => $giaoTiepCourse->id,
+                'title' => 'Bài 1: Essential Daily English Greetings & Introductions',
+                'level_or_week' => 'Tuần 1 - Buổi 1',
+                'description' => 'Bài học tương tác chào hỏi cơ bản, luyện nghe phát âm chuẩn giọng Mỹ và hoàn thành đoạn thoại.',
+                'html_file_path' => 'lessons/lesson_sample_1.html',
+                'is_preview' => true,
+                'order' => 1,
+            ]
+        );
 
-        // Lesson 2 (Enrolled lesson for Giao Tiep)
-        $l2 = Lesson::create([
-            'course_id' => $giaoTiepCourse->id,
-            'title' => 'Bài 2: Ordering Food & Drinks at a Coffee Shop',
-            'slug' => 'bai-2-ordering-food-and-drinks',
-            'level_or_week' => 'Tuần 1 - Buổi 2',
-            'description' => 'Thực hành gọi đồ uống, gọi món ăn tại nhà hàng với tình huống tương tác thực tế.',
-            'html_file_path' => 'lessons/lesson_sample_1.html',
-            'is_preview' => false,
-            'order' => 2,
-        ]);
+        $l2 = Lesson::firstOrCreate(
+            ['slug' => 'bai-2-ordering-food-and-drinks'],
+            [
+                'course_id' => $giaoTiepCourse->id,
+                'title' => 'Bài 2: Ordering Food & Drinks at a Coffee Shop',
+                'level_or_week' => 'Tuần 1 - Buổi 2',
+                'description' => 'Thực hành gọi đồ uống, gọi món ăn tại nhà hàng với tình huống tương tác thực tế.',
+                'html_file_path' => 'lessons/lesson_sample_1.html',
+                'is_preview' => false,
+                'order' => 2,
+            ]
+        );
 
-        // Lesson 3 (Preview for IELTS)
-        $l3 = Lesson::create([
-            'course_id' => $ieltsCourse->id,
-            'title' => 'IELTS Listening: Map & Diagram Labelling Strategies',
-            'slug' => 'ielts-listening-map-labelling',
-            'level_or_week' => 'Level B2 - Module 1',
-            'description' => 'Kỹ thuật xác định phương hướng và từ chỉ vị trí trong đề thi IELTS Listening Part 2.',
-            'html_file_path' => 'lessons/lesson_sample_2.html',
-            'is_preview' => true,
-            'order' => 1,
-        ]);
+        $l3 = Lesson::firstOrCreate(
+            ['slug' => 'ielts-listening-map-labelling'],
+            [
+                'course_id' => $ieltsCourse->id,
+                'title' => 'IELTS Listening: Map & Diagram Labelling Strategies',
+                'level_or_week' => 'Level B2 - Module 1',
+                'description' => 'Kỹ thuật xác định phương hướng và từ chỉ vị trí trong đề thi IELTS Listening Part 2.',
+                'html_file_path' => 'lessons/lesson_sample_2.html',
+                'is_preview' => true,
+                'order' => 1,
+            ]
+        );
 
-        // Lesson 4 (TOEIC Lesson)
-        $l4 = Lesson::create([
-            'course_id' => $toeicCourse->id,
-            'title' => 'TOEIC Part 5: Master Subject-Verb Agreement',
-            'slug' => 'toeic-part-5-subject-verb-agreement',
-            'level_or_week' => 'Tuần 1 - TOEIC Part 5',
-            'description' => 'Bài tập trắc nghiệm HTML tính giờ luyện sự hòa hợp giữa Chủ ngữ và Động từ.',
-            'html_file_path' => 'lessons/lesson_sample_1.html',
-            'is_preview' => true,
-            'order' => 1,
-        ]);
+        $l4 = Lesson::firstOrCreate(
+            ['slug' => 'toeic-part-5-subject-verb-agreement'],
+            [
+                'course_id' => $toeicCourse->id,
+                'title' => 'TOEIC Part 5: Master Subject-Verb Agreement',
+                'level_or_week' => 'Tuần 1 - TOEIC Part 5',
+                'description' => 'Bài tập trắc nghiệm HTML tính giờ luyện sự hòa hợp giữa Chủ ngữ và Động từ.',
+                'html_file_path' => 'lessons/lesson_sample_1.html',
+                'is_preview' => true,
+                'order' => 1,
+            ]
+        );
 
-        // Lesson 5 (Kids Lesson)
-        $l5 = Lesson::create([
-            'course_id' => $kidsCourse->id,
-            'title' => 'Fly High Kids: Animal Kingdom & Fun Sounds',
-            'slug' => 'fly-high-kids-animal-kingdom',
-            'level_or_week' => 'Tuần 1 - Phonics Fun',
-            'description' => 'Học tên các loài động vật qua trò chơi nghe âm thanh và chọn hình ảnh.',
-            'html_file_path' => 'lessons/lesson_sample_1.html',
-            'is_preview' => true,
-            'order' => 1,
-        ]);
+        $l5 = Lesson::firstOrCreate(
+            ['slug' => 'fly-high-kids-animal-kingdom'],
+            [
+                'course_id' => $kidsCourse->id,
+                'title' => 'Fly High Kids: Animal Kingdom & Fun Sounds',
+                'level_or_week' => 'Tuần 1 - Phonics Fun',
+                'description' => 'Học tên các loài động vật qua trò chơi nghe âm thanh và chọn hình ảnh.',
+                'html_file_path' => 'lessons/lesson_sample_1.html',
+                'is_preview' => true,
+                'order' => 1,
+            ]
+        );
 
         // 4. Create Enrollment for Student
-        Enrollment::create([
+        Enrollment::firstOrCreate([
             'user_id' => $student->id,
             'course_id' => $giaoTiepCourse->id,
+        ], [
             'status' => 'active',
             'enrolled_at' => now(),
         ]);
 
-        Enrollment::create([
+        Enrollment::firstOrCreate([
             'user_id' => $student->id,
             'course_id' => $ieltsCourse->id,
+        ], [
             'status' => 'active',
             'enrolled_at' => now(),
         ]);
 
         // 5. Create Lesson Progress
-        LessonProgress::create([
+        LessonProgress::firstOrCreate([
             'user_id' => $student->id,
             'lesson_id' => $l1->id,
+        ], [
             'status' => 'completed',
             'score' => 100,
             'completed_at' => now(),
         ]);
 
         // 6. Create Lead Registrations
-        Registration::create([
+        Registration::firstOrCreate([
+            'email' => 'thuha@gmail.com',
+        ], [
             'name' => 'Trần Thị Thu Hà',
             'phone' => '0987654321',
-            'email' => 'thuha@gmail.com',
             'type' => 'zalo_trial',
             'notes' => 'Đăng ký học thử khóa Giao tiếp qua Zalo. Rảnh buổi tối thứ 2-4-6.',
             'status' => 'pending',
         ]);
 
-        Registration::create([
+        Registration::firstOrCreate([
+            'email' => 'minhquan@gmail.com',
+        ], [
             'name' => 'Lê Minh Quân',
             'phone' => '0933221100',
-            'email' => 'minhquan@gmail.com',
             'type' => 'placement_test',
             'notes' => 'Điểm test: 75/100 - Đánh giá trình độ: B1 Intermediate',
             'details' => ['score' => 75, 'level' => 'B1 Intermediate'],
             'status' => 'contacted',
         ]);
 
-        Registration::create([
+        Registration::firstOrCreate([
+            'email' => 'hoangnam@gmail.com',
+        ], [
             'name' => 'Phạm Hoàng Nam',
             'phone' => '0977112233',
-            'email' => 'hoangnam@gmail.com',
             'type' => 'vstep_exam',
             'notes' => 'Đăng ký thi thử B1 VSTEP đợt tháng 9/2026. Mục tiêu đạt chuẩn ra trường.',
             'status' => 'pending',
