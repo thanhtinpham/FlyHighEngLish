@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: flyhighenglish
+    runtime: docker
+    plan: free
+    region: singapore
+    envVars:
+      - key: APP_NAME
+        value: "FlyHigh English"
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: APP_KEY
+        value: "base64:H+YKRo/nWwESEdP5l9EBxavIurtHRfXp/Gmr7UNYUkc="
+      - key: DB_CONNECTION
+        value: mysql
+      - key: DB_PORT
+        value: "4000"
