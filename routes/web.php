@@ -3,14 +3,19 @@
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\Admin\AdminCourseController;
 use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\AdminDocumentController;
 use App\Http\Controllers\Admin\AdminEnrollmentController;
 use App\Http\Controllers\Admin\AdminLessonController;
+use App\Http\Controllers\Admin\AdminNotificationController;
 use App\Http\Controllers\Admin\AdminRegistrationController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LearningHubController;
 use App\Http\Controllers\LessonController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PlacementTestController;
 use App\Http\Controllers\RegistrationController;
 use Illuminate\Support\Facades\Route;
@@ -28,6 +33,15 @@ Route::get('/about', [AboutController::class, 'index'])->name('about');
 // Courses Browsing
 Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
 Route::get('/courses/{slug}', [CourseController::class, 'show'])->name('courses.show');
+
+// Document Center (Public & Downloads)
+Route::get('/documents', [DocumentController::class, 'index'])->name('documents.index');
+Route::get('/documents/{document}', [DocumentController::class, 'show'])->name('documents.show');
+Route::get('/documents/{document}/download', [DocumentController::class, 'download'])->name('documents.download');
+
+// System Notifications & Announcements
+Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+Route::get('/notifications/{notification}', [NotificationController::class, 'show'])->name('notifications.show');
 
 // Placement Test (Assessment)
 Route::get('/placement-test', [PlacementTestController::class, 'index'])->name('placement_test.index');
@@ -52,6 +66,9 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Authenticated Student Routes
 Route::middleware('auth')->group(function () {
+    // Student Main Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
     // Interactive Learning Hub (Student Classroom & Progress)
     Route::get('/learning-hub', [LearningHubController::class, 'index'])->name('learning_hub.index');
 });
@@ -65,6 +82,12 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     // HTML Lessons Management
     Route::resource('lessons', AdminLessonController::class);
+
+    // Documents Management
+    Route::resource('documents', AdminDocumentController::class);
+
+    // System Notifications Management
+    Route::resource('notifications', AdminNotificationController::class);
 
     // Student Enrollments Management
     Route::get('enrollments', [AdminEnrollmentController::class, 'index'])->name('enrollments.index');
