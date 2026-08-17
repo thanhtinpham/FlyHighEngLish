@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Session\TokenMismatchException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -26,5 +27,16 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+
+        $this->renderable(function (TokenMismatchException $e, $request) {
+            if ($request->is('logout') || $request->routeIs('logout')) {
+                return redirect()->route('login')->with('success', 'Bạn đã đăng xuất thành công.');
+            }
+
+            return redirect()->back()
+                ->withInput($request->except('password', 'password_confirmation'))
+                ->with('error', 'Phiên làm việc đã hết hạn do lâu không thao tác. Vui lòng thử lại!');
+        });
     }
 }
+

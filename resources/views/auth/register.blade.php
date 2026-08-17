@@ -3,128 +3,90 @@
 @section('title', 'Đăng ký tài khoản - FlyHigh English')
 
 @section('content')
-<div class="min-h-[85vh] flex items-center justify-center py-10 px-4 sm:px-6 lg:px-8 relative overflow-hidden bg-slate-50">
+<div class="min-h-[80vh] flex items-center justify-center py-10 px-4 sm:px-6 lg:px-8 bg-slate-50">
     
-    <!-- Ambient Light Orbs -->
-    <div class="absolute top-1/4 -right-20 w-96 h-96 bg-emerald-300/30 rounded-full blur-[120px] pointer-events-none animate-pulse"></div>
-    <div class="absolute bottom-1/4 -left-20 w-96 h-96 bg-teal-300/30 rounded-full blur-[120px] pointer-events-none animate-pulse" style="animation-delay: 2s;"></div>
-
-    <!-- Main Container Card -->
-    <div class="max-w-5xl w-full grid grid-cols-1 lg:grid-cols-12 rounded-[2.5rem] overflow-hidden shadow-2xl border border-emerald-100 bg-white relative z-10 my-6">
+    <!-- Main Card Container (Single Centered Box) -->
+    <div class="max-w-md w-full bg-white rounded-2xl shadow-xl border border-slate-200 p-6 sm:p-8 space-y-6">
         
-        <!-- Left Side: Hero Spotlight (Desktop) -->
-        <div class="lg:col-span-5 p-8 sm:p-12 bg-gradient-to-br from-emerald-50 via-teal-50/50 to-sky-50 border-b lg:border-b-0 lg:border-r border-emerald-100 flex flex-col justify-between relative overflow-hidden">
-            <div class="space-y-6 relative z-10">
-                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold tracking-wide border border-emerald-200">
-                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
-                    Đăng Ký Miễn Phí 100%
-                </div>
-
-                <div class="space-y-3">
-                    <h2 class="text-3xl sm:text-4xl font-black text-slate-900 font-heading tracking-tight leading-tight">
-                        Trở Thành Học Viên Của <span class="text-gradient-emerald">FlyHigh</span>
-                    </h2>
-                    <p class="text-sm text-slate-600 leading-relaxed font-medium">
-                        Tạo tài khoản ngay để trải nghiệm kho bài học HTML tương tác 4D chuẩn quốc tế và theo dõi lộ trình bứt phá.
-                    </p>
-                </div>
-
-                <!-- Feature Benefits Checklist -->
-                <div class="space-y-3 pt-2">
-                    <div class="flex items-center gap-3 p-3.5 rounded-2xl bg-white border border-emerald-100 shadow-soft-sm">
-                        <div class="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 font-bold">
-                            <i data-lucide="check" class="w-4 h-4"></i>
-                        </div>
-                        <span class="text-xs font-bold text-slate-800">Học thử bài học HTML không giới hạn</span>
-                    </div>
-
-                    <div class="flex items-center gap-3 p-3.5 rounded-2xl bg-white border border-emerald-100 shadow-soft-sm">
-                        <div class="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 font-bold">
-                            <i data-lucide="check" class="w-4 h-4"></i>
-                        </div>
-                        <span class="text-xs font-bold text-slate-800">Tự động lưu điểm & thời gian học tập</span>
-                    </div>
-
-                    <div class="flex items-center gap-3 p-3.5 rounded-2xl bg-white border border-emerald-100 shadow-soft-sm">
-                        <div class="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 font-bold">
-                            <i data-lucide="check" class="w-4 h-4"></i>
-                        </div>
-                        <span class="text-xs font-bold text-slate-800">Nhận hỗ trợ 1-1 từ giảng viên chuyên môn</span>
-                    </div>
-                </div>
+        <!-- Header & Logo -->
+        <div class="text-center space-y-2">
+            <div class="w-12 h-12 rounded-xl bg-blue-600 text-white flex items-center justify-center mx-auto shadow-sm">
+                <i data-lucide="user-plus" class="w-6 h-6"></i>
             </div>
-
-            <!-- Bottom Stat Pill -->
-            <div class="pt-8 mt-8 border-t border-emerald-100 flex items-center justify-between text-slate-500 text-xs">
-                <span class="flex items-center gap-1.5 font-semibold">
-                    <i data-lucide="shield-check" class="w-4 h-4 text-emerald-600"></i> Tạo tài khoản miễn phí
-                </span>
-                <span class="text-emerald-700 font-bold">FlyHigh LMS</span>
-            </div>
+            <h2 class="text-2xl font-extrabold text-slate-900 font-heading">Tạo Tài Khoản Mới</h2>
+            <p class="text-xs text-slate-500">Điền thông tin để đăng ký tài khoản học viên Fly High English</p>
         </div>
 
-        <!-- Right Side: Register Form -->
-        <div class="lg:col-span-7 p-8 sm:p-12 flex flex-col justify-between bg-white">
-            
-            <div class="space-y-6">
-                <div>
-                    <h3 class="text-2xl sm:text-3xl font-black text-slate-900 font-heading tracking-tight">Tạo Tài Khoản Mới</h3>
-                    <p class="mt-1.5 text-sm text-slate-500">Điền thông tin dưới đây để đăng ký tài khoản học viên</p>
+        <form class="space-y-4" action="{{ route('register') }}" method="POST">
+            @csrf
+
+            <div>
+                <label for="name" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Họ Và Tên *</label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                        <i data-lucide="user" class="w-4 h-4"></i>
+                    </div>
+                    <input id="name" name="name" type="text" required value="{{ old('name') }}"
+                           class="w-full pl-10 pr-3.5 py-2.5 bg-slate-50 rounded-lg border border-slate-300 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent text-xs transition-all @error('name') border-rose-500 @enderror"
+                           placeholder="Ví dụ: Nguyễn Văn A">
                 </div>
+                @error('name')
+                <p class="mt-1 text-[11px] text-rose-500 font-semibold">{{ $message }}</p>
+                @enderror
+            </div>
 
-                <form class="space-y-4" action="{{ route('register') }}" method="POST">
-                    @csrf
-
-                    <div>
-                        <label for="name" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Họ Và Tên *</label>
-                        <input id="name" name="name" type="text" required value="{{ old('name') }}"
-                               class="w-full px-4 py-3.5 bg-slate-50 rounded-2xl border border-slate-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-sm transition-all @error('name') border-rose-500 @enderror"
-                               placeholder="Ví dụ: Nguyễn Văn A">
-                        @error('name')
-                        <p class="mt-1 text-xs text-rose-500 font-semibold">{{ $message }}</p>
-                        @enderror
+            <div>
+                <label for="email" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Địa Chỉ Email *</label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                        <i data-lucide="mail" class="w-4 h-4"></i>
                     </div>
+                    <input id="email" name="email" type="email" autocomplete="email" required value="{{ old('email') }}"
+                           class="w-full pl-10 pr-3.5 py-2.5 bg-slate-50 rounded-lg border border-slate-300 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent text-xs transition-all @error('email') border-rose-500 @enderror"
+                           placeholder="example@domain.com">
+                </div>
+                @error('email')
+                <p class="mt-1 text-[11px] text-rose-500 font-semibold">{{ $message }}</p>
+                @enderror
+            </div>
 
-                    <div>
-                        <label for="email" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Địa Chỉ Email *</label>
-                        <input id="email" name="email" type="email" autocomplete="email" required value="{{ old('email') }}"
-                               class="w-full px-4 py-3.5 bg-slate-50 rounded-2xl border border-slate-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-sm transition-all @error('email') border-rose-500 @enderror"
-                               placeholder="example@domain.com">
-                        @error('email')
-                        <p class="mt-1 text-xs text-rose-500 font-semibold">{{ $message }}</p>
-                        @enderror
+            <div>
+                <label for="password" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Mật Khẩu *</label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                        <i data-lucide="lock" class="w-4 h-4"></i>
                     </div>
+                    <input id="password" name="password" type="password" required 
+                           class="w-full pl-10 pr-3.5 py-2.5 bg-slate-50 rounded-lg border border-slate-300 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent text-xs transition-all @error('password') border-rose-500 @enderror"
+                           placeholder="Tối thiểu 6 ký tự">
+                </div>
+                @error('password')
+                <p class="mt-1 text-[11px] text-rose-500 font-semibold">{{ $message }}</p>
+                @enderror
+            </div>
 
-                    <div>
-                        <label for="password" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Mật Khẩu *</label>
-                        <input id="password" name="password" type="password" required 
-                               class="w-full px-4 py-3.5 bg-slate-50 rounded-2xl border border-slate-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-sm transition-all @error('password') border-rose-500 @enderror"
-                               placeholder="Tối thiểu 6 ký tự">
-                        @error('password')
-                        <p class="mt-1 text-xs text-rose-500 font-semibold">{{ $message }}</p>
-                        @enderror
+            <div>
+                <label for="password_confirmation" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Xác Nhận Mật Khẩu *</label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                        <i data-lucide="shield-check" class="w-4 h-4"></i>
                     </div>
-
-                    <div>
-                        <label for="password_confirmation" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Xác Nhận Mật Khẩu *</label>
-                        <input id="password_confirmation" name="password_confirmation" type="password" required 
-                               class="w-full px-4 py-3.5 bg-slate-50 rounded-2xl border border-slate-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-sm transition-all"
-                               placeholder="Nhập lại mật khẩu">
-                    </div>
-
-                    <button type="submit" class="w-full py-4 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-extrabold text-sm rounded-2xl shadow-emerald-glow transition-all hover:scale-[1.01] mt-2">
-                        Đăng Ký Tài Khoản Học Viên
-                    </button>
-                </form>
-
-                <div class="text-center pt-2">
-                    <p class="text-xs text-slate-500">
-                        Đã có tài khoản? 
-                        <a href="{{ route('login') }}" class="font-extrabold text-emerald-600 hover:underline">Đăng nhập tại đây</a>
-                    </p>
+                    <input id="password_confirmation" name="password_confirmation" type="password" required 
+                           class="w-full pl-10 pr-3.5 py-2.5 bg-slate-50 rounded-lg border border-slate-300 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent text-xs transition-all"
+                           placeholder="Nhập lại mật khẩu">
                 </div>
             </div>
 
+            <button type="submit" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-lg shadow-sm transition-all mt-2">
+                Đăng Ký Tài Khoản Học Viên
+            </button>
+        </form>
+
+        <div class="text-center border-t border-slate-100 pt-4">
+            <p class="text-xs text-slate-500">
+                Đã có tài khoản? 
+                <a href="{{ route('login') }}" class="font-bold text-blue-600 hover:underline">Đăng nhập tại đây</a>
+            </p>
         </div>
 
     </div>

@@ -25,6 +25,12 @@ class LearningHubController extends Controller
             ->get()
             ->keyBy('lesson_id');
 
-        return view('learning_hub.index', compact('enrolledCourses', 'userProgresses'));
+        // Detailed history of completed lessons
+        $recentHistory = LessonProgress::where('user_id', $user->id)
+            ->with(['lesson.course'])
+            ->orderBy('updated_at', 'desc')
+            ->get();
+
+        return view('learning_hub.index', compact('enrolledCourses', 'userProgresses', 'recentHistory'));
     }
 }

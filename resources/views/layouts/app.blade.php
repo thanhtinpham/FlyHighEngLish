@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Fly High English - Trung Tâm Tiếng Anh Tương Tác hàng đầu')</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>@yield('title', 'Fly High English - Trung Tâm Tiếng Anh Tương Tác Hàng Đầu')</title>
     
     <!-- Google Fonts: Plus Jakarta Sans & Be Vietnam Pro (Chuẩn tiếng Việt 100%) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,38 +25,15 @@
                         heading: ['Plus Jakarta Sans', 'Be Vietnam Pro', 'sans-serif'],
                     },
                     colors: {
-                        emerald: {
-                            50: '#ecfdf5',
-                            100: '#d1fae5',
-                            500: '#10b981',
-                            600: '#059669',
-                            700: '#047857',
-                        },
-                        sky: {
-                            50: '#f0f9ff',
-                            100: '#e0f2fe',
-                            500: '#0ea5e9',
-                            600: '#0284c7',
-                            700: '#0369a1',
-                        },
-                        gold: {
-                            400: '#fbbf24',
-                            500: '#f59e0b',
-                            600: '#d97706',
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
                         }
-                    },
-                    borderRadius: {
-                        '2xl': '1rem',
-                        '3xl': '1.25rem',
-                        '4xl': '1.5rem',
-                    },
-                    boxShadow: {
-                        'soft-sm': '0 2px 8px -2px rgba(15, 23, 42, 0.05)',
-                        'soft': '0 10px 30px -5px rgba(15, 23, 42, 0.05)',
-                        'soft-lg': '0 20px 40px -10px rgba(15, 23, 42, 0.08)',
-                        'emerald-glow': '0 8px 25px -4px rgba(16, 185, 129, 0.3)',
-                        'sky-glow': '0 8px 25px -4px rgba(14, 165, 233, 0.3)',
-                        'gold-glow': '0 8px 25px -4px rgba(245, 158, 11, 0.3)',
                     }
                 }
             }
@@ -65,143 +43,118 @@
         body {
             font-family: 'Plus Jakarta Sans', 'Be Vietnam Pro', sans-serif;
             background-color: #F8FAFC;
-            color: #1E293B;
+            color: #0F172A;
         }
         h1, h2, h3, h4, h5, h6, .font-heading {
             font-family: 'Plus Jakarta Sans', 'Be Vietnam Pro', sans-serif;
         }
-        .dashboard-card {
-            background: #ffffff;
-            border-radius: 1.25rem;
-            border: 1px solid #E2E8F0;
-            box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .dashboard-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 16px 32px -6px rgba(15, 23, 42, 0.08);
-            border-color: #CBD5E1;
-        }
-        .text-gradient-emerald {
-            background: linear-gradient(135deg, #059669 0%, #0284c7 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .text-gradient-gold {
-            background: linear-gradient(135deg, #D97706 0%, #B45309 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
         .nav-tab-active {
-            background: #ECFDF5;
-            color: #059669;
+            background-color: #ffffff;
+            color: #2563eb;
             font-weight: 700;
-            position: relative;
-        }
-        .nav-tab-active::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 20%;
-            right: 20%;
-            height: 3px;
-            background: #10B981;
-            border-radius: 999px;
-        }
-        @keyframes pulseGlow {
-            0%, 100% { opacity: 0.7; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.03); }
-        }
-        .pulse-glow {
-            animation: pulseGlow 3s infinite ease-in-out;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
         }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col font-sans">
+<body class="bg-slate-50 text-slate-900 antialiased min-h-screen flex flex-col font-sans">
+
+    <!-- Top Info Notification Bar -->
+    <div class="bg-slate-900 text-slate-200 text-xs py-2 px-4 border-b border-slate-800">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+            <div class="flex items-center gap-2 text-slate-300">
+                <span class="inline-block w-2 h-2 rounded-full bg-blue-500"></span>
+                <span>Tổ chức <strong>Thi thử B1 VSTEP Online Miễn Phí</strong> định kỳ 8h00 sáng Chủ Nhật hàng tuần</span>
+            </div>
+            <div class="flex items-center gap-4 text-[11px] font-semibold text-slate-300">
+                <a href="tel:0907294800" class="hover:text-white flex items-center gap-1">
+                    <i data-lucide="phone" class="w-3.5 h-3.5 text-blue-400"></i> Zalo / Hotline: 0907.294.800
+                </a>
+                <span class="hidden md:inline text-slate-700">|</span>
+                <span class="hidden md:inline flex items-center gap-1 text-slate-400">
+                    <i data-lucide="clock" class="w-3.5 h-3.5 text-slate-400"></i> Hỗ trợ: 08:00 - 21:00 (T2 - CN)
+                </span>
+            </div>
+        </div>
+    </div>
 
     <!-- Header Navigation -->
-    <header class="bg-white/95 backdrop-blur-md border-b border-slate-200/80 sticky top-0 z-50 transition-all">
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-20">
+            <div class="flex items-center justify-between h-16">
                 
                 <!-- Logo -->
-                <a href="{{ route('home') }}" class="flex items-center gap-3 group">
-                    <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-emerald-500 via-teal-600 to-sky-600 flex items-center justify-center text-white shadow-emerald-glow group-hover:scale-105 transition-transform duration-300">
-                        <i data-lucide="plane-takeoff" class="w-6 h-6"></i>
+                <a href="{{ route('home') }}" class="flex items-center gap-2.5">
+                    <div class="w-9 h-9 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold shadow-sm">
+                        <i data-lucide="graduation-cap" class="w-5 h-5"></i>
                     </div>
                     <div>
-                        <div class="flex items-center gap-1.5">
-                            <span class="text-2xl font-black tracking-tight text-slate-900 font-heading">FlyHigh</span>
-                            <span class="text-2xl font-black tracking-tight text-emerald-600 font-heading">English</span>
-                            <span class="px-2 py-0.5 bg-gold-400/20 text-gold-600 border border-gold-400/30 rounded-full text-[10px] font-extrabold uppercase">PRO</span>
+                        <div class="flex items-center gap-1 leading-none">
+                            <span class="text-xl font-extrabold tracking-tight text-slate-900 font-heading">FlyHigh</span>
+                            <span class="text-xl font-extrabold tracking-tight text-blue-600 font-heading">English</span>
                         </div>
-                        <span class="text-[10px] uppercase font-bold tracking-wider text-slate-400 block -mt-0.5">Interactive Educational Portal</span>
+                        <span class="text-[10px] uppercase font-bold tracking-wider text-slate-500 block">Hệ Thống Đào Tạo Tiếng Anh 4.0</span>
                     </div>
                 </a>
 
                 <!-- Desktop Nav Tabs -->
-                <nav class="hidden lg:flex items-center gap-1.5 bg-slate-100/80 p-1.5 rounded-2xl border border-slate-200/60 font-semibold text-xs text-slate-600">
-                    <a href="{{ route('home') }}" class="px-4 py-2 rounded-xl transition-all duration-200 {{ request()->routeIs('home') ? 'nav-tab-active shadow-sm' : 'hover:bg-white/80 hover:text-slate-900' }}">
-                        <i data-lucide="home" class="w-4 h-4 inline mr-1.5 -mt-0.5 text-emerald-600"></i>Trang Chủ
+                <nav class="hidden lg:flex items-center gap-1 bg-slate-100 p-1 rounded-xl border border-slate-200 font-medium text-xs text-slate-600">
+                    <a href="{{ route('home') }}" class="px-3.5 py-1.5 rounded-lg transition-all {{ request()->routeIs('home') ? 'nav-tab-active' : 'hover:text-slate-900' }}">
+                        <i data-lucide="home" class="w-3.5 h-3.5 inline mr-1 text-blue-600"></i>Trang Chủ
                     </a>
 
-                    <a href="{{ route('about') }}" class="px-4 py-2 rounded-xl transition-all duration-200 {{ request()->routeIs('about') ? 'nav-tab-active shadow-sm' : 'hover:bg-white/80 hover:text-slate-900' }}">
-                        <i data-lucide="info" class="w-4 h-4 inline mr-1.5 -mt-0.5 text-sky-600"></i>Giới Thiệu
+                    <a href="{{ route('about') }}" class="px-3.5 py-1.5 rounded-lg transition-all {{ request()->routeIs('about') ? 'nav-tab-active' : 'hover:text-slate-900' }}">
+                        <i data-lucide="info" class="w-3.5 h-3.5 inline mr-1 text-slate-500"></i>Giới Thiệu
                     </a>
 
-                    <a href="{{ route('courses.index') }}" class="px-4 py-2 rounded-xl transition-all duration-200 {{ request()->routeIs('courses.*') ? 'nav-tab-active shadow-sm' : 'hover:bg-white/80 hover:text-slate-900' }}">
-                        <i data-lucide="book-open" class="w-4 h-4 inline mr-1.5 -mt-0.5 text-teal-600"></i>Khóa Học
+                    <a href="{{ route('courses.index') }}" class="px-3.5 py-1.5 rounded-lg transition-all {{ request()->routeIs('courses.*') ? 'nav-tab-active' : 'hover:text-slate-900' }}">
+                        <i data-lucide="book-open" class="w-3.5 h-3.5 inline mr-1 text-slate-500"></i>Khóa Học
                     </a>
 
-                    <a href="{{ route('placement_test.index') }}" class="px-4 py-2 rounded-xl transition-all duration-200 {{ request()->routeIs('placement_test.*') ? 'nav-tab-active shadow-sm' : 'hover:bg-white/80 hover:text-slate-900' }}">
-                        <i data-lucide="target" class="w-4 h-4 inline mr-1.5 -mt-0.5 text-gold-500"></i>Test Đầu Vào
+                    <a href="{{ route('placement_test.index') }}" class="px-3.5 py-1.5 rounded-lg transition-all {{ request()->routeIs('placement_test.*') ? 'nav-tab-active' : 'hover:text-slate-900' }}">
+                        <i data-lucide="target" class="w-3.5 h-3.5 inline mr-1 text-slate-500"></i>Test Đầu Vào
                     </a>
 
                     @auth
-                    <a href="{{ route('learning_hub.index') }}" class="px-4 py-2 rounded-xl transition-all duration-200 {{ request()->routeIs('learning_hub.*') ? 'nav-tab-active shadow-sm' : 'hover:bg-white/80 hover:text-slate-900' }}">
-                        <i data-lucide="layout-dashboard" class="w-4 h-4 inline mr-1.5 -mt-0.5 text-emerald-600"></i>Góc Học Tập
+                    <a href="{{ route('learning_hub.index') }}" class="px-3.5 py-1.5 rounded-lg transition-all {{ request()->routeIs('learning_hub.*') ? 'nav-tab-active' : 'hover:text-slate-900' }}">
+                        <i data-lucide="layout-dashboard" class="w-3.5 h-3.5 inline mr-1 text-blue-600"></i>Góc Học Tập
                     </a>
 
                     @if(auth()->user()->isAdmin())
-                    <a href="{{ route('admin.dashboard') }}" class="px-3.5 py-2 rounded-xl bg-amber-500 text-slate-950 hover:bg-amber-400 font-bold transition-all shadow-sm">
-                        <i data-lucide="shield-check" class="w-4 h-4 inline mr-1 -mt-0.5"></i>Quản Trị Admin
+                    <a href="{{ route('admin.dashboard') }}" class="px-3 py-1 rounded-lg bg-amber-500 text-slate-950 font-bold transition-all hover:bg-amber-400">
+                        <i data-lucide="shield-check" class="w-3.5 h-3.5 inline mr-1"></i>Admin
                     </a>
                     @endif
                     @endauth
                 </nav>
 
                 <!-- Auth & Action Buttons -->
-                <div class="flex items-center gap-3">
-                    <button onclick="openModal('zaloModal')" class="hidden sm:inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-50 text-emerald-700 hover:bg-emerald-100 text-xs font-bold transition-all border border-emerald-200/80 shadow-soft-sm">
-                        <span class="relative flex h-2.5 w-2.5">
-                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                          <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
-                        </span>
-                        <i data-lucide="message-circle" class="w-4 h-4 text-emerald-600"></i>Học Thử Zalo
+                <div class="flex items-center gap-2.5">
+                    <button onclick="openModal('zaloModal')" class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 text-xs font-bold transition-all border border-blue-200">
+                        <i data-lucide="message-circle" class="w-4 h-4 text-blue-600"></i>Tư Vấn Zalo
                     </button>
 
                     @auth
-                    <div class="flex items-center gap-3 pl-3 border-l border-slate-200">
+                    <div class="flex items-center gap-2.5 pl-2.5 border-l border-slate-200">
                         <div class="hidden sm:flex flex-col items-end">
-                            <span class="text-xs font-extrabold text-slate-900 leading-tight font-heading">{{ auth()->user()->name }}</span>
-                            <span class="text-[10px] text-emerald-600 font-semibold bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200/60">{{ auth()->user()->isAdmin() ? 'Quản trị viên' : 'Học viên PRO' }}</span>
+                            <span class="text-xs font-bold text-slate-900 leading-tight font-heading">{{ auth()->user()->name }}</span>
+                            <span class="text-[10px] text-blue-700 font-semibold bg-blue-50 px-1.5 py-0.5 rounded border border-blue-200">{{ auth()->user()->isAdmin() ? 'Quản trị viên' : 'Học viên' }}</span>
                         </div>
-                        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-emerald-500 to-sky-500 text-white font-extrabold flex items-center justify-center text-sm shadow-soft">
+                        <div class="w-8 h-8 rounded-lg bg-blue-600 text-white font-bold flex items-center justify-center text-xs">
                             {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
                         </div>
                         <form method="POST" action="{{ route('logout') }}" class="inline">
                             @csrf
-                            <button type="submit" title="Đăng xuất" class="p-2 rounded-xl text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors">
-                                <i data-lucide="log-out" class="w-5 h-5"></i>
+                            <button type="submit" title="Đăng xuất" class="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors">
+                                <i data-lucide="log-out" class="w-4 h-4"></i>
                             </button>
                         </form>
                     </div>
                     @else
                     <div class="flex items-center gap-2">
-                        <a href="{{ route('login') }}" class="px-4 py-2.5 text-xs font-bold text-slate-700 hover:text-emerald-600 transition-colors rounded-xl hover:bg-slate-100">
+                        <a href="{{ route('login') }}" class="px-3 py-2 text-xs font-bold text-slate-700 hover:text-blue-600 transition-colors rounded-lg hover:bg-slate-100">
                             Đăng nhập
                         </a>
-                        <a href="{{ route('register') }}" class="px-4 py-2.5 text-xs font-extrabold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl shadow-emerald-glow transition-all hover:scale-[1.02]">
+                        <a href="{{ route('register') }}" class="px-3.5 py-2 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-sm transition-all">
                             Đăng ký ngay
                         </a>
                     </div>
@@ -211,6 +164,7 @@
             </div>
         </div>
     </header>
+
 
     <!-- Main Content Area -->
     <main class="flex-grow">
@@ -349,54 +303,55 @@
     </div>
 
     <!-- Light & Fresh Modern Footer -->
-    <footer class="bg-gradient-to-b from-slate-100 to-slate-200/90 text-slate-700 py-16 mt-20 border-t border-slate-300/80 relative overflow-hidden">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
-            <div class="md:col-span-2 space-y-4">
-                <div class="flex items-center gap-3">
-                    <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white flex items-center justify-center font-black shadow-emerald-glow">
-                        <i data-lucide="plane-takeoff" class="w-6 h-6"></i>
+    <footer class="bg-slate-900 text-slate-300 py-12 mt-16 border-t border-slate-800 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8 mb-10">
+            <div class="md:col-span-2 space-y-3">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-9 h-9 rounded-lg bg-blue-600 text-white flex items-center justify-center font-bold shadow-sm">
+                        <i data-lucide="graduation-cap" class="w-5 h-5"></i>
                     </div>
-                    <span class="text-2xl font-black text-slate-900 font-heading">FlyHigh English System</span>
+                    <span class="text-xl font-bold text-white font-heading">FlyHigh English System</span>
                 </div>
-                <p class="text-xs leading-relaxed text-slate-600 max-w-md">
+                <p class="text-xs leading-relaxed text-slate-400 max-w-md">
                     Fly High English là hệ thống đào tạo tiếng Anh tương tác hàng đầu. Website vừa cung cấp thông tin trung tâm, lộ trình khóa học vừa hỗ trợ học viên truy cập các bài học HTML tương tác 4.0 trực tuyến sinh động.
                 </p>
-                <div class="flex items-center gap-3 pt-2">
-                    <span class="px-3 py-1 bg-emerald-100 text-emerald-800 border border-emerald-300 rounded-full text-[11px] font-bold">✨ LMS HTML 4.0 Standard</span>
-                    <span class="px-3 py-1 bg-sky-100 text-sky-800 border border-sky-300 rounded-full text-[11px] font-bold">🛡️ VSTEP B1 & IELTS Certified</span>
+                <div class="flex items-center gap-2 pt-1 text-xs">
+                    <span class="px-2.5 py-0.5 bg-slate-800 text-slate-300 border border-slate-700 rounded text-[11px] font-medium">LMS HTML 4.0 Standard</span>
+                    <span class="px-2.5 py-0.5 bg-slate-800 text-slate-300 border border-slate-700 rounded text-[11px] font-medium">VSTEP B1 & IELTS Certified</span>
                 </div>
             </div>
 
             <div>
-                <h4 class="text-xs font-extrabold uppercase tracking-wider text-slate-900 mb-4 font-heading border-l-2 border-emerald-500 pl-2">Khóa Học Nổi Bật</h4>
-                <ul class="space-y-2.5 text-xs font-semibold">
-                    <li><a href="{{ route('courses.index', ['category' => 'giao-tiep']) }}" class="text-slate-600 hover:text-emerald-600 transition-colors flex items-center gap-1.5"><i data-lucide="chevron-right" class="w-3.5 h-3.5 text-emerald-500"></i>Tiếng Anh Giao Tiếp</a></li>
-                    <li><a href="{{ route('courses.index', ['category' => 'ielts']) }}" class="text-slate-600 hover:text-emerald-600 transition-colors flex items-center gap-1.5"><i data-lucide="chevron-right" class="w-3.5 h-3.5 text-emerald-500"></i>Luyện Thi IELTS Target 7.0+</a></li>
-                    <li><a href="{{ route('courses.index', ['category' => 'toeic']) }}" class="text-slate-600 hover:text-emerald-600 transition-colors flex items-center gap-1.5"><i data-lucide="chevron-right" class="w-3.5 h-3.5 text-emerald-500"></i>Luyện Thi TOEIC 800+</a></li>
-                    <li><a href="{{ route('courses.index', ['category' => 'tre-em']) }}" class="text-slate-600 hover:text-emerald-600 transition-colors flex items-center gap-1.5"><i data-lucide="chevron-right" class="w-3.5 h-3.5 text-emerald-500"></i>Tiếng Anh Trẻ Em Fly High Kids</a></li>
+                <h4 class="text-xs font-bold uppercase tracking-wider text-white mb-3 font-heading border-l-2 border-blue-500 pl-2">Khóa Học Nổi Bật</h4>
+                <ul class="space-y-2 text-xs font-medium">
+                    <li><a href="{{ route('courses.index', ['category' => 'giao-tiep']) }}" class="text-slate-400 hover:text-white transition-colors flex items-center gap-1"><i data-lucide="chevron-right" class="w-3.5 h-3.5 text-blue-400"></i>Tiếng Anh Giao Tiếp</a></li>
+                    <li><a href="{{ route('courses.index', ['category' => 'ielts']) }}" class="text-slate-400 hover:text-white transition-colors flex items-center gap-1"><i data-lucide="chevron-right" class="w-3.5 h-3.5 text-blue-400"></i>Luyện Thi IELTS Target 7.0+</a></li>
+                    <li><a href="{{ route('courses.index', ['category' => 'toeic']) }}" class="text-slate-400 hover:text-white transition-colors flex items-center gap-1"><i data-lucide="chevron-right" class="w-3.5 h-3.5 text-blue-400"></i>Luyện Thi TOEIC 800+</a></li>
+                    <li><a href="{{ route('courses.index', ['category' => 'tre-em']) }}" class="text-slate-400 hover:text-white transition-colors flex items-center gap-1"><i data-lucide="chevron-right" class="w-3.5 h-3.5 text-blue-400"></i>Tiếng Anh Trẻ Em Fly High Kids</a></li>
                 </ul>
             </div>
 
             <div>
-                <h4 class="text-xs font-extrabold uppercase tracking-wider text-slate-900 mb-4 font-heading border-l-2 border-sky-500 pl-2">Chức Năng Nổi Bật</h4>
-                <ul class="space-y-2.5 text-xs font-semibold">
-                    <li><button onclick="openModal('zaloModal')" class="text-slate-600 hover:text-emerald-600 transition-colors flex items-center gap-1.5 text-left"><i data-lucide="chevron-right" class="w-3.5 h-3.5 text-sky-500"></i>Đăng ký học thử qua Zalo</button></li>
-                    <li><a href="{{ route('placement_test.index') }}" class="text-slate-600 hover:text-emerald-600 transition-colors flex items-center gap-1.5"><i data-lucide="chevron-right" class="w-3.5 h-3.5 text-sky-500"></i>Làm bài test đầu vào online</a></li>
-                    <li><a href="{{ route('learning_hub.index') }}" class="text-slate-600 hover:text-emerald-600 transition-colors flex items-center gap-1.5"><i data-lucide="chevron-right" class="w-3.5 h-3.5 text-sky-500"></i>Vào phòng học tương tác HTML</a></li>
-                    <li><button onclick="openModal('vstepModal')" class="text-slate-600 hover:text-gold-600 transition-colors flex items-center gap-1.5 text-left"><i data-lucide="chevron-right" class="w-3.5 h-3.5 text-sky-500"></i>Đăng ký thi thử B1 VSTEP</button></li>
+                <h4 class="text-xs font-bold uppercase tracking-wider text-white mb-3 font-heading border-l-2 border-blue-500 pl-2">Chức Năng Nổi Bật</h4>
+                <ul class="space-y-2 text-xs font-medium">
+                    <li><button onclick="openModal('zaloModal')" class="text-slate-400 hover:text-white transition-colors flex items-center gap-1 text-left"><i data-lucide="chevron-right" class="w-3.5 h-3.5 text-blue-400"></i>Đăng ký học thử qua Zalo</button></li>
+                    <li><a href="{{ route('placement_test.index') }}" class="text-slate-400 hover:text-white transition-colors flex items-center gap-1"><i data-lucide="chevron-right" class="w-3.5 h-3.5 text-blue-400"></i>Làm bài test đầu vào online</a></li>
+                    <li><a href="{{ route('learning_hub.index') }}" class="text-slate-400 hover:text-white transition-colors flex items-center gap-1"><i data-lucide="chevron-right" class="w-3.5 h-3.5 text-blue-400"></i>Vào phòng học tương tác HTML</a></li>
+                    <li><button onclick="openModal('vstepModal')" class="text-slate-400 hover:text-white transition-colors flex items-center gap-1 text-left"><i data-lucide="chevron-right" class="w-3.5 h-3.5 text-blue-400"></i>Đăng ký thi thử B1 VSTEP</button></li>
                 </ul>
             </div>
         </div>
 
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 border-t border-slate-300/80 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-3">
             <p>&copy; {{ date('Y') }} Fly High English Center. All rights reserved.</p>
             <p class="flex items-center gap-2 font-medium">
-                <span>Hệ thống LMS bài học HTML tương tác chuẩn MVC</span>
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                <span class="text-emerald-700 font-bold">Light Dashboard Edition V2.0</span>
+                <span>Hệ thống LMS bài học HTML tương tác</span>
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+                <span class="text-slate-400">Edition V2.0</span>
             </p>
         </div>
     </footer>
+
 
     <script>
         lucide.createIcons();

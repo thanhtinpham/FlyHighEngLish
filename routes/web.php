@@ -62,7 +62,7 @@ Route::middleware('guest')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
 });
 
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::any('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Authenticated Student Routes
 Route::middleware('auth')->group(function () {
