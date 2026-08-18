@@ -6,55 +6,23 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Fly High English - Trung Tâm Tiếng Anh Tương Tác Hàng Đầu')</title>
     
-    <!-- Google Fonts: Plus Jakarta Sans & Be Vietnam Pro (Chuẩn tiếng Việt 100%) -->
+    <!-- DNS Prefetch & Preconnect for Fast Asset Loading -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link rel="dns-prefetch" href="//unpkg.com">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
     
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Lucide Icons (Async Deferred loading) -->
+    <script defer src="https://unpkg.com/lucide@latest"></script>
 
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Plus Jakarta Sans', 'Be Vietnam Pro', 'sans-serif'],
-                        heading: ['Plus Jakarta Sans', 'Be Vietnam Pro', 'sans-serif'],
-                    },
-                    colors: {
-                        brand: {
-                            50: '#eff6ff',
-                            100: '#dbeafe',
-                            500: '#3b82f6',
-                            600: '#2563eb',
-                            700: '#1d4ed8',
-                            800: '#1e40af',
-                            900: '#1e3a8a',
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body {
-            font-family: 'Plus Jakarta Sans', 'Be Vietnam Pro', sans-serif;
-            background-color: #F8FAFC;
-            color: #0F172A;
-        }
-        h1, h2, h3, h4, h5, h6, .font-heading {
-            font-family: 'Plus Jakarta Sans', 'Be Vietnam Pro', sans-serif;
-        }
-        .nav-tab-active {
-            background-color: #ffffff;
-            color: #2563eb;
-            font-weight: 700;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-        }
-    </style>
+    <!-- Compiled Static Assets (Vite & Hosting Fallback) -->
+    @if (file_exists(public_path('build/manifest.json')))
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @else
+        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    @endif
 </head>
 <body class="bg-slate-50 text-slate-900 antialiased min-h-screen flex flex-col font-sans">
 
