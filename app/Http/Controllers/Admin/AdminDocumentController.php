@@ -56,7 +56,8 @@ class AdminDocumentController extends Controller
         $extension = strtoupper($file->getClientOriginalExtension());
         $size = $file->getSize();
 
-        $filePath = $file->store('documents', 'public');
+        $disk = config('filesystems.default', 'public');
+        $filePath = $file->store('documents', $disk);
 
         Document::create([
             'title' => $request->title,
@@ -92,8 +93,11 @@ class AdminDocumentController extends Controller
         $document->description = $request->description;
 
         if ($request->hasFile('file')) {
+            $disk = config('filesystems.default', 'public');
             // Delete old file
-            if (Storage::disk('public')->exists($document->file_path)) {
+            if (Storage::disk($disk)->exists($document->file_path)) {
+                Storage::disk($disk)->delete($document->file_path);
+            } elseif (Storage::disk('public')->exists($document->file_path)) {
                 Storage::disk('public')->delete($document->file_path);
             }
 
@@ -101,7 +105,7 @@ class AdminDocumentController extends Controller
             $document->file_name = $file->getClientOriginalName();
             $document->file_type = strtoupper($file->getClientOriginalExtension());
             $document->file_size = $file->getSize();
-            $document->file_path = $file->store('documents', 'public');
+            $document->file_path = $file->store('documents', $disk);
         }
 
         $document->save();
@@ -111,7 +115,10 @@ class AdminDocumentController extends Controller
 
     public function destroy(Document $document)
     {
-        if (Storage::disk('public')->exists($document->file_path)) {
+        $disk = config('filesystems.default', 'public');
+        if (Storage::disk($disk)->exists($document->file_path)) {
+            Storage::disk($disk)->delete($document->file_path);
+        } elseif (Storage::disk('public')->exists($document->file_path)) {
             Storage::disk('public')->delete($document->file_path);
         }
 

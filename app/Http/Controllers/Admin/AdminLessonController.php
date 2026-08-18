@@ -44,9 +44,10 @@ class AdminLessonController extends Controller
             'order' => 'nullable|integer',
         ]);
 
+        $disk = config('filesystems.default', 'public');
         $htmlFilePath = null;
         if ($request->hasFile('html_file')) {
-            $path = $request->file('html_file')->store('lessons', 'public');
+            $path = $request->file('html_file')->store('lessons', $disk);
             $htmlFilePath = $path;
         }
 
@@ -83,12 +84,17 @@ class AdminLessonController extends Controller
             'order' => 'nullable|integer',
         ]);
 
+        $disk = config('filesystems.default', 'public');
         $htmlFilePath = $lesson->html_file_path;
         if ($request->hasFile('html_file')) {
-            if ($htmlFilePath && Storage::disk('public')->exists($htmlFilePath)) {
-                Storage::disk('public')->delete($htmlFilePath);
+            if ($htmlFilePath) {
+                if (Storage::disk($disk)->exists($htmlFilePath)) {
+                    Storage::disk($disk)->delete($htmlFilePath);
+                } elseif (Storage::disk('public')->exists($htmlFilePath)) {
+                    Storage::disk('public')->delete($htmlFilePath);
+                }
             }
-            $htmlFilePath = $request->file('html_file')->store('lessons', 'public');
+            $htmlFilePath = $request->file('html_file')->store('lessons', $disk);
         }
 
         $lesson->update([
@@ -108,8 +114,13 @@ class AdminLessonController extends Controller
 
     public function destroy(Lesson $lesson)
     {
-        if ($lesson->html_file_path && Storage::disk('public')->exists($lesson->html_file_path)) {
-            Storage::disk('public')->delete($lesson->html_file_path);
+        $disk = config('filesystems.default', 'public');
+        if ($lesson->html_file_path) {
+            if (Storage::disk($disk)->exists($lesson->html_file_path)) {
+                Storage::disk($disk)->delete($lesson->html_file_path);
+            } elseif (Storage::disk('public')->exists($lesson->html_file_path)) {
+                Storage::disk('public')->delete($lesson->html_file_path);
+            }
         }
         $lesson->delete();
 

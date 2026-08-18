@@ -51,8 +51,16 @@ class DocumentController extends Controller
 
     public function download(Document $document)
     {
-        // Check if file exists on disk
-        if (!Storage::disk('public')->exists($document->file_path)) {
+        $disk = config('filesystems.default', 'public');
+        $targetDisk = null;
+
+        if (Storage::disk($disk)->exists($document->file_path)) {
+            $targetDisk = $disk;
+        } elseif (Storage::disk('public')->exists($document->file_path)) {
+            $targetDisk = 'public';
+        }
+
+        if (!$targetDisk) {
             return back()->with('error', 'Tệp tài liệu không tồn tại trên hệ thống!');
         }
 
@@ -60,6 +68,6 @@ class DocumentController extends Controller
         $document->increment('download_count');
 
         // Trigger secure file download
-        return Storage::disk('public')->download($document->file_path, $document->file_name);
+        return Storage::disk($targetDisk)->download($document->file_path, $document->file_name);
     }
 }

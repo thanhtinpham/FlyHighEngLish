@@ -37,11 +37,30 @@
 <div class="bg-slate-100 min-h-[calc(100vh-140px)] py-6">
     <div class="max-w-6xl mx-auto px-4">
         
+            @php
+                $disk = config('filesystems.default', 'public');
+                $hasFile = false;
+                $fileUrl = null;
+
+                if ($lesson->html_file_path) {
+                    if (\Illuminate\Support\Str::startsWith($lesson->html_file_path, ['http://', 'https://'])) {
+                        $hasFile = true;
+                        $fileUrl = $lesson->html_file_path;
+                    } elseif (\Illuminate\Support\Facades\Storage::disk($disk)->exists($lesson->html_file_path)) {
+                        $hasFile = true;
+                        $fileUrl = \Illuminate\Support\Facades\Storage::disk($disk)->url($lesson->html_file_path);
+                    } elseif (\Illuminate\Support\Facades\Storage::disk('public')->exists($lesson->html_file_path)) {
+                        $hasFile = true;
+                        $fileUrl = asset('storage/' . $lesson->html_file_path);
+                    }
+                }
+            @endphp
+
         <div class="bg-white rounded-3xl overflow-hidden shadow-2xl border border-slate-200">
-            @if($lesson->html_file_path && Storage::disk('public')->exists($lesson->html_file_path))
-                <iframe id="htmlPlayer" src="{{ asset('storage/' . $lesson->html_file_path) }}" class="w-full h-[750px] border-0" allow="autoplay; microphone; camera"></iframe>
-            @elseif($lesson->html_content)
-                <div class="p-8">
+            @if($hasFile && $fileUrl)
+                <iframe id="htmlPlayer" src="{{ $fileUrl }}" class="w-full h-[750px] border-0" allow="autoplay; microphone; camera"></iframe>
+            @elseif(!empty($lesson->html_content))
+                <div class="p-8 prose max-w-none">
                     {!! $lesson->html_content !!}
                 </div>
             @else
