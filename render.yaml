@@ -14,6 +14,28 @@ services:
       - key: APP_KEY
         value: "base64:H+YKRo/nWwESEdP5l9EBxavIurtHRfXp/Gmr7UNYUkc="
       - key: DB_CONNECTION
-        value: mysql
+        value: pgsql
+      - key: DB_HOST
+        value: db.sgpkoaagsrcmmavengbu.supabase.co
       - key: DB_PORT
-        value: "4000"
+        value: "5432"
+      - key: DB_DATABASE
+        value: postgres
+      - key: DB_USERNAME
+        value: postgres
+      - key: DB_PASSWORD
+        value: "Thanhtin@2507"
+      - key: AWS_ACCESS_KEY_ID
+        value: 7f8be505da46452c4b5e745184230fb9
+      - key: AWS_SECRET_ACCESS_KEY
+        value: 36daa80ac3cf353a5d01c702487ccc3f3b947adc41c9be60567a57a5c88b0a94
+      - key: AWS_DEFAULT_REGION
+        value: ap-southeast-1
+      - key: AWS_BUCKET
+        value: flyhigh-storage
+      - key: AWS_ENDPOINT
+        value: https://sgpkoaagsrcmmavengbu.supabase.co/storage/v1/s3
+      - key: AWS_USE_PATH_STYLE_ENDPOINT
+        value: "true"
+      - key: AWS_URL
+        value: https://sgpkoaagsrcmmavengbu.supabase.co/storage/v1/object/public/flyhigh-storage
