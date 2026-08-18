@@ -78,6 +78,10 @@
                         <i data-lucide="book-open" class="w-3.5 h-3.5 inline mr-1 text-slate-500"></i>Khóa Học
                     </a>
 
+                    <a href="{{ route('documents.index') }}" class="px-3.5 py-1.5 rounded-lg transition-all {{ request()->routeIs('documents.*') ? 'nav-tab-active' : 'hover:text-slate-900' }}">
+                        <i data-lucide="file-text" class="w-3.5 h-3.5 inline mr-1 text-slate-500"></i>Tài Liệu
+                    </a>
+
                     <a href="{{ route('placement_test.index') }}" class="px-3.5 py-1.5 rounded-lg transition-all {{ request()->routeIs('placement_test.*') ? 'nav-tab-active' : 'hover:text-slate-900' }}">
                         <i data-lucide="target" class="w-3.5 h-3.5 inline mr-1 text-slate-500"></i>Test Đầu Vào
                     </a>
@@ -96,13 +100,13 @@
                 </nav>
 
                 <!-- Auth & Action Buttons -->
-                <div class="flex items-center gap-2.5">
+                <div class="flex items-center gap-2">
                     <button onclick="openModal('zaloModal')" class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 text-xs font-bold transition-all border border-blue-200">
                         <i data-lucide="message-circle" class="w-4 h-4 text-blue-600"></i>Tư Vấn Zalo
                     </button>
 
                     @auth
-                    <div class="flex items-center gap-2.5 pl-2.5 border-l border-slate-200">
+                    <div class="flex items-center gap-2 pl-2 border-l border-slate-200">
                         <div class="hidden sm:flex flex-col items-end">
                             <span class="text-xs font-bold text-slate-900 leading-tight font-heading">{{ auth()->user()->name }}</span>
                             <span class="text-[10px] text-blue-700 font-semibold bg-blue-50 px-1.5 py-0.5 rounded border border-blue-200">{{ auth()->user()->isAdmin() ? 'Quản trị viên' : 'Học viên' }}</span>
@@ -118,20 +122,128 @@
                         </form>
                     </div>
                     @else
-                    <div class="flex items-center gap-2">
-                        <a href="{{ route('login') }}" class="px-3 py-2 text-xs font-bold text-slate-700 hover:text-blue-600 transition-colors rounded-lg hover:bg-slate-100">
+                    <div class="flex items-center gap-1.5">
+                        <a href="{{ route('login') }}" class="px-2.5 py-2 text-xs font-bold text-slate-700 hover:text-blue-600 transition-colors rounded-lg hover:bg-slate-100">
                             Đăng nhập
                         </a>
-                        <a href="{{ route('register') }}" class="px-3.5 py-2 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-sm transition-all">
+                        <a href="{{ route('register') }}" class="hidden sm:inline-block px-3.5 py-2 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-sm transition-all">
                             Đăng ký ngay
                         </a>
                     </div>
                     @endauth
+
+                    <!-- Mobile Hamburger Menu Button -->
+                    <button onclick="toggleMobileMenu()" class="lg:hidden p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors ml-1" aria-label="Toggle Navigation Menu">
+                        <i data-lucide="menu" id="menuIconOpen" class="w-6 h-6"></i>
+                        <i data-lucide="x" id="menuIconClose" class="w-6 h-6 hidden"></i>
+                    </button>
                 </div>
 
             </div>
         </div>
+
+        <!-- Mobile Slide-Down Navigation Menu -->
+        <div id="mobileMenu" class="hidden lg:hidden border-t border-slate-200 bg-white px-4 pt-3 pb-6 space-y-3 shadow-xl">
+            <div class="flex flex-col space-y-1">
+                <a href="{{ route('home') }}" class="flex items-center gap-2.5 px-4 py-2.5 rounded-xl font-bold text-xs {{ request()->routeIs('home') ? 'bg-blue-50 text-blue-600' : 'text-slate-700 hover:bg-slate-50' }}">
+                    <i data-lucide="home" class="w-4 h-4 text-blue-600"></i>Trang Chủ
+                </a>
+
+                <a href="{{ route('about') }}" class="flex items-center gap-2.5 px-4 py-2.5 rounded-xl font-bold text-xs {{ request()->routeIs('about') ? 'bg-blue-50 text-blue-600' : 'text-slate-700 hover:bg-slate-50' }}">
+                    <i data-lucide="info" class="w-4 h-4 text-slate-500"></i>Giới Thiệu
+                </a>
+
+                <a href="{{ route('courses.index') }}" class="flex items-center gap-2.5 px-4 py-2.5 rounded-xl font-bold text-xs {{ request()->routeIs('courses.*') ? 'bg-blue-50 text-blue-600' : 'text-slate-700 hover:bg-slate-50' }}">
+                    <i data-lucide="book-open" class="w-4 h-4 text-slate-500"></i>Khóa Học
+                </a>
+
+                <a href="{{ route('documents.index') }}" class="flex items-center gap-2.5 px-4 py-2.5 rounded-xl font-bold text-xs {{ request()->routeIs('documents.*') ? 'bg-blue-50 text-blue-600' : 'text-slate-700 hover:bg-slate-50' }}">
+                    <i data-lucide="file-text" class="w-4 h-4 text-slate-500"></i>Kho Tài Liệu
+                </a>
+
+                <a href="{{ route('placement_test.index') }}" class="flex items-center gap-2.5 px-4 py-2.5 rounded-xl font-bold text-xs {{ request()->routeIs('placement_test.*') ? 'bg-blue-50 text-blue-600' : 'text-slate-700 hover:bg-slate-50' }}">
+                    <i data-lucide="target" class="w-4 h-4 text-slate-500"></i>Test Đầu Vào
+                </a>
+
+                @auth
+                <a href="{{ route('learning_hub.index') }}" class="flex items-center gap-2.5 px-4 py-2.5 rounded-xl font-bold text-xs {{ request()->routeIs('learning_hub.*') ? 'bg-blue-50 text-blue-600' : 'text-slate-700 hover:bg-slate-50' }}">
+                    <i data-lucide="layout-dashboard" class="w-4 h-4 text-blue-600"></i>Góc Học Tập
+                </a>
+
+                @if(auth()->user()->isAdmin())
+                <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2.5 px-4 py-2.5 rounded-xl font-bold text-xs bg-amber-500 text-slate-950">
+                    <i data-lucide="shield-check" class="w-4 h-4"></i>Bảng Quản Trị Admin
+                </a>
+                @endif
+                @endauth
+            </div>
+
+            <div class="pt-3 border-t border-slate-100 flex flex-col gap-2">
+                <button onclick="openModal('zaloModal')" class="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-blue-50 text-blue-700 text-xs font-bold border border-blue-200">
+                    <i data-lucide="message-circle" class="w-4 h-4 text-blue-600"></i>Tư Vấn Zalo
+                </button>
+
+                @auth
+                <div class="flex items-center justify-between px-4 py-2 bg-slate-50 rounded-xl">
+                    <div class="flex items-center gap-2">
+                        <div class="w-7 h-7 rounded-lg bg-blue-600 text-white font-bold flex items-center justify-center text-xs">
+                            {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                        </div>
+                        <span class="text-xs font-bold text-slate-900">{{ auth()->user()->name }}</span>
+                    </div>
+                    <form method="POST" action="{{ route('logout') }}" class="inline">
+                        @csrf
+                        <button type="submit" class="text-xs font-bold text-rose-600 hover:underline">
+                            Đăng xuất
+                        </button>
+                    </form>
+                </div>
+                @else
+                <div class="grid grid-cols-2 gap-2 pt-1">
+                    <a href="{{ route('login') }}" class="text-center px-4 py-2.5 text-xs font-bold text-slate-700 bg-slate-100 rounded-xl">
+                        Đăng nhập
+                    </a>
+                    <a href="{{ route('register') }}" class="text-center px-4 py-2.5 text-xs font-bold text-white bg-blue-600 rounded-xl shadow-sm">
+                        Đăng ký
+                    </a>
+                </div>
+                @endauth
+            </div>
+        </div>
     </header>
+
+    <!-- Mobile Bottom Quick Navigation Bar (Sticky at bottom) -->
+    <div class="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 px-2 py-1.5 shadow-lg">
+        <div class="grid grid-cols-5 text-center">
+            <a href="{{ route('home') }}" class="flex flex-col items-center py-1 text-[10px] font-bold {{ request()->routeIs('home') ? 'text-blue-600' : 'text-slate-500' }}">
+                <i data-lucide="home" class="w-5 h-5 mb-0.5"></i>
+                <span>Trang chủ</span>
+            </a>
+            <a href="{{ route('courses.index') }}" class="flex flex-col items-center py-1 text-[10px] font-bold {{ request()->routeIs('courses.*') ? 'text-blue-600' : 'text-slate-500' }}">
+                <i data-lucide="book-open" class="w-5 h-5 mb-0.5"></i>
+                <span>Khóa học</span>
+            </a>
+            <a href="{{ route('documents.index') }}" class="flex flex-col items-center py-1 text-[10px] font-bold {{ request()->routeIs('documents.*') ? 'text-blue-600' : 'text-slate-500' }}">
+                <i data-lucide="file-text" class="w-5 h-5 mb-0.5"></i>
+                <span>Tài liệu</span>
+            </a>
+            <a href="{{ route('placement_test.index') }}" class="flex flex-col items-center py-1 text-[10px] font-bold {{ request()->routeIs('placement_test.*') ? 'text-blue-600' : 'text-slate-500' }}">
+                <i data-lucide="target" class="w-5 h-5 mb-0.5"></i>
+                <span>Test</span>
+            </a>
+            @auth
+            <a href="{{ route('learning_hub.index') }}" class="flex flex-col items-center py-1 text-[10px] font-bold {{ request()->routeIs('learning_hub.*') ? 'text-blue-600' : 'text-slate-500' }}">
+                <i data-lucide="layout-dashboard" class="w-5 h-5 mb-0.5"></i>
+                <span>Góc học</span>
+            </a>
+            @else
+            <a href="{{ route('login') }}" class="flex flex-col items-center py-1 text-[10px] font-bold text-slate-500">
+                <i data-lucide="user" class="w-5 h-5 mb-0.5"></i>
+                <span>Đăng nhập</span>
+            </a>
+            @endauth
+        </div>
+    </div>
 
 
     <!-- Main Content Area -->
@@ -323,6 +435,22 @@
 
     <script>
         lucide.createIcons();
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const iconOpen = document.getElementById('menuIconOpen');
+            const iconClose = document.getElementById('menuIconClose');
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+                iconOpen.classList.add('hidden');
+                iconClose.classList.remove('hidden');
+            } else {
+                menu.classList.add('hidden');
+                iconOpen.classList.remove('hidden');
+                iconClose.classList.add('hidden');
+            }
+            if (window.lucide) { lucide.createIcons(); }
+        }
 
         function openModal(id) {
             document.getElementById(id).classList.remove('hidden');
