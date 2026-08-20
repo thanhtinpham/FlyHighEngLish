@@ -7,9 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+use Illuminate\Support\Facades\Cache;
+
 class Lesson extends Model
 {
     use HasFactory;
+
+    protected static function booted(): void
+    {
+        static::saved(fn () => Cache::forget('home_preview_lessons'));
+        static::deleted(fn () => Cache::forget('home_preview_lessons'));
+    }
 
     protected $fillable = [
         'course_id',

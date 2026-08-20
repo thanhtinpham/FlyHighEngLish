@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Environment Matters B1 | Fly High English</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #1a73e8;
+    --gold: #f9ab00;
+    --success: #34a853;
+    --error: #ea4335;
+    --bg: #f0f4f8;
+    --card: #ffffff;
+    --green-dark: #2d6a4f;
+    --green-mid: #40916c;
+    --green-light: #74c69d;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Nunito', sans-serif; background: var(--bg); color: #222; font-size: 16px; }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 50%, #40916c 100%);
+    color: white; padding: 18px 20px; text-align: center; position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 3px 12px rgba(0,0,0,.3);
+  }
+  header .logo { font-size: 12px; letter-spacing: 2px; opacity: .8; text-transform: uppercase; }
+  header h1 { font-size: 1.7rem; font-weight: 900; letter-spacing: 1px; margin: 2px 0; }
+  header .tagline { font-size: .85rem; font-style: italic; opacity: .85; }
+  header .badge { display:inline-block; background: var(--gold); color: #333; font-size:.75rem; font-weight:800; padding:2px 10px; border-radius:20px; margin-top:5px; }
+  .world-env { font-size:.75rem; background:rgba(255,255,255,.2); border-radius:8px; display:inline-block; padding:3px 10px; margin-top:4px; }
+
+  /* XP BAR */
+  #xp-bar-wrap { background: rgba(0,0,0,.2); height:8px; border-radius:4px; margin-top:8px; overflow:hidden; }
+  #xp-bar { height:100%; background: var(--gold); border-radius:4px; transition: width .5s ease; width:0%; }
+  #xp-display { font-size:.8rem; margin-top:3px; color: var(--gold); font-weight:700; }
+
+  /* TABS */
+  .tab-nav { display:flex; overflow-x:auto; background:#1b4332; gap:0; }
+  .tab-btn { flex:1; min-width:100px; padding:12px 8px; background:transparent; border:none; color:rgba(255,255,255,.7); font-family:'Nunito',sans-serif; font-size:.8rem; font-weight:700; cursor:pointer; border-bottom:3px solid transparent; transition:all .2s; white-space:nowrap; }
+  .tab-btn.active { color:white; border-bottom-color: var(--gold); background:rgba(255,255,255,.08); }
+  .tab-btn:hover { background:rgba(255,255,255,.05); color:white; }
+
+  /* SECTIONS */
+  .tab-panel { display:none; padding:20px 16px 40px; max-width:860px; margin:0 auto; }
+  .tab-panel.active { display:block; }
+  .section-title { font-size:1.2rem; font-weight:900; color: var(--green-dark); margin-bottom:16px; display:flex; align-items:center; gap:8px; }
+  .card { background: var(--card); border-radius:14px; padding:20px; margin-bottom:18px; box-shadow:0 2px 10px rgba(0,0,0,.07); }
+
+  /* VOCAB MATCHING */
+  .vocab-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  @media(max-width:600px){ .vocab-grid{grid-template-columns:1fr;} }
+  .vocab-item { display:flex; align-items:center; gap:8px; padding:10px; background:#f8f9fa; border-radius:10px; }
+  .vocab-num { font-weight:800; color:var(--green-dark); min-width:24px; }
+  .vocab-word { font-weight:700; color:#333; flex:1; }
+  .vocab-select { flex:1; padding:6px 8px; border:2px solid #ddd; border-radius:8px; font-family:'Nunito',sans-serif; font-size:.85rem; cursor:pointer; }
+  .vocab-select.correct { border-color:var(--success); background:#e8f5e9; }
+  .vocab-select.wrong { border-color:var(--error); background:#fce8e6; }
+  .def-list { margin-top:16px; }
+  .def-item { padding:6px 10px; background:#f8f9fa; border-radius:8px; margin-bottom:6px; font-size:.9rem; }
+  .def-item span { font-weight:700; color:var(--green-dark); margin-right:6px; }
+
+  /* WORD FORMATION */
+  .wf-item { display:flex; flex-wrap:wrap; align-items:center; gap:6px; padding:12px; background:#f8f9fa; border-radius:10px; margin-bottom:10px; font-size:.92rem; line-height:1.6; }
+  .wf-num { font-weight:800; color:var(--green-dark); min-width:22px; }
+  .wf-input { border:2px solid #ddd; border-radius:8px; padding:5px 10px; font-family:'Nunito',sans-serif; font-size:.9rem; min-width:140px; max-width:200px; }
+  .wf-input.correct { border-color:var(--success); background:#e8f5e9; }
+  .wf-input.wrong { border-color:var(--error); background:#fce8e6; }
+  .wf-hint { font-size:.78rem; color:#888; }
+
+  /* COLLOCATIONS */
+  .colloc-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  @media(max-width:500px){.colloc-grid{grid-template-columns:1fr;}}
+  .colloc-item { display:flex; align-items:center; gap:8px; padding:10px; background:#f8f9fa; border-radius:10px; }
+  .colloc-verb { font-weight:800; color:var(--green-dark); min-width:60px; }
+  .colloc-select { flex:1; padding:6px 8px; border:2px solid #ddd; border-radius:8px; font-family:'Nunito',sans-serif; font-size:.85rem; }
+  .colloc-select.correct { border-color:var(--success); background:#e8f5e9; }
+  .colloc-select.wrong { border-color:var(--error); background:#fce8e6; }
+
+  /* PICTURES */
+  .pic-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+  @media(max-width:500px){.pic-grid{grid-template-columns:1fr 1fr;}}
+  .pic-card { background:#f8f9fa; border-radius:12px; padding:12px; text-align:center; }
+  .pic-emoji { font-size:2.5rem; margin-bottom:8px; display:block; }
+  .pic-select { width:100%; padding:6px 4px; border:2px solid #ddd; border-radius:8px; font-family:'Nunito',sans-serif; font-size:.8rem; cursor:pointer; }
+  .pic-select.correct { border-color:var(--success); background:#e8f5e9; }
+  .pic-select.wrong { border-color:var(--error); background:#fce8e6; }
+  .pic-label { font-size:.75rem; color:#666; margin-top:4px; }
+
+  /* READING PASSAGE */
+  .passage { background:#f8f9fa; border-left:4px solid var(--green-mid); padding:16px; border-radius:0 10px 10px 0; font-size:.93rem; line-height:1.8; margin-bottom:18px; }
+  .passage p { margin-bottom:10px; }
+
+  /* MCQ / TFNG */
+  .q-item { padding:14px; background:#f8f9fa; border-radius:12px; margin-bottom:12px; border:2px solid transparent; }
+  .q-item.answered-correct { border-color:var(--success); background:#e8f5e9; }
+  .q-item.answered-wrong { border-color:var(--error); background:#fce8e6; }
+  .q-text { font-weight:700; font-size:.92rem; margin-bottom:10px; }
+  .q-num { font-weight:900; color:var(--green-dark); margin-right:5px; }
+  .options { display:flex; flex-direction:column; gap:6px; }
+  .opt-btn { padding:8px 14px; border:2px solid #ddd; border-radius:8px; background:white; cursor:pointer; font-family:'Nunito',sans-serif; font-size:.88rem; text-align:left; transition:all .2s; }
+  .opt-btn:hover { border-color:var(--primary); background:#e8f0fd; }
+  .opt-btn.selected { border-color:var(--primary); background:#e8f0fd; font-weight:700; }
+  .opt-btn.correct { border-color:var(--success); background:#e8f5e9; color:var(--success); font-weight:800; }
+  .opt-btn.wrong { border-color:var(--error); background:#fce8e6; color:var(--error); font-weight:800; }
+  .tfng-opts { display:flex; gap:8px; flex-wrap:wrap; }
+  .tfng-btn { padding:8px 18px; border:2px solid #ddd; border-radius:20px; background:white; cursor:pointer; font-family:'Nunito',sans-serif; font-weight:700; font-size:.88rem; transition:all .2s; }
+  .tfng-btn.T { border-color:#4caf50; } .tfng-btn.F { border-color:#f44336; } .tfng-btn.NG { border-color:#ff9800; }
+  .tfng-btn.selected { font-weight:800; }
+  .tfng-btn.selected.T { background:#e8f5e9; } .tfng-btn.selected.F { background:#fce8e6; } .tfng-btn.selected.NG { background:#fff3e0; }
+  .tfng-btn.correct { background:var(--success); color:white; border-color:var(--success); }
+  .tfng-btn.wrong { background:var(--error); color:white; border-color:var(--error); }
+
+  /* DISCUSSION */
+  .disc-item { margin-bottom:14px; }
+  .disc-q { font-weight:700; margin-bottom:6px; color:var(--green-dark); }
+  textarea { width:100%; padding:10px; border:2px solid #ddd; border-radius:10px; font-family:'Nunito',sans-serif; font-size:.9rem; resize:vertical; min-height:70px; }
+  textarea:focus { border-color:var(--primary); outline:none; }
+
+  /* BUTTONS */
+  .btn { display:inline-block; padding:10px 24px; border-radius:10px; font-family:'Nunito',sans-serif; font-weight:800; font-size:.95rem; cursor:pointer; border:none; transition:all .2s; }
+  .btn-primary { background:var(--primary); color:white; }
+  .btn-primary:hover { background:#1557b0; transform:translateY(-1px); }
+  .btn-success { background:var(--success); color:white; }
+  .btn-gold { background:var(--gold); color:#333; }
+  .btn-green { background:var(--green-dark); color:white; }
+  .btn-sm { padding:6px 14px; font-size:.82rem; }
+  .btn-row { display:flex; gap:10px; flex-wrap:wrap; margin-top:14px; }
+
+  /* FEEDBACK */
+  .feedback-box { padding:12px 16px; border-radius:10px; margin-top:10px; font-weight:700; font-size:.9rem; display:none; }
+  .feedback-box.show { display:block; }
+  .feedback-box.correct { background:#e8f5e9; color:var(--success); border:2px solid var(--success); }
+  .feedback-box.wrong { background:#fce8e6; color:var(--error); border:2px solid var(--error); }
+  .feedback-box.info { background:#e8f0fd; color:var(--primary); border:2px solid var(--primary); }
+
+  /* SCORE SUMMARY */
+  #score-summary { background:linear-gradient(135deg,#1b4332,#40916c); color:white; border-radius:16px; padding:28px; text-align:center; margin:20px 0; display:none; }
+  #score-summary.show { display:block; }
+  .score-big { font-size:3rem; font-weight:900; }
+  .stars { font-size:2.5rem; margin:8px 0; }
+
+  /* TOAST */
+  #toast { position:fixed; bottom:80px; left:50%; transform:translateX(-50%); background:#333; color:white; padding:10px 22px; border-radius:20px; font-weight:700; font-size:.9rem; z-index:9999; opacity:0; transition:opacity .3s; pointer-events:none; }
+  #toast.show { opacity:1; }
+
+  /* FOOTER */
+  footer { background:#1b4332; color:rgba(255,255,255,.8); text-align:center; padding:16px; font-size:.82rem; }
+  footer strong { color:var(--gold); }
+
+  /* LANG TOGGLE */
+  .lang-note { font-size:.78rem; color:#888; margin-top:3px; font-style:italic; }
+
+  .sub-title { font-size:.88rem; color:#555; margin-bottom:14px; }
+  .badge-b1 { background:var(--green-mid); color:white; font-size:.72rem; padding:2px 8px; border-radius:8px; font-weight:800; }
+  .section-intro { font-size:.88rem; color:#555; margin-bottom:12px; }
+  hr { border:none; border-top:2px solid #eee; margin:18px 0; }
+  .score-row { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px; }
+  .mini-score { background:#e8f0fd; border-radius:10px; padding:6px 14px; font-size:.85rem; font-weight:700; color:var(--primary); }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">🌿 Fly High English | Trà Vinh · Vĩnh Long · Bến Tre</div>
+  <h1>🌍 ENVIRONMENT MATTERS</h1>
+  <div class="tagline"><em>Our planet. Our responsibility.</em></div>
+  <div style="margin-top:5px">
+    <span class="badge">VSTEP B1</span>
+    <span class="world-env">🌱 5 June — World Environment Day</span>
+  </div>
+  <div id="xp-bar-wrap"><div id="xp-bar"></div></div>
+  <div id="xp-display">⚡ 0 XP earned</div>
+</header>
+
+<!-- TABS -->
+<nav class="tab-nav">
+  <button class="tab-btn active" onclick="showTab('vocab')">📚 Vocab</button>
+  <button class="tab-btn" onclick="showTab('wordform')">🔤 Word Form</button>
+  <button class="tab-btn" onclick="showTab('colloc')">🔗 Collocations</button>
+  <button class="tab-btn" onclick="showTab('pictures')">🖼️ Pictures</button>
+  <button class="tab-btn" onclick="showTab('reading')">📖 Reading</button>
+  <button class="tab-btn" onclick="showTab('discuss')">💬 Discussion</button>
+</nav>
+
+<!-- ============ TAB 1: VOCABULARY ============ -->
+<div class="tab-panel active" id="tab-vocab">
+  <div class="card">
+    <div class="section-title">📚 1. Vocabulary Matching</div>
+    <div class="section-intro">Match each word (1–12) with its correct definition (a–l).
+      <br><span class="lang-note">Nối mỗi từ với định nghĩa đúng.</span>
+    </div>
+    <div id="vocab-score-row" class="score-row"><span class="mini-score" id="vocab-mini">0 / 12</span></div>
+    <div class="vocab-grid" id="vocab-grid">
+      <!-- Filled by JS -->
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="checkVocab()">✅ Check Answers</button>
+      <button class="btn btn-gold btn-sm" onclick="resetVocab()">🔄 Reset</button>
+    </div>
+    <div id="vocab-fb" class="feedback-box"></div>
+  </div>
+  <div class="card">
+    <div class="section-title">📋 Definitions Reference</div>
+    <div class="def-list" id="def-list"><!-- JS --></div>
+  </div>
+</div>
+
+<!-- ============ TAB 2: WORD FORMATION ============ -->
+<div class="tab-panel" id="tab-wordform">
+  <div class="card">
+    <div class="section-title">🔤 2. Word Formation</div>
+    <div class="section-intro">Complete each sentence with the correct form of the word in brackets.
+      <br><span class="lang-note">Hoàn thành câu với dạng đúng của từ trong ngoặc.</span>
+    </div>
+    <div id="wf-items"><!-- JS --></div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="checkWordForm()">✅ Check Answers</button>
+      <button class="btn btn-gold btn-sm" onclick="resetWordForm()">🔄 Reset</button>
+    </div>
+    <div id="wf-fb" class="feedback-box"></div>
+  </div>
+</div>
+
+<!-- ============ TAB 3: COLLOCATIONS ============ -->
+<div class="tab-panel" id="tab-colloc">
+  <div class="card">
+    <div class="section-title">🔗 3. Collocations</div>
+    <div class="section-intro">Match the verbs with the correct nouns to make collocations.
+      <br><span class="lang-note">Nối động từ với danh từ để tạo collocation đúng.</span>
+    </div>
+    <div class="colloc-grid" id="colloc-grid"><!-- JS --></div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="checkColloc()">✅ Check Answers</button>
+      <button class="btn btn-gold btn-sm" onclick="resetColloc()">🔄 Reset</button>
+    </div>
+    <div id="colloc-fb" class="feedback-box"></div>
+  </div>
+</div>
+
+<!-- ============ TAB 4: PICTURES ============ -->
+<div class="tab-panel" id="tab-pictures">
+  <div class="card">
+    <div class="section-title">🖼️ 4. Look at the Pictures</div>
+    <div class="section-intro">Choose the correct word/phrase from the box for each picture.
+      <br><span class="lang-note">Chọn từ/cụm từ đúng trong hộp cho mỗi tranh.</span>
+    </div>
+    <div style="background:#e8f5e9;border-radius:10px;padding:12px;margin-bottom:16px;font-size:.9rem;font-weight:700;color:var(--green-dark);">
+      📦 Word Box: recycle plastic &nbsp;|&nbsp; save water &nbsp;|&nbsp; plant trees &nbsp;|&nbsp; use public transport &nbsp;|&nbsp; reduce energy use &nbsp;|&nbsp; protect wildlife
+    </div>
+    <div class="pic-grid" id="pic-grid"><!-- JS --></div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="checkPics()">✅ Check Answers</button>
+      <button class="btn btn-gold btn-sm" onclick="resetPics()">🔄 Reset</button>
+    </div>
+    <div id="pic-fb" class="feedback-box"></div>
+  </div>
+</div>
+
+<!-- ============ TAB 5: READING ============ -->
+<div class="tab-panel" id="tab-reading">
+  <!-- BEST HEADING -->
+  <div class="card">
+    <div class="section-title">📖 5A. Reading — Choose the Best Heading</div>
+    <div class="section-intro">Read the text and choose the best heading (A, B or C).
+      <br><span class="lang-note">Đọc đoạn văn và chọn tiêu đề phù hợp nhất.</span>
+    </div>
+    <div class="passage">
+      <p><strong>Options:</strong> A. The Causes of Pollution &nbsp;&nbsp; B. Why We Need a Clean Planet &nbsp;&nbsp; C. How to Protect the Environment</p>
+      <hr>
+      <p>Our planet is facing serious environmental problems. Air and water pollution, deforestation, and climate change are just some of the challenges we have to deal with. These problems affect people, animals and ecosystems all over the world. However, everyone can play a part in solving them.</p>
+      <p>Small actions can make a big difference. We can save energy, use less plastic, recycle more and support green ideas. Governments and companies also need to take responsibility and create a better future for the next generations. Together, we can build a more sustainable world.</p>
+    </div>
+    <div class="options" id="heading-opts">
+      <button class="opt-btn" onclick="checkHeading('A', this)">A. The Causes of Pollution</button>
+      <button class="opt-btn" onclick="checkHeading('B', this)">B. Why We Need a Clean Planet</button>
+      <button class="opt-btn" onclick="checkHeading('C', this)">C. How to Protect the Environment</button>
+    </div>
+    <div id="heading-fb" class="feedback-box"></div>
+  </div>
+
+  <!-- 10 MCQ -->
+  <div class="card">
+    <div class="section-title">📝 5B. Reading Comprehension — Multiple Choice (10 Questions)</div>
+    <div class="section-intro">Read the extended passage and answer the questions. Choose the best answer A, B, C or D.
+      <br><span class="lang-note">Đọc đoạn văn mở rộng và chọn câu trả lời đúng nhất.</span>
+    </div>
+    <div class="passage">
+      <p><strong>Our Changing Planet: The Environmental Crisis and Our Response</strong></p>
+      <p>The Earth is experiencing one of the most challenging periods in its history. Scientists around the world agree that human activities are causing significant damage to our environment. Burning fossil fuels — such as coal, oil, and gas — releases large amounts of carbon dioxide and other greenhouse gases into the atmosphere. These gases trap heat from the sun, causing the planet's temperature to rise. This process, known as global warming, is responsible for many of the extreme weather events we see today, including more powerful hurricanes, longer droughts, and more frequent floods.</p>
+      <p>Deforestation is another critical problem. Forests cover about 31% of the Earth's land, but every year, millions of hectares are cut down, mainly for agriculture, logging, and urban development. When forests disappear, carbon stored in trees is released into the atmosphere, making climate change worse. In addition, deforestation destroys the natural habitats of countless species of animals and plants, pushing many of them towards extinction. Scientists estimate that we are currently losing species at a rate 1,000 times faster than would naturally occur.</p>
+      <p>Water pollution is also a growing concern. Factories release chemical waste into rivers and oceans, while agricultural runoff carries pesticides and fertilisers into water sources. Plastic waste is a particularly serious issue — it is estimated that over eight million tonnes of plastic enter our oceans every year. Marine animals often mistake plastic for food, which can be fatal. The problem is so severe that scientists have found tiny pieces of plastic, called microplastics, in the most remote parts of the ocean and even inside the human body.</p>
+      <p>Despite these alarming trends, many positive changes are happening around the world. Renewable energy sources — including solar panels, wind turbines, and hydropower — are growing rapidly. In many countries, renewable energy is now cheaper than fossil fuels. Electric vehicles are becoming more common on the roads, and many cities are investing in public transport systems to reduce emissions. Governments are also signing international agreements to limit carbon emissions, with the most well-known being the Paris Agreement, which aims to keep global warming below 1.5°C above pre-industrial levels.</p>
+      <p>At an individual level, people can make a meaningful difference too. Reducing meat consumption, especially beef, is one of the most effective ways to lower your personal carbon footprint. Choosing to walk, cycle, or use public transport instead of driving a car can significantly reduce air pollution. Buying local and seasonal food reduces the energy used for transportation. Recycling and reusing materials, and choosing products with less packaging, all help to reduce waste. Small choices, when multiplied by billions of people, can create enormous change.</p>
+      <p>Education plays a vital role in protecting the environment. When people understand the causes and consequences of environmental problems, they are more likely to make sustainable choices and support green policies. Schools, universities, and community organisations all have a responsibility to raise environmental awareness. Young people, in particular, are becoming powerful advocates for environmental action, demonstrating that it is never too early to start making a difference.</p>
+    </div>
+    <div id="mcq-container"><!-- JS --></div>
+    <div class="btn-row">
+      <button class="btn btn-green" onclick="checkAllMCQ()">✅ Check All MCQ</button>
+      <button class="btn btn-gold btn-sm" onclick="resetMCQ()">🔄 Reset</button>
+    </div>
+    <div id="mcq-fb" class="feedback-box"></div>
+  </div>
+
+  <!-- TFNG -->
+  <div class="card">
+    <div class="section-title">🔍 5C. True / False / Not Given (5 Questions)</div>
+    <div class="section-intro">Based on the passage above, decide if each statement is True (T), False (F), or Not Given (NG).
+      <br><span class="lang-note">Dựa vào đoạn văn, xác định câu nào là Đúng (T), Sai (F), hay Không có thông tin (NG).</span>
+    </div>
+    <div id="tfng-container"><!-- JS --></div>
+    <div class="btn-row">
+      <button class="btn btn-green" onclick="checkAllTFNG()">✅ Check All TFNG</button>
+      <button class="btn btn-gold btn-sm" onclick="resetTFNG()">🔄 Reset</button>
+    </div>
+    <div id="tfng-fb" class="feedback-box"></div>
+  </div>
+
+  <!-- SCORE SUMMARY -->
+  <div id="score-summary">
+    <div class="stars" id="summary-stars"></div>
+    <div class="score-big" id="summary-score"></div>
+    <div style="font-size:1rem;opacity:.9;margin:8px 0" id="summary-msg"></div>
+    <div style="font-size:1.2rem;font-weight:800;color:var(--gold)" id="summary-xp"></div>
+  </div>
+</div>
+
+<!-- ============ TAB 6: DISCUSSION ============ -->
+<div class="tab-panel" id="tab-discuss">
+  <div class="card">
+    <div class="section-title">💬 6. Discussion Questions</div>
+    <div class="section-intro">Write your answers to the discussion questions below. Think deeply and give reasons!
+      <br><span class="lang-note">Viết câu trả lời cho các câu hỏi thảo luận. Hãy suy nghĩ sâu và đưa ra lý do!</span>
+    </div>
+    <div id="discuss-items"><!-- JS --></div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="getAIFeedback()">🤖 Get AI Feedback (+25 XP)</button>
+    </div>
+    <div id="ai-loading" style="display:none;padding:12px;text-align:center;color:#888;">
+      <span>🌀 Getting AI feedback... please wait...</span>
+    </div>
+    <div id="ai-fb" class="feedback-box info" style="white-space:pre-wrap;"></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<!-- FOOTER -->
+<footer>
+  <strong>Fly High English</strong> | Zalo 0907294800 | Trà Vinh · Vĩnh Long · Bến Tre 🌿<br>
+  <span style="font-size:.75rem">🌍 Environment Matters B1 — Interactive Lesson | World Environment Day</span>
+</footer>
+
+<script>
+// ============ DATA ============
+const vocabData = [
+  { word: "biodiversity", answer: "d" },
+  { word: "pollution", answer: "f" },
+  { word: "renewable", answer: "e" },
+  { word: "landfill", answer: "b" },
+  { word: "endangered", answer: "j" },
+  { word: "carbon footprint", answer: "g" },
+  { word: "conservation", answer: "h" },
+  { word: "sustainable", answer: "k" },
+  { word: "overpopulation", answer: "l" },
+  { word: "deforestation", answer: "a" },
+  { word: "ecosystem", answer: "i" },
+  { word: "greenhouse effect", answer: "c" }
+];
+
+const vocabDefs = [
+  { key: "a", text: "the process of cutting down large areas of trees" },
+  { key: "b", text: "a place where waste is buried and left to rot" },
+  { key: "c", text: "the effect of gases in the atmosphere that trap heat" },
+  { key: "d", text: "the variety of plant and animal life in the world" },
+  { key: "e", text: "able to be used again or replaced by natural processes" },
+  { key: "f", text: "the harm caused to air, water or land by chemicals or waste" },
+  { key: "g", text: "the total amount of carbon dioxide produced by our actions" },
+  { key: "h", text: "the protection and careful use of natural resources" },
+  { key: "i", text: "the natural system in which plants, animals and people live" },
+  { key: "j", text: "in danger of disappearing completely" },
+  { key: "k", text: "able to continue for a long time without causing harm" },
+  { key: "l", text: "a situation when there are too many people in one place" }
+];
+
+const wordFormData = [
+  { before: "Plastic", after: "is one of the biggest problems for our oceans.", base: "pollute", answer: "pollution", hint: "(pollute)" },
+  { before: "We must protect", after: "species from extinction.", base: "endanger", answer: "endangered", hint: "(endanger)" },
+  { before: "Many companies are trying to become more", after: "by using less energy.", base: "sustain", answer: "sustainable", hint: "(sustain)" },
+  { before: "The", after: "of the Amazon affects the whole planet.", base: "deforest", answer: "deforestation", hint: "(deforest)" },
+  { before: "It's important to raise", after: "about environmental issues.", base: "aware", answer: "awareness", hint: "(aware)" },
+  { before: "Our", after: "on nature more than we usually think.", base: "depend", answer: "dependence", hint: "(depend)" },
+  { before: "He decided to live a zero-waste", after: "He doesn't buy anything in plastic.", base: "life", answer: "lifestyle", hint: "(life)" },
+  { before: "Clean energy is the key to a", after: "future.", base: "renew", answer: "renewable", hint: "(renew)" }
+];
+
+const collocData = [
+  { verb: "reduce", answer: "d", opt: "waste" },
+  { verb: "raise", answer: "b", opt: "awareness" },
+  { verb: "save", answer: "c", opt: "resources" },
+  { verb: "protect", answer: "a", opt: "natural habitats" },
+  { verb: "cause", answer: "f", opt: "pollution" },
+  { verb: "reuse", answer: "e", opt: "the planet" }
+];
+const collocOpts = ["a. natural habitats","b. awareness","c. resources","d. waste","e. the planet","f. pollution"];
+
+const picData = [
+  { emoji: "♻️", label: "Picture 1", answer: "recycle plastic" },
+  { emoji: "💧", label: "Picture 2", answer: "save water" },
+  { emoji: "🌱", label: "Picture 3", answer: "plant trees" },
+  { emoji: "🚌", label: "Picture 4", answer: "use public transport" },
+  { emoji: "💡", label: "Picture 5", answer: "reduce energy use" },
+  { emoji: "🐢", label: "Picture 6", answer: "protect wildlife" }
+];
+const picOptions = ["recycle plastic","save water","plant trees","use public transport","reduce energy use","protect wildlife"];
+
+const mcqData = [
+  {
+    q: "According to the passage, what is the main cause of global warming?",
+    opts: ["A. Deforestation of tropical rainforests","B. Burning fossil fuels which releases greenhouse gases","C. Water pollution from factories","D. Overpopulation in cities"],
+    answer: 1
+  },
+  {
+    q: "What percentage of the Earth's land is covered by forests?",
+    opts: ["A. About 13%","B. About 21%","C. About 31%","D. About 41%"],
+    answer: 2
+  },
+  {
+    q: "Why is deforestation harmful to the climate?",
+    opts: ["A. It increases the amount of rainfall","B. It releases stored carbon from trees into the atmosphere","C. It causes water levels to rise","D. It produces greenhouse gases directly"],
+    answer: 1
+  },
+  {
+    q: "How fast are species disappearing compared to natural rates?",
+    opts: ["A. 100 times faster","B. 500 times faster","C. 1,000 times faster","D. 10,000 times faster"],
+    answer: 2
+  },
+  {
+    q: "What is a microplastic?",
+    opts: ["A. A type of plastic used in factories","B. A plastic bag smaller than normal","C. A tiny piece of plastic found in remote environments","D. A material used to filter ocean water"],
+    answer: 2
+  },
+  {
+    q: "Which statement about renewable energy is TRUE according to the passage?",
+    opts: ["A. It is always more expensive than fossil fuels","B. In many countries, it is now cheaper than fossil fuels","C. It is not growing as fast as fossil fuel use","D. It is only available in developed countries"],
+    answer: 1
+  },
+  {
+    q: "What is the aim of the Paris Agreement mentioned in the passage?",
+    opts: ["A. To eliminate all use of fossil fuels by 2030","B. To keep global warming below 1.5°C above pre-industrial levels","C. To reduce plastic use in the oceans","D. To build more electric vehicles worldwide"],
+    answer: 1
+  },
+  {
+    q: "Which individual action is described as one of the MOST effective ways to reduce carbon footprint?",
+    opts: ["A. Recycling plastic bottles","B. Using solar panels at home","C. Reducing meat consumption, especially beef","D. Driving electric vehicles"],
+    answer: 2
+  },
+  {
+    q: "What role does education play in environmental protection, according to the passage?",
+    opts: ["A. It directly reduces greenhouse gas emissions","B. It helps people understand problems and make sustainable choices","C. It replaces the need for government action","D. It focuses mainly on young children"],
+    answer: 1
+  },
+  {
+    q: "What is the writer's main message in the passage?",
+    opts: ["A. Governments alone can solve environmental problems","B. Environmental damage is too serious to be reversed","C. Both individual actions and government policies are needed to protect the environment","D. Technology is the only solution to climate change"],
+    answer: 2
+  }
+];
+
+const tfngData = [
+  {
+    stmt: "Burning fossil fuels is the only cause of environmental problems on Earth.",
+    answer: "F",
+    explanation: "FALSE — The passage mentions multiple causes: burning fossil fuels, deforestation, water pollution, etc."
+  },
+  {
+    stmt: "Every year, millions of hectares of forest are cut down mainly for agriculture, logging, and urban development.",
+    answer: "T",
+    explanation: "TRUE — The passage states exactly this in paragraph 2."
+  },
+  {
+    stmt: "Governments in every country have agreed to stop using plastic completely.",
+    answer: "NG",
+    explanation: "NOT GIVEN — The passage does not mention any agreement specifically about stopping plastic use."
+  },
+  {
+    stmt: "Scientists have found microplastics inside the human body.",
+    answer: "T",
+    explanation: "TRUE — The passage states microplastics have been found 'even inside the human body.'"
+  },
+  {
+    stmt: "Young people are described in the passage as important supporters of environmental action.",
+    answer: "T",
+    explanation: "TRUE — The passage says young people are becoming 'powerful advocates for environmental action.'"
+  }
+];
+
+const discussQs = [
+  "1. What environmental problems are the most serious in your country (Vietnam)?",
+  "2. What can young people do to help the environment?",
+  "3. Do you think small actions really make a difference? Why or why not?",
+  "4. What changes would you like to see in the future?"
+];
+
+// ============ STATE ============
+let totalXP = 0;
+let headingDone = false;
+let mcqAnswered = new Array(mcqData.length).fill(false);
+let tfngAnswered = new Array(tfngData.length).fill(false);
+let mcqScore = 0, tfngScore = 0;
+
+// ============ XP SYSTEM ============
+function addXP(pts) {
+  totalXP += pts;
+  document.getElementById('xp-display').textContent = `⚡ ${totalXP} XP earned`;
+  const pct = Math.min(totalXP / 200 * 100, 100);
+  document.getElementById('xp-bar').style.width = pct + '%';
+  showToast(`+${pts} XP! ⚡`);
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+// ============ TABS ============
+function showTab(id) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  const idx = ['vocab','wordform','colloc','pictures','reading','discuss'].indexOf(id);
+  document.querySelectorAll('.tab-btn')[idx].classList.add('active');
+}
+
+// ============ VOCAB ============
+function buildVocab() {
+  const grid = document.getElementById('vocab-grid');
+  grid.innerHTML = '';
+  vocabData.forEach((v, i) => {
+    const opts = vocabDefs.map(d => `<option value="${d.key}">${d.key}</option>`).join('');
+    grid.innerHTML += `
+      <div class="vocab-item" id="vocab-item-${i}">
+        <span class="vocab-num">${i+1}.</span>
+        <span class="vocab-word">${v.word}</span>
+        <select class="vocab-select" id="vocab-sel-${i}">
+          <option value="">-- match --</option>
+          ${opts}
+        </select>
+      </div>`;
+  });
+  const dl = document.getElementById('def-list');
+  dl.innerHTML = vocabDefs.map(d => `<div class="def-item"><span>${d.key}.</span>${d.text}</div>`).join('');
+}
+
+function checkVocab() {
+  let score = 0;
+  vocabData.forEach((v, i) => {
+    const sel = document.getElementById('vocab-sel-' + i);
+    sel.classList.remove('correct', 'wrong');
+    if (sel.value === v.answer) { sel.classList.add('correct'); score++; }
+    else { sel.classList.add('wrong'); }
+  });
+  const fb = document.getElementById('vocab-fb');
+  fb.className = `feedback-box show ${score >= 10 ? 'correct' : score >= 6 ? 'info' : 'wrong'}`;
+  fb.textContent = `📊 Score: ${score}/12 ${score === 12 ? '🌟 Perfect!' : score >= 9 ? '👍 Great!' : score >= 6 ? '💪 Keep going!' : '🔄 Try again!'}`;
+  document.getElementById('vocab-mini').textContent = `${score} / 12`;
+  addXP(score * 10);
+}
+
+function resetVocab() {
+  vocabData.forEach((_, i) => {
+    const sel = document.getElementById('vocab-sel-' + i);
+    sel.value = '';
+    sel.classList.remove('correct', 'wrong');
+  });
+  document.getElementById('vocab-fb').className = 'feedback-box';
+}
+
+// ============ WORD FORMATION ============
+function buildWordForm() {
+  const cont = document.getElementById('wf-items');
+  cont.innerHTML = wordFormData.map((w, i) => `
+    <div class="wf-item">
+      <span class="wf-num">${i+1}.</span>
+      <span>${w.before}</span>
+      <input type="text" class="wf-input" id="wf-${i}" placeholder="..." autocomplete="off">
+      <span>${w.after}</span>
+      <span class="wf-hint">${w.hint}</span>
+    </div>`).join('');
+}
+
+function checkWordForm() {
+  let score = 0;
+  wordFormData.forEach((w, i) => {
+    const inp = document.getElementById('wf-' + i);
+    inp.classList.remove('correct', 'wrong');
+    if (inp.value.trim().toLowerCase() === w.answer.toLowerCase()) {
+      inp.classList.add('correct'); score++;
+    } else { inp.classList.add('wrong'); }
+  });
+  const fb = document.getElementById('wf-fb');
+  fb.className = `feedback-box show ${score >= 7 ? 'correct' : score >= 4 ? 'info' : 'wrong'}`;
+  fb.textContent = `📊 Score: ${score}/8 ${score === 8 ? '🌟 Excellent!' : score >= 6 ? '👍 Well done!' : score >= 4 ? '💪 Good effort!' : '🔄 Try again!'}`;
+  addXP(score * 10);
+}
+
+function resetWordForm() {
+  wordFormData.forEach((_, i) => {
+    const inp = document.getElementById('wf-' + i);
+    inp.value = '';
+    inp.classList.remove('correct','wrong');
+  });
+  document.getElementById('wf-fb').className = 'feedback-box';
+}
+
+// ============ COLLOCATIONS ============
+function buildColloc() {
+  const grid = document.getElementById('colloc-grid');
+  grid.innerHTML = collocData.map((c, i) => `
+    <div class="colloc-item">
+      <span class="colloc-verb">${i+1}. ${c.verb}</span>
+      <select class="colloc-select" id="colloc-sel-${i}">
+        <option value="">-- choose --</option>
+        ${collocOpts.map(o => `<option value="${o.charAt(0)}">${o}</option>`).join('')}
+      </select>
+    </div>`).join('');
+}
+
+function checkColloc() {
+  let score = 0;
+  collocData.forEach((c, i) => {
+    const sel = document.getElementById('colloc-sel-' + i);
+    sel.classList.remove('correct','wrong');
+    if (sel.value === c.answer) { sel.classList.add('correct'); score++; }
+    else { sel.classList.add('wrong'); }
+  });
+  const fb = document.getElementById('colloc-fb');
+  fb.className = `feedback-box show ${score >= 5 ? 'correct' : score >= 3 ? 'info' : 'wrong'}`;
+  fb.textContent = `📊 Score: ${score}/6 ${score === 6 ? '🌟 Perfect!' : score >= 4 ? '👍 Great!' : '💪 Keep trying!'}`;
+  addXP(score * 10);
+}
+
+function resetColloc() {
+  collocData.forEach((_, i) => {
+    const sel = document.getElementById('colloc-sel-' + i);
+    sel.value = '';
+    sel.classList.remove('correct','wrong');
+  });
+  document.getElementById('colloc-fb').className = 'feedback-box';
+}
+
+// ============ PICTURES ============
+function buildPics() {
+  const grid = document.getElementById('pic-grid');
+  grid.innerHTML = picData.map((p, i) => `
+    <div class="pic-card">
+      <span class="pic-emoji">${p.emoji}</span>
+      <select class="pic-select" id="pic-sel-${i}">
+        <option value="">-- choose --</option>
+        ${picOptions.map(o => `<option value="${o}">${o}</option>`).join('')}
+      </select>
+      <div class="pic-label">${p.label}</div>
+    </div>`).join('');
+}
+
+function checkPics() {
+  let score = 0;
+  picData.forEach((p, i) => {
+    const sel = document.getElementById('pic-sel-' + i);
+    sel.classList.remove('correct','wrong');
+    if (sel.value === p.answer) { sel.classList.add('correct'); score++; }
+    else { sel.classList.add('wrong'); }
+  });
+  const fb = document.getElementById('pic-fb');
+  fb.className = `feedback-box show ${score >= 5 ? 'correct' : score >= 3 ? 'info' : 'wrong'}`;
+  fb.textContent = `📊 Score: ${score}/6 ${score === 6 ? '🌟 Perfect!' : score >= 4 ? '👍 Well done!' : '🔄 Try again!'}`;
+  addXP(score * 10);
+}
+
+function resetPics() {
+  picData.forEach((_, i) => {
+    const sel = document.getElementById('pic-sel-' + i);
+    sel.value = '';
+    sel.classList.remove('correct','wrong');
+  });
+  document.getElementById('pic-fb').className = 'feedback-box';
+}
+
+// ============ HEADING ============
+let headingSelected = null;
+function checkHeading(choice, btn) {
+  if (headingDone) return;
+  document.querySelectorAll('#heading-opts .opt-btn').forEach(b => b.classList.remove('selected','correct','wrong'));
+  btn.classList.add('selected');
+  headingSelected = choice;
+  const fb = document.getElementById('heading-fb');
+  if (choice === 'C') {
+    btn.classList.add('correct');
+    fb.className = 'feedback-box show correct';
+    fb.textContent = '✅ Correct! "How to Protect the Environment" — the passage focuses on actions and solutions, not just causes. +10 XP!';
+    addXP(10);
+    headingDone = true;
+  } else {
+    btn.classList.add('wrong');
+    fb.className = 'feedback-box show wrong';
+    fb.textContent = '❌ Not quite. Think about the main idea: the passage focuses on SOLUTIONS and what we can do. Try again!';
+  }
+}
+
+// ============ MCQ ============
+function buildMCQ() {
+  const cont = document.getElementById('mcq-container');
+  cont.innerHTML = mcqData.map((q, i) => `
+    <div class="q-item" id="mcq-item-${i}">
+      <div class="q-text"><span class="q-num">Q${i+1}.</span>${q.q}</div>
+      <div class="options" id="mcq-opts-${i}">
+        ${q.opts.map((o, j) => `<button class="opt-btn" onclick="selectMCQ(${i},${j},this)">${o}</button>`).join('')}
+      </div>
+    </div>`).join('');
+}
+
+let mcqSelected = new Array(mcqData.length).fill(null);
+function selectMCQ(qi, oi, btn) {
+  if (mcqAnswered[qi]) return;
+  document.querySelectorAll(`#mcq-opts-${qi} .opt-btn`).forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  mcqSelected[qi] = oi;
+}
+
+function checkAllMCQ() {
+  let score = 0;
+  mcqData.forEach((q, i) => {
+    if (mcqAnswered[i]) return;
+    const sel = mcqSelected[i];
+    if (sel === null) return;
+    mcqAnswered[i] = true;
+    const btns = document.querySelectorAll(`#mcq-opts-${i} .opt-btn`);
+    btns.forEach((b, j) => {
+      b.classList.remove('selected');
+      if (j === q.answer) b.classList.add('correct');
+      else if (j === sel) b.classList.add('wrong');
+    });
+    if (sel === q.answer) { score++; mcqScore++; }
+    const item = document.getElementById('mcq-item-' + i);
+    item.classList.add(sel === q.answer ? 'answered-correct' : 'answered-wrong');
+  });
+  const fb = document.getElementById('mcq-fb');
+  fb.className = `feedback-box show ${mcqScore >= 8 ? 'correct' : mcqScore >= 5 ? 'info' : 'wrong'}`;
+  fb.textContent = `📊 MCQ Score: ${mcqScore}/10 ${mcqScore === 10 ? '🌟 Outstanding!' : mcqScore >= 8 ? '🎉 Excellent!' : mcqScore >= 6 ? '👍 Good work!' : mcqScore >= 4 ? '💪 Keep practising!' : '🔄 Review the passage and try again!'}`;
+  addXP(mcqScore * 10);
+  checkReadingSummary();
+}
+
+function resetMCQ() {
+  mcqAnswered = new Array(mcqData.length).fill(false);
+  mcqSelected = new Array(mcqData.length).fill(null);
+  mcqScore = 0;
+  buildMCQ();
+  document.getElementById('mcq-fb').className = 'feedback-box';
+  document.getElementById('score-summary').className = '';
+}
+
+// ============ TFNG ============
+function buildTFNG() {
+  const cont = document.getElementById('tfng-container');
+  cont.innerHTML = tfngData.map((t, i) => `
+    <div class="q-item" id="tfng-item-${i}">
+      <div class="q-text"><span class="q-num">S${i+1}.</span>${t.stmt}</div>
+      <div class="tfng-opts" id="tfng-opts-${i}">
+        <button class="tfng-btn T" onclick="selectTFNG(${i},'T',this)">TRUE</button>
+        <button class="tfng-btn F" onclick="selectTFNG(${i},'F',this)">FALSE</button>
+        <button class="tfng-btn NG" onclick="selectTFNG(${i},'NG',this)">NOT GIVEN</button>
+      </div>
+      <div id="tfng-exp-${i}" style="display:none;margin-top:8px;font-size:.82rem;color:#555;font-style:italic;"></div>
+    </div>`).join('');
+}
+
+let tfngSelected = new Array(tfngData.length).fill(null);
+function selectTFNG(qi, val, btn) {
+  if (tfngAnswered[qi]) return;
+  document.querySelectorAll(`#tfng-opts-${qi} .tfng-btn`).forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  tfngSelected[qi] = val;
+}
+
+function checkAllTFNG() {
+  let score = 0;
+  tfngData.forEach((t, i) => {
+    if (tfngAnswered[i]) return;
+    const sel = tfngSelected[i];
+    if (!sel) return;
+    tfngAnswered[i] = true;
+    const btns = document.querySelectorAll(`#tfng-opts-${i} .tfng-btn`);
+    btns.forEach(b => {
+      b.classList.remove('selected');
+      if (b.textContent === t.answer || (b.textContent === 'NOT GIVEN' && t.answer === 'NG')) b.classList.add('correct');
+      else if ((b.textContent === sel) || (sel === 'NG' && b.textContent === 'NOT GIVEN')) {
+        if (sel !== t.answer) b.classList.add('wrong');
+      }
+    });
+    if (sel === t.answer) { score++; tfngScore++; }
+    document.getElementById('tfng-item-' + i).classList.add(sel === t.answer ? 'answered-correct' : 'answered-wrong');
+    const exp = document.getElementById('tfng-exp-' + i);
+    exp.style.display = 'block';
+    exp.textContent = '💡 ' + t.explanation;
+  });
+  const fb = document.getElementById('tfng-fb');
+  fb.className = `feedback-box show ${tfngScore >= 4 ? 'correct' : tfngScore >= 3 ? 'info' : 'wrong'}`;
+  fb.textContent = `📊 TFNG Score: ${tfngScore}/5 ${tfngScore === 5 ? '🌟 Perfect!' : tfngScore >= 4 ? '👍 Excellent!' : tfngScore >= 3 ? '💪 Good effort!' : '🔄 Review the passage!'}`;
+  addXP(tfngScore * 10);
+  checkReadingSummary();
+}
+
+function resetTFNG() {
+  tfngAnswered = new Array(tfngData.length).fill(false);
+  tfngSelected = new Array(tfngData.length).fill(null);
+  tfngScore = 0;
+  buildTFNG();
+  document.getElementById('tfng-fb').className = 'feedback-box';
+}
+
+function checkReadingSummary() {
+  const total = mcqScore + tfngScore;
+  const max = 15;
+  const pct = total / max * 100;
+  let stars = pct >= 85 ? '⭐⭐⭐' : pct >= 60 ? '⭐⭐' : '⭐';
+  let msg = pct >= 85 ? '🌟 Outstanding performance! You are an environment expert!' : pct >= 60 ? '👍 Good work! Keep reading and improving!' : '💪 Keep practising! Re-read the passage carefully.';
+  const ss = document.getElementById('score-summary');
+  ss.className = 'show';
+  document.getElementById('summary-stars').textContent = stars;
+  document.getElementById('summary-score').textContent = `${total} / ${max}`;
+  document.getElementById('summary-msg').textContent = msg;
+  document.getElementById('summary-xp').textContent = `⚡ Total XP: ${totalXP}`;
+}
+
+// ============ DISCUSSION / AI FEEDBACK ============
+function buildDiscuss() {
+  const cont = document.getElementById('discuss-items');
+  cont.innerHTML = discussQs.map((q, i) => `
+    <div class="disc-item">
+      <div class="disc-q">${q}</div>
+      <textarea id="disc-${i}" placeholder="Write your answer here... (Viết câu trả lời tại đây...)"></textarea>
+    </div>`).join('');
+}
+
+async function getAIFeedback() {
+  const answers = discussQs.map((q, i) => {
+    const val = document.getElementById('disc-' + i)?.value?.trim();
+    return val ? `Question: ${q}\nAnswer: ${val}` : null;
+  }).filter(Boolean);
+
+  if (answers.length === 0) {
+    showToast('⚠️ Please write at least one answer first!');
+    return;
+  }
+
+  document.getElementById('ai-loading').style.display = 'block';
+  document.getElementById('ai-fb').className = 'feedback-box';
+
+  const prompt = `You are an encouraging EFL teacher for Vietnamese learners at VSTEP B1 level (pre-university English). 
+A student has answered these discussion questions about the environment:
+
+${answers.join('\n\n')}
+
+Give feedback following this EXACT format:
+🌿 OVERALL BAND: [A2 / B1 / B1+ / B2]
+
+💪 STRENGTHS (2 points):
+• [Point 1]
+• [Point 2]
+
+📝 AREAS TO IMPROVE (2 points):
+• [Point 1]
+• [Point 2]
+
+✏️ IMPROVED SENTENCE:
+Original: [quote one of their sentences]
+Better: [improved version]
+
+🌍 ENVIRONMENTAL TIP: [One quick tip related to what they wrote]
+
+Be specific, warm, and encouraging. Use simple English.`;
+
+  try {
+    const response = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-20250514",
+        max_tokens: 1000,
+        messages: [{ role: "user", content: prompt }]
+      })
+    });
+    const data = await response.json();
+    const text = data.content?.map(c => c.text || '').join('') || 'Could not get feedback.';
+    document.getElementById('ai-loading').style.display = 'none';
+    const fb = document.getElementById('ai-fb');
+    fb.className = 'feedback-box info show';
+    fb.textContent = text;
+    addXP(25);
+  } catch (e) {
+    document.getElementById('ai-loading').style.display = 'none';
+    document.getElementById('ai-fb').className = 'feedback-box wrong show';
+    document.getElementById('ai-fb').textContent = '⚠️ Could not connect to AI feedback. Please check your connection and try again.';
+  }
+}
+
+// ============ INIT ============
+buildVocab();
+buildWordForm();
+buildColloc();
+buildPics();
+buildMCQ();
+buildTFNG();
+buildDiscuss();
+</script>
+</body>
+</html>

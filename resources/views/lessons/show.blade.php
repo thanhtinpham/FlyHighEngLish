@@ -42,7 +42,7 @@
                 $hasFile = false;
                 $fileUrl = null;
 
-                if ($lesson->html_file_path) {
+                if (!empty($lesson->html_file_path)) {
                     if (\Illuminate\Support\Str::startsWith($lesson->html_file_path, ['http://', 'https://'])) {
                         $hasFile = true;
                         $fileUrl = $lesson->html_file_path;
@@ -52,6 +52,15 @@
                     } elseif (\Illuminate\Support\Facades\Storage::disk('public')->exists($lesson->html_file_path)) {
                         $hasFile = true;
                         $fileUrl = asset('storage/' . $lesson->html_file_path);
+                    } elseif (file_exists(public_path('storage/' . $lesson->html_file_path)) || file_exists(storage_path('app/public/' . $lesson->html_file_path))) {
+                        $hasFile = true;
+                        $fileUrl = asset('storage/' . $lesson->html_file_path);
+                    } else {
+                        // Fallback URL if path is specified
+                        $hasFile = true;
+                        $fileUrl = \Illuminate\Support\Str::startsWith($lesson->html_file_path, 'storage/')
+                            ? asset($lesson->html_file_path)
+                            : asset('storage/' . $lesson->html_file_path);
                     }
                 }
             @endphp

@@ -10,7 +10,10 @@ class LessonController extends Controller
 {
     public function show(Lesson $lesson)
     {
-        $lesson->load('course.lessons');
+        $lesson->load(['course.lessons' => function ($q) {
+            $q->select('id', 'course_id', 'title', 'slug', 'level_or_week', 'is_preview', 'order')
+              ->orderBy('order', 'asc');
+        }]);
         $user = auth()->user();
 
         // Access check: allow if lesson is preview or if user is enrolled (or admin)

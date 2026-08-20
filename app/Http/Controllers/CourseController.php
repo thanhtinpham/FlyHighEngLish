@@ -26,7 +26,8 @@ class CourseController extends Controller
         $course = Course::where('slug', $slug)
             ->where('is_published', true)
             ->with(['lessons' => function ($q) {
-                $q->orderBy('order', 'asc');
+                $q->select('id', 'course_id', 'title', 'slug', 'level_or_week', 'is_preview', 'order')
+                  ->orderBy('order', 'asc');
             }])
             ->firstOrFail();
 
