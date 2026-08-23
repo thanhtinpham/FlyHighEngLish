@@ -20,18 +20,13 @@
                 <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">{{ $course->description }}</p>
             </div>
 
-            <div class="bg-white rounded-2xl p-5 text-slate-900 shrink-0 w-full lg:w-80 border border-emerald-200 shadow-xl shadow-emerald-900/5 flex flex-col justify-between gap-3">
-                <div>
-                    <span class="text-[11px] text-slate-400 block uppercase font-bold">Học phí niêm yết</span>
-                    <span class="text-2xl font-black text-emerald-600 font-heading">{{ number_format($course->price) }} VNĐ</span>
-                </div>
-
+            <div class="bg-white rounded-2xl p-5 text-slate-900 shrink-0 w-full lg:w-80 border border-emerald-200 shadow-xl shadow-emerald-900/5 flex flex-col justify-center gap-3">
                 @if($userEnrolled)
-                    <a href="{{ route('learning_hub.index') }}" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-extrabold rounded-xl flex items-center justify-center gap-2 shadow-emerald-glow transition-all">
+                    <a href="{{ route('learning_hub.index') }}" class="w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-extrabold rounded-xl flex items-center justify-center gap-2 shadow-emerald-glow transition-all">
                         <i data-lucide="check-circle" class="w-4 h-4"></i> Bạn Đã Đăng Ký Khóa Học
                     </a>
                 @else
-                    <button onclick="openModal('zaloModal')" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-extrabold rounded-xl flex items-center justify-center gap-2 shadow-emerald-glow transition-all">
+                    <button onclick="openModal('zaloModal')" class="w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-extrabold rounded-xl flex items-center justify-center gap-2 shadow-emerald-glow transition-all">
                         <i data-lucide="user-plus" class="w-4 h-4"></i> Đăng Ký Khóa Học Này
                     </button>
                 @endif

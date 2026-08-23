@@ -72,13 +72,9 @@
                     </div>
                 </div>
 
-                <div class="px-6 py-5 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
-                    <div>
-                        <span class="text-[10px] text-slate-400 block uppercase font-bold">Học phí trọn gói</span>
-                        <span class="text-base font-black text-emerald-600 font-heading">{{ number_format($course->price) }} VNĐ</span>
-                    </div>
-                    <a href="{{ route('courses.show', $course->slug) }}" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-extrabold shadow-emerald-glow transition-all flex items-center gap-1.5">
-                        Xem Chi Tiết <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                <div class="px-6 py-4 bg-slate-50 border-t border-slate-100 flex items-center justify-end">
+                    <a href="{{ route('courses.show', $course->slug) }}" class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-extrabold shadow-emerald-glow transition-all flex items-center justify-center gap-1.5">
+                        Xem Danh Sách Bài Học <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
                     </a>
                 </div>
             </div>

@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -19,28 +20,50 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $credentials = $request->validate([
+        $request->validate([
             'email' => ['required', 'email'],
-            'password' => ['required'],
         ], [
-            'email.required' => 'Vui lòng nhập địa chỉ email.',
+            'email.required' => 'Vui lòng nhập địa chỉ email học viên.',
             'email.email' => 'Email không đúng định dạng.',
-            'password.required' => 'Vui lòng nhập mật khẩu.',
         ]);
 
-        if (Auth::attempt($credentials, $request->boolean('remember'))) {
+        $email = trim(strtolower($request->email));
+        $user = User::where('email', $email)->first();
+
+        // Admin login path with password validation if password provided
+        if ($user && $user->isAdmin() && $request->filled('password')) {
+            if (Auth::attempt(['email' => $email, 'password' => $request->password], $request->boolean('remember'))) {
+                $request->session()->regenerate();
+                return redirect()->intended(route('admin.dashboard'))->with('success', 'Đăng nhập thành công với quyền Quản trị viên!');
+            }
+            return back()->withErrors(['password' => 'Mật khẩu quản trị viên không chính xác.'])->onlyInput('email');
+        }
+
+        // Student/User login directly via Email
+        if ($user) {
+            Auth::login($user, $request->boolean('remember', true));
             $request->session()->regenerate();
-            
-            if (Auth::user()->isAdmin()) {
+
+            if ($user->isAdmin()) {
                 return redirect()->intended(route('admin.dashboard'))->with('success', 'Đăng nhập thành công với quyền Quản trị viên!');
             }
 
-            return redirect()->intended(route('dashboard'))->with('success', 'Đăng nhập thành công! Chúc bạn học tập tốt.');
+            return redirect()->intended(route('dashboard'))->with('success', 'Đăng nhập thành công với Email: ' . $user->email);
         }
 
-        return back()->withErrors([
-            'email' => 'Thông tin đăng nhập email hoặc mật khẩu không chính xác.',
-        ])->onlyInput('email');
+        // Auto-register new student account if email not found
+        $nameFromEmail = Str::title(str_replace(['.', '_', '-'], ' ', explode('@', $email)[0]));
+        $newUser = User::create([
+            'name' => $nameFromEmail,
+            'email' => $email,
+            'password' => Hash::make(Str::random(16)),
+            'role' => 'user',
+        ]);
+
+        Auth::login($newUser, true);
+        $request->session()->regenerate();
+
+        return redirect()->route('dashboard')->with('success', 'Chào mừng học viên mới! Tài khoản học tập đã khởi tạo thành công.');
     }
 
     public function showRegister()
@@ -54,28 +77,32 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:6', 'confirmed'],
+            'email' => ['required', 'string', 'email', 'max:255'],
         ], [
-            'name.required' => 'Vui lòng nhập họ và tên.',
-            'email.required' => 'Vui lòng nhập địa chỉ email.',
-            'email.unique' => 'Địa chỉ email này đã được sử dụng.',
-            'password.required' => 'Vui lòng nhập mật khẩu.',
-            'password.min' => 'Mật khẩu phải từ 6 ký tự trở lên.',
-            'password.confirmed' => 'Xác nhận mật khẩu không khớp.',
+            'email.required' => 'Vui lòng nhập địa chỉ email học viên.',
+            'email.email' => 'Email không đúng định dạng.',
         ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => 'user',
-        ]);
+        $email = trim(strtolower($request->email));
+        $user = User::where('email', $email)->first();
 
-        Auth::login($user);
+        if (!$user) {
+            $name = $request->filled('name')
+                ? $request->name
+                : Str::title(str_replace(['.', '_', '-'], ' ', explode('@', $email)[0]));
 
-        return redirect()->route('dashboard')->with('success', 'Tạo tài khoản thành công! Bạn hiện đã có quyền xem và tải tài liệu.');
+            $user = User::create([
+                'name' => $name,
+                'email' => $email,
+                'password' => Hash::make(Str::random(16)),
+                'role' => 'user',
+            ]);
+        }
+
+        Auth::login($user, true);
+        $request->session()->regenerate();
+
+        return redirect()->route('dashboard')->with('success', 'Đăng ký & Đăng nhập thành công với Email: ' . $user->email);
     }
 
     public function logout(Request $request)

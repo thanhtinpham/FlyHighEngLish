@@ -277,13 +277,9 @@
                     </div>
                 </div>
 
-                <div class="px-5 py-3 bg-slate-50 border-t border-slate-200 flex items-center justify-between">
-                    <div>
-                        <span class="text-[10px] text-slate-500 block font-bold uppercase">Học phí</span>
-                        <span class="text-sm font-extrabold text-blue-600 font-heading">{{ number_format($course->price) }} đ</span>
-                    </div>
-                    <a href="{{ route('courses.show', $course->slug) }}" class="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded text-xs font-bold transition-all flex items-center gap-1">
-                        Xem Chi Tiết <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                <div class="px-5 py-3 bg-slate-50 border-t border-slate-200 flex items-center justify-end">
+                    <a href="{{ route('courses.show', $course->slug) }}" class="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded text-xs font-bold transition-all flex items-center justify-center gap-1">
+                        Xem Chi Tiết Bài Học <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
                     </a>
                 </div>
 
