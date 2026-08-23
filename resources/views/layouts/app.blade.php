@@ -82,9 +82,6 @@
                         <i data-lucide="file-text" class="w-3.5 h-3.5 inline mr-1 text-slate-500"></i>Tài Liệu
                     </a>
 
-                    <a href="{{ route('placement_test.index') }}" class="px-3.5 py-1.5 rounded-lg transition-all {{ request()->routeIs('placement_test.*') ? 'nav-tab-active' : 'hover:text-slate-900' }}">
-                        <i data-lucide="target" class="w-3.5 h-3.5 inline mr-1 text-slate-500"></i>Test Đầu Vào
-                    </a>
 
                     @auth
                     <a href="{{ route('learning_hub.index') }}" class="px-3.5 py-1.5 rounded-lg transition-all {{ request()->routeIs('learning_hub.*') ? 'nav-tab-active' : 'hover:text-slate-900' }}">
@@ -162,9 +159,6 @@
                     <i data-lucide="file-text" class="w-4 h-4 text-slate-500"></i>Kho Tài Liệu
                 </a>
 
-                <a href="{{ route('placement_test.index') }}" class="flex items-center gap-2.5 px-4 py-2.5 rounded-xl font-bold text-xs {{ request()->routeIs('placement_test.*') ? 'bg-blue-50 text-blue-600' : 'text-slate-700 hover:bg-slate-50' }}">
-                    <i data-lucide="target" class="w-4 h-4 text-slate-500"></i>Test Đầu Vào
-                </a>
 
                 @auth
                 <a href="{{ route('learning_hub.index') }}" class="flex items-center gap-2.5 px-4 py-2.5 rounded-xl font-bold text-xs {{ request()->routeIs('learning_hub.*') ? 'bg-blue-50 text-blue-600' : 'text-slate-700 hover:bg-slate-50' }}">
@@ -221,7 +215,7 @@
 
     <!-- Mobile Bottom Quick Navigation Bar (Sticky at bottom) -->
     <div class="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 px-2 py-1.5 shadow-lg">
-        <div class="grid grid-cols-5 text-center">
+        <div class="grid grid-cols-4 text-center">
             <a href="{{ route('home') }}" class="flex flex-col items-center py-1 text-[10px] font-bold {{ request()->routeIs('home') ? 'text-blue-600' : 'text-slate-500' }}">
                 <i data-lucide="home" class="w-5 h-5 mb-0.5"></i>
                 <span>Trang chủ</span>
@@ -233,10 +227,6 @@
             <a href="{{ route('documents.index') }}" class="flex flex-col items-center py-1 text-[10px] font-bold {{ request()->routeIs('documents.*') ? 'text-blue-600' : 'text-slate-500' }}">
                 <i data-lucide="file-text" class="w-5 h-5 mb-0.5"></i>
                 <span>Tài liệu</span>
-            </a>
-            <a href="{{ route('placement_test.index') }}" class="flex flex-col items-center py-1 text-[10px] font-bold {{ request()->routeIs('placement_test.*') ? 'text-blue-600' : 'text-slate-500' }}">
-                <i data-lucide="target" class="w-5 h-5 mb-0.5"></i>
-                <span>Test</span>
             </a>
             @auth
             <a href="{{ route('learning_hub.index') }}" class="flex flex-col items-center py-1 text-[10px] font-bold {{ request()->routeIs('learning_hub.*') ? 'text-blue-600' : 'text-slate-500' }}">
@@ -432,7 +422,6 @@
                 <h4 class="text-xs font-bold uppercase tracking-wider text-white mb-3 font-heading border-l-2 border-blue-500 pl-2">Chức Năng Nổi Bật</h4>
                 <ul class="space-y-2 text-xs font-medium">
                     <li><button onclick="openModal('zaloModal')" class="text-slate-400 hover:text-white transition-colors flex items-center gap-1 text-left"><i data-lucide="chevron-right" class="w-3.5 h-3.5 text-blue-400"></i>Đăng ký học thử qua Zalo</button></li>
-                    <li><a href="{{ route('placement_test.index') }}" class="text-slate-400 hover:text-white transition-colors flex items-center gap-1"><i data-lucide="chevron-right" class="w-3.5 h-3.5 text-blue-400"></i>Làm bài test đầu vào online</a></li>
                     <li><a href="{{ route('learning_hub.index') }}" class="text-slate-400 hover:text-white transition-colors flex items-center gap-1"><i data-lucide="chevron-right" class="w-3.5 h-3.5 text-blue-400"></i>Vào phòng học tương tác HTML</a></li>
                     <li><button onclick="openModal('vstepModal')" class="text-slate-400 hover:text-white transition-colors flex items-center gap-1 text-left"><i data-lucide="chevron-right" class="w-3.5 h-3.5 text-blue-400"></i>Đăng ký thi thử B1 VSTEP</button></li>
                 </ul>

@@ -23,14 +23,14 @@ class AuthController extends Controller
         $request->validate([
             'email' => ['required', 'email'],
         ], [
-            'email.required' => 'Vui lòng nhập địa chỉ email học viên.',
+            'email.required' => 'Vui lòng nhập địa chỉ Gmail học viên.',
             'email.email' => 'Email không đúng định dạng.',
         ]);
 
         $email = trim(strtolower($request->email));
         $user = User::where('email', $email)->first();
 
-        // Admin login path with password validation if password provided
+        // Admin login path with password validation if admin user
         if ($user && $user->isAdmin() && $request->filled('password')) {
             if (Auth::attempt(['email' => $email, 'password' => $request->password], $request->boolean('remember'))) {
                 $request->session()->regenerate();
@@ -39,7 +39,14 @@ class AuthController extends Controller
             return back()->withErrors(['password' => 'Mật khẩu quản trị viên không chính xác.'])->onlyInput('email');
         }
 
-        // Student/User login directly via Email
+        // Enforce Gmail requirement for student login (must end with @gmail.com)
+        if (!Str::endsWith($email, '@gmail.com') && !($user && $user->isAdmin())) {
+            return back()->withErrors([
+                'email' => 'Hệ thống chỉ hỗ trợ đăng nhập bằng Gmail (ví dụ: tenban@gmail.com).',
+            ])->onlyInput('email');
+        }
+
+        // Student/User login directly via Gmail
         if ($user) {
             Auth::login($user, $request->boolean('remember', true));
             $request->session()->regenerate();
@@ -48,10 +55,10 @@ class AuthController extends Controller
                 return redirect()->intended(route('admin.dashboard'))->with('success', 'Đăng nhập thành công với quyền Quản trị viên!');
             }
 
-            return redirect()->intended(route('dashboard'))->with('success', 'Đăng nhập thành công với Email: ' . $user->email);
+            return redirect()->intended(route('dashboard'))->with('success', 'Đăng nhập thành công với Gmail: ' . $user->email);
         }
 
-        // Auto-register new student account if email not found
+        // Auto-register new student account if Gmail not found
         $nameFromEmail = Str::title(str_replace(['.', '_', '-'], ' ', explode('@', $email)[0]));
         $newUser = User::create([
             'name' => $nameFromEmail,
@@ -63,7 +70,7 @@ class AuthController extends Controller
         Auth::login($newUser, true);
         $request->session()->regenerate();
 
-        return redirect()->route('dashboard')->with('success', 'Chào mừng học viên mới! Tài khoản học tập đã khởi tạo thành công.');
+        return redirect()->route('dashboard')->with('success', 'Chào mừng học viên mới! Tài khoản Gmail đã được đăng ký & đăng nhập thành công.');
     }
 
     public function showRegister()
@@ -79,11 +86,19 @@ class AuthController extends Controller
         $request->validate([
             'email' => ['required', 'string', 'email', 'max:255'],
         ], [
-            'email.required' => 'Vui lòng nhập địa chỉ email học viên.',
+            'email.required' => 'Vui lòng nhập địa chỉ Gmail học viên.',
             'email.email' => 'Email không đúng định dạng.',
         ]);
 
         $email = trim(strtolower($request->email));
+
+        // Enforce Gmail requirement for registration
+        if (!Str::endsWith($email, '@gmail.com')) {
+            return back()->withErrors([
+                'email' => 'Hệ thống chỉ chấp nhận đăng ký bằng Gmail (ví dụ: tenban@gmail.com).',
+            ])->onlyInput('email');
+        }
+
         $user = User::where('email', $email)->first();
 
         if (!$user) {
@@ -102,7 +117,7 @@ class AuthController extends Controller
         Auth::login($user, true);
         $request->session()->regenerate();
 
-        return redirect()->route('dashboard')->with('success', 'Đăng ký & Đăng nhập thành công với Email: ' . $user->email);
+        return redirect()->route('dashboard')->with('success', 'Đăng ký & Đăng nhập thành công với Gmail: ' . $user->email);
     }
 
     public function logout(Request $request)

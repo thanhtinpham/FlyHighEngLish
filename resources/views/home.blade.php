@@ -33,12 +33,6 @@
                         Đăng Ký Tư Vấn Zalo: 0907294800
                     </button>
 
-                    <!-- CTA 2: Test Level -->
-                    <a href="{{ route('placement_test.index') }}" class="px-4 py-3 rounded-lg bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-sm transition-all">
-                        <i data-lucide="clipboard-check" class="w-4 h-4 text-blue-400"></i>
-                        Làm Bài Test Đầu Vào (Free)
-                    </a>
-
                     <!-- CTA 3: Courses List -->
                     <a href="{{ route('courses.index') }}" class="px-4 py-3 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs flex items-center justify-center gap-2 border border-slate-300 transition-all">
                         <i data-lucide="book-open" class="w-4 h-4 text-slate-600"></i>
