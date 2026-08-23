@@ -293,10 +293,10 @@
     <div id="toastContainer" class="fixed bottom-6 right-6 z-50 flex flex-col gap-3 pointer-events-none"></div>
 
     <!-- Modal 1: Đăng ký học thử Zalo -->
-    <div id="zaloModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 transition-opacity">
-        <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl relative border border-slate-100 animate-in fade-in zoom-in duration-200">
-            <button onclick="closeModal('zaloModal')" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 p-1.5 rounded-xl hover:bg-slate-100 transition-colors">
-                <i data-lucide="x" class="w-5 h-5"></i>
+    <div id="zaloModal" onclick="if(event.target === this) closeModal('zaloModal')" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 transition-opacity cursor-pointer">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl relative border border-slate-100 animate-in fade-in zoom-in duration-200 cursor-default">
+            <button type="button" onclick="closeModal('zaloModal')" class="absolute top-4 right-4 text-slate-500 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 p-2.5 rounded-full transition-all flex items-center justify-center border border-slate-200 shadow-sm" title="Thoát / Đóng cửa sổ">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
             
             <div class="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-4 border border-emerald-100 shadow-soft-sm">
@@ -330,18 +330,23 @@
                     </select>
                 </div>
 
-                <button type="submit" class="w-full py-3.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-extrabold text-sm rounded-xl shadow-emerald-glow transition-all hover:scale-[1.01]">
-                    Gửi Đăng Ký Học Thử Zalo
-                </button>
+                <div class="flex items-center gap-3">
+                    <button type="submit" class="flex-1 py-3.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-extrabold text-sm rounded-xl shadow-emerald-glow transition-all hover:scale-[1.01]">
+                        Gửi Đăng Ký Học Thử Zalo
+                    </button>
+                    <button type="button" onclick="closeModal('zaloModal')" class="py-3.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl transition-all">
+                        Thoát
+                    </button>
+                </div>
             </form>
         </div>
     </div>
 
     <!-- Modal 2: Đăng ký Thi thử B1 VSTEP -->
-    <div id="vstepModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 transition-opacity">
-        <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl relative border border-slate-100 animate-in fade-in zoom-in duration-200">
-            <button onclick="closeModal('vstepModal')" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 p-1.5 rounded-xl hover:bg-slate-100 transition-colors">
-                <i data-lucide="x" class="w-5 h-5"></i>
+    <div id="vstepModal" onclick="if(event.target === this) closeModal('vstepModal')" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 transition-opacity cursor-pointer">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl relative border border-slate-100 animate-in fade-in zoom-in duration-200 cursor-default">
+            <button type="button" onclick="closeModal('vstepModal')" class="absolute top-4 right-4 text-slate-500 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 p-2.5 rounded-full transition-all flex items-center justify-center border border-slate-200 shadow-sm" title="Thoát / Đóng cửa sổ">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
             
             <div class="w-14 h-14 rounded-2xl bg-amber-50 text-gold-500 flex items-center justify-center mb-4 border border-amber-100 shadow-soft-sm">
@@ -375,9 +380,14 @@
                     <textarea name="notes" rows="2" placeholder="Ví dụ: Cần bằng B1 để bảo vệ thạc sĩ / tốt nghiệp đại học..." class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-gold-500 focus:border-transparent transition-all"></textarea>
                 </div>
 
-                <button type="submit" class="w-full py-3.5 bg-gradient-to-r from-gold-500 to-amber-600 hover:from-gold-600 hover:to-amber-700 text-slate-950 font-extrabold text-sm rounded-xl shadow-gold-glow transition-all hover:scale-[1.01]">
-                    Xác Nhận Đăng Ký Thi Thử B1 VSTEP
-                </button>
+                <div class="flex items-center gap-3">
+                    <button type="submit" class="flex-1 py-3.5 bg-gradient-to-r from-gold-500 to-amber-600 hover:from-gold-600 hover:to-amber-700 text-slate-950 font-extrabold text-sm rounded-xl shadow-gold-glow transition-all hover:scale-[1.01]">
+                        Xác Nhận Đăng Ký Thi Thử B1 VSTEP
+                    </button>
+                    <button type="button" onclick="closeModal('vstepModal')" class="py-3.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl transition-all">
+                        Thoát
+                    </button>
+                </div>
             </form>
         </div>
     </div>
@@ -453,7 +463,11 @@
         }
 
         function openModal(id) {
-            document.getElementById(id).classList.remove('hidden');
+            const modal = document.getElementById(id);
+            if (modal) {
+                modal.classList.remove('hidden');
+                if (window.lucide) { window.lucide.createIcons(); }
+            }
         }
 
         function closeModal(id) {
