@@ -106,18 +106,19 @@
                     </button>
 
                     @auth
-                    <div class="flex items-center gap-2 pl-2 border-l border-slate-200">
+                    <div class="flex items-center gap-3 pl-3 border-l border-slate-200">
                         <div class="hidden sm:flex flex-col items-end">
-                            <span class="text-xs font-bold text-slate-900 leading-tight font-heading">{{ auth()->user()->name }}</span>
+                            <span class="text-xs font-black text-slate-900 leading-tight font-heading">{{ auth()->user()->name }}</span>
                             <span class="text-[10px] text-blue-700 font-semibold bg-blue-50 px-1.5 py-0.5 rounded border border-blue-200">{{ auth()->user()->isAdmin() ? 'Quản trị viên' : 'Học viên' }}</span>
                         </div>
-                        <div class="w-8 h-8 rounded-lg bg-blue-600 text-white font-bold flex items-center justify-center text-xs">
+                        <div class="w-8 h-8 rounded-xl bg-blue-600 text-white font-bold flex items-center justify-center text-xs shadow-sm">
                             {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
                         </div>
                         <form method="POST" action="{{ route('logout') }}" class="inline">
                             @csrf
-                            <button type="submit" title="Đăng xuất" class="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors">
-                                <i data-lucide="log-out" class="w-4 h-4"></i>
+                            <button type="submit" title="Đăng xuất tài khoản" class="px-3 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 text-xs font-extrabold transition-all flex items-center gap-1.5 shadow-sm">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                                <span>Đăng xuất</span>
                             </button>
                         </form>
                     </div>
@@ -133,9 +134,9 @@
                     @endauth
 
                     <!-- Mobile Hamburger Menu Button -->
-                    <button onclick="toggleMobileMenu()" class="lg:hidden p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors ml-1" aria-label="Toggle Navigation Menu">
-                        <i data-lucide="menu" id="menuIconOpen" class="w-6 h-6"></i>
-                        <i data-lucide="x" id="menuIconClose" class="w-6 h-6 hidden"></i>
+                    <button type="button" onclick="toggleMobileMenu()" class="lg:hidden p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors ml-1 border border-slate-200 flex items-center justify-center" aria-label="Toggle Navigation Menu">
+                        <svg id="hamburgerOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                        <svg id="hamburgerClose" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
                     </button>
                 </div>
 
@@ -184,16 +185,20 @@
                 </button>
 
                 @auth
-                <div class="flex items-center justify-between px-4 py-2 bg-slate-50 rounded-xl">
+                <div class="flex items-center justify-between px-4 py-3 bg-slate-50 rounded-2xl border border-slate-200">
                     <div class="flex items-center gap-2">
-                        <div class="w-7 h-7 rounded-lg bg-blue-600 text-white font-bold flex items-center justify-center text-xs">
+                        <div class="w-8 h-8 rounded-xl bg-blue-600 text-white font-bold flex items-center justify-center text-xs">
                             {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
                         </div>
-                        <span class="text-xs font-bold text-slate-900">{{ auth()->user()->name }}</span>
+                        <div class="flex flex-col">
+                            <span class="text-xs font-extrabold text-slate-900 leading-tight font-heading">{{ auth()->user()->name }}</span>
+                            <span class="text-[10px] text-slate-400">{{ auth()->user()->email }}</span>
+                        </div>
                     </div>
                     <form method="POST" action="{{ route('logout') }}" class="inline">
                         @csrf
-                        <button type="submit" class="text-xs font-bold text-rose-600 hover:underline">
+                        <button type="submit" class="px-3 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-extrabold transition-all flex items-center gap-1 shadow-sm">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
                             Đăng xuất
                         </button>
                     </form>
@@ -208,6 +213,8 @@
                     </a>
                 </div>
                 @endauth
+            </div>
+        </div>
             </div>
         </div>
     </header>
@@ -448,18 +455,16 @@
 
         function toggleMobileMenu() {
             const menu = document.getElementById('mobileMenu');
-            const iconOpen = document.getElementById('menuIconOpen');
-            const iconClose = document.getElementById('menuIconClose');
-            if (menu.classList.contains('hidden')) {
-                menu.classList.remove('hidden');
-                iconOpen.classList.add('hidden');
-                iconClose.classList.remove('hidden');
-            } else {
-                menu.classList.add('hidden');
-                iconOpen.classList.remove('hidden');
-                iconClose.classList.add('hidden');
+            const iconOpen = document.getElementById('hamburgerOpen');
+            const iconClose = document.getElementById('hamburgerClose');
+            if (menu) {
+                menu.classList.toggle('hidden');
+                if (iconOpen && iconClose) {
+                    iconOpen.classList.toggle('hidden');
+                    iconClose.classList.toggle('hidden');
+                }
+                if (window.lucide) { window.lucide.createIcons(); }
             }
-            if (window.lucide) { lucide.createIcons(); }
         }
 
         function openModal(id) {
