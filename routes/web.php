@@ -16,7 +16,6 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LearningHubController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\NotificationController;
-use App\Http\Controllers\PlacementTestController;
 use App\Http\Controllers\RegistrationController;
 use Illuminate\Support\Facades\Route;
 
@@ -42,10 +41,6 @@ Route::get('/documents/{document}/download', [DocumentController::class, 'downlo
 // System Notifications & Announcements
 Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
 Route::get('/notifications/{notification}', [NotificationController::class, 'show'])->name('notifications.show');
-
-// Placement Test (Assessment)
-Route::get('/placement-test', [PlacementTestController::class, 'index'])->name('placement_test.index');
-Route::post('/placement-test/submit', [PlacementTestController::class, 'submit'])->name('placement_test.submit');
 
 // Registration Forms (Zalo Trial, VSTEP Exam, Consultations)
 Route::post('/registrations', [RegistrationController::class, 'store'])->name('registrations.store');

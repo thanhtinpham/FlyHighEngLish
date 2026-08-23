@@ -152,7 +152,11 @@ class DatabaseSeeder extends Seeder
         $toeicCourse = $createdCourses['toeic'];
         $kidsCourse = $createdCourses['tre-em'];
 
-        $l1 = Lesson::firstOrCreate(
+        // 3. Create Sample Lessons with HTML Content
+        $sampleHtml1 = @file_get_contents(storage_path('app/public/lessons/lesson_sample_1.html'));
+        $sampleHtml2 = @file_get_contents(storage_path('app/public/lessons/lesson_sample_2.html'));
+
+        $l1 = Lesson::updateOrCreate(
             ['slug' => 'bai-1-essential-daily-english-greetings'],
             [
                 'course_id' => $giaoTiepCourse->id,
@@ -160,12 +164,13 @@ class DatabaseSeeder extends Seeder
                 'level_or_week' => 'Tuần 1 - Buổi 1',
                 'description' => 'Bài học tương tác chào hỏi cơ bản, luyện nghe phát âm chuẩn giọng Mỹ và hoàn thành đoạn thoại.',
                 'html_file_path' => 'lessons/lesson_sample_1.html',
+                'html_content' => $sampleHtml1,
                 'is_preview' => true,
                 'order' => 1,
             ]
         );
 
-        $l2 = Lesson::firstOrCreate(
+        $l2 = Lesson::updateOrCreate(
             ['slug' => 'bai-2-ordering-food-and-drinks'],
             [
                 'course_id' => $giaoTiepCourse->id,
@@ -173,12 +178,13 @@ class DatabaseSeeder extends Seeder
                 'level_or_week' => 'Tuần 1 - Buổi 2',
                 'description' => 'Thực hành gọi đồ uống, gọi món ăn tại nhà hàng với tình huống tương tác thực tế.',
                 'html_file_path' => 'lessons/lesson_sample_1.html',
+                'html_content' => $sampleHtml1,
                 'is_preview' => false,
                 'order' => 2,
             ]
         );
 
-        $l3 = Lesson::firstOrCreate(
+        $l3 = Lesson::updateOrCreate(
             ['slug' => 'ielts-listening-map-labelling'],
             [
                 'course_id' => $ieltsCourse->id,
@@ -186,12 +192,13 @@ class DatabaseSeeder extends Seeder
                 'level_or_week' => 'Level B2 - Module 1',
                 'description' => 'Kỹ thuật xác định phương hướng và từ chỉ vị trí trong đề thi IELTS Listening Part 2.',
                 'html_file_path' => 'lessons/lesson_sample_2.html',
+                'html_content' => $sampleHtml2,
                 'is_preview' => true,
                 'order' => 1,
             ]
         );
 
-        $l4 = Lesson::firstOrCreate(
+        $l4 = Lesson::updateOrCreate(
             ['slug' => 'toeic-part-5-subject-verb-agreement'],
             [
                 'course_id' => $toeicCourse->id,
@@ -199,12 +206,13 @@ class DatabaseSeeder extends Seeder
                 'level_or_week' => 'Tuần 1 - TOEIC Part 5',
                 'description' => 'Bài tập trắc nghiệm HTML tính giờ luyện sự hòa hợp giữa Chủ ngữ và Động từ.',
                 'html_file_path' => 'lessons/lesson_sample_1.html',
+                'html_content' => $sampleHtml1,
                 'is_preview' => true,
                 'order' => 1,
             ]
         );
 
-        $l5 = Lesson::firstOrCreate(
+        $l5 = Lesson::updateOrCreate(
             ['slug' => 'fly-high-kids-animal-kingdom'],
             [
                 'course_id' => $kidsCourse->id,
@@ -212,6 +220,7 @@ class DatabaseSeeder extends Seeder
                 'level_or_week' => 'Tuần 1 - Phonics Fun',
                 'description' => 'Học tên các loài động vật qua trò chơi nghe âm thanh và chọn hình ảnh.',
                 'html_file_path' => 'lessons/lesson_sample_1.html',
+                'html_content' => $sampleHtml1,
                 'is_preview' => true,
                 'order' => 1,
             ]

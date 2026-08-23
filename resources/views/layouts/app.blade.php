@@ -98,13 +98,13 @@
 
                 <!-- Auth & Action Buttons -->
                 <div class="flex items-center gap-2">
-                    <button onclick="openModal('zaloModal')" class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 text-xs font-bold transition-all border border-blue-200">
+                    <button onclick="openModal('zaloModal')" class="hidden lg:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-blue-50 text-blue-700 hover:bg-blue-100 text-xs font-bold transition-all border border-blue-200">
                         <i data-lucide="message-circle" class="w-4 h-4 text-blue-600"></i>Tư Vấn Zalo
                     </button>
 
                     @auth
-                    <div class="flex items-center gap-3 pl-3 border-l border-slate-200">
-                        <div class="hidden sm:flex flex-col items-end">
+                    <div class="hidden lg:flex items-center gap-3 pl-3 border-l border-slate-200">
+                        <div class="flex flex-col items-end">
                             <span class="text-xs font-black text-slate-900 leading-tight font-heading">{{ auth()->user()->name }}</span>
                             <span class="text-[10px] text-blue-700 font-semibold bg-blue-50 px-1.5 py-0.5 rounded border border-blue-200">{{ auth()->user()->isAdmin() ? 'Quản trị viên' : 'Học viên' }}</span>
                         </div>
@@ -120,11 +120,11 @@
                         </form>
                     </div>
                     @else
-                    <div class="flex items-center gap-1.5">
-                        <a href="{{ route('login') }}" class="px-2.5 py-2 text-xs font-bold text-slate-700 hover:text-blue-600 transition-colors rounded-lg hover:bg-slate-100">
+                    <div class="hidden lg:flex items-center gap-1.5">
+                        <a href="{{ route('login') }}" class="px-3 py-2 text-xs font-bold text-slate-700 hover:text-blue-600 transition-colors rounded-xl hover:bg-slate-100">
                             Đăng nhập
                         </a>
-                        <a href="{{ route('register') }}" class="hidden sm:inline-block px-3.5 py-2 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-sm transition-all">
+                        <a href="{{ route('register') }}" class="px-3.5 py-2 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-xl shadow-sm transition-all">
                             Đăng ký ngay
                         </a>
                     </div>
@@ -158,7 +158,6 @@
                 <a href="{{ route('documents.index') }}" class="flex items-center gap-2.5 px-4 py-2.5 rounded-xl font-bold text-xs {{ request()->routeIs('documents.*') ? 'bg-blue-50 text-blue-600' : 'text-slate-700 hover:bg-slate-50' }}">
                     <i data-lucide="file-text" class="w-4 h-4 text-slate-500"></i>Kho Tài Liệu
                 </a>
-
 
                 @auth
                 <a href="{{ route('learning_hub.index') }}" class="flex items-center gap-2.5 px-4 py-2.5 rounded-xl font-bold text-xs {{ request()->routeIs('learning_hub.*') ? 'bg-blue-50 text-blue-600' : 'text-slate-700 hover:bg-slate-50' }}">
@@ -207,8 +206,6 @@
                     </a>
                 </div>
                 @endauth
-            </div>
-        </div>
             </div>
         </div>
     </header>

@@ -67,15 +67,14 @@
 
         <div class="bg-white rounded-3xl overflow-hidden shadow-2xl border border-slate-200">
             @if($hasFile && $fileUrl)
-                <iframe id="htmlPlayer" src="{{ $fileUrl }}" class="w-full h-[750px] border-0" allow="autoplay; microphone; camera"></iframe>
+                <iframe id="htmlPlayer" src="{{ $fileUrl }}" class="w-full h-[800px] border-0" allow="autoplay; microphone; camera; fullscreen"></iframe>
             @elseif(!empty($lesson->html_content))
-                <div class="p-8 prose max-w-none">
-                    {!! $lesson->html_content !!}
-                </div>
+                <iframe id="htmlPlayer" srcdoc="{{ $lesson->html_content }}" class="w-full h-[800px] border-0" allow="autoplay; microphone; camera; fullscreen"></iframe>
             @else
                 <div class="p-16 text-center text-slate-400">
                     <i data-lucide="file-code-2" class="w-12 h-12 mx-auto mb-3"></i>
                     <p class="text-sm font-semibold">Nội dung bài học HTML đang được chuẩn bị...</p>
+                    <p class="text-xs text-slate-400 mt-1">Admin chưa tải lên tệp bài học HTML hoặc chưa cập nhật nội dung cho bài này.</p>
                 </div>
             @endif
         </div>

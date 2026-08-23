@@ -23,9 +23,6 @@
             <a href="{{ route('admin.registrations.index', ['type' => 'zalo_trial']) }}" class="px-4 py-2 rounded-xl text-xs font-bold transition-all {{ $type === 'zalo_trial' ? 'bg-emerald-600 text-white shadow' : 'bg-white text-slate-700 hover:bg-slate-100 border' }}">
                 💬 Đăng Ký Học Thử Zalo
             </a>
-            <a href="{{ route('admin.registrations.index', ['type' => 'placement_test']) }}" class="px-4 py-2 rounded-xl text-xs font-bold transition-all {{ $type === 'placement_test' ? 'bg-indigo-600 text-white shadow' : 'bg-white text-slate-700 hover:bg-slate-100 border' }}">
-                📝 Test Đầu Vào
-            </a>
             <a href="{{ route('admin.registrations.index', ['type' => 'vstep_exam']) }}" class="px-4 py-2 rounded-xl text-xs font-bold transition-all {{ $type === 'vstep_exam' ? 'bg-amber-500 text-slate-950 shadow' : 'bg-white text-slate-700 hover:bg-slate-100 border' }}">
                 🎓 Đăng Ký Thi Thử B1 VSTEP
             </a>

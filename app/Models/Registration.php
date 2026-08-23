@@ -27,7 +27,6 @@ class Registration extends Model
     {
         return match ($this->type) {
             'zalo_trial' => 'Đăng ký học thử qua Zalo',
-            'placement_test' => 'Làm bài test đầu vào',
             'vstep_exam' => 'Đăng ký thi thử B1 VSTEP',
             default => 'Đăng ký tư vấn',
         };

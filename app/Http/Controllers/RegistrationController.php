@@ -13,7 +13,7 @@ class RegistrationController extends Controller
             'name' => 'required|string|max:255',
             'phone' => 'required|string|max:20',
             'email' => 'nullable|email|max:255',
-            'type' => 'required|string|in:zalo_trial,placement_test,vstep_exam',
+            'type' => 'required|string|in:zalo_trial,vstep_exam',
             'notes' => 'nullable|string',
             'details' => 'nullable|array',
         ]);
