@@ -9,6 +9,8 @@ services:
         value: "FlyHigh English"
       - key: APP_ENV
         value: production
+      - key: APP_URL
+        value: https://flyhighenglish.onrender.com
       - key: APP_DEBUG
         value: "false"
       - key: APP_KEY
