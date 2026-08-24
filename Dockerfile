@@ -1,3 +1,12 @@
+# Stage 1: Build Frontend Assets with Node.js
+FROM node:20-alpine AS node_builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci || npm install
+COPY . .
+RUN npm run build
+
+# Stage 2: Production PHP Apache Image
 FROM php:8.2-apache
 
 # Install system dependencies, ca-certificates & PHP extensions
@@ -38,6 +47,9 @@ WORKDIR /var/www/html
 # Copy project files
 COPY . .
 
+# Copy built frontend assets from Stage 1
+COPY --from=node_builder /app/public/build /var/www/html/public/build
+
 # Set Document Root to Laravel public folder
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
@@ -54,3 +66,4 @@ EXPOSE 8080
 
 # Auto run migration & start apache with optimized config/route caching
 CMD sh -c "php artisan storage:link || true && php artisan config:cache && php artisan route:cache && php artisan view:cache && php artisan migrate --force && apache2-foreground"
+
