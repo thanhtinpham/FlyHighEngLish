@@ -130,4 +130,52 @@ class AuthController extends Controller
 
         return redirect()->route('login')->with('success', 'Bạn đã đăng xuất thành công.');
     }
+
+    public function redirectToGoogle()
+    {
+        if (!config('services.google.client_id') || !config('services.google.client_secret')) {
+            return redirect()->route('login')->with('error', '⚠️ Hệ thống chưa nhận được GOOGLE_CLIENT_ID & GOOGLE_CLIENT_SECRET trong file .env. Bạn cần lấy bộ khóa này từ Google Cloud Console (miễn phí) để bấm vào tài khoản Google thực tế.');
+        }
+
+        return \Laravel\Socialite\Facades\Socialite::driver('google')->redirect();
+    }
+
+    public function handleGoogleCallback()
+    {
+        try {
+            $googleUser = \Laravel\Socialite\Facades\Socialite::driver('google')->user();
+
+            $user = User::where('google_id', $googleUser->id)
+                ->orWhere('email', $googleUser->email)
+                ->first();
+
+            if ($user) {
+                $user->update([
+                    'google_id' => $googleUser->id,
+                    'avatar' => $googleUser->avatar ?? $user->avatar,
+                ]);
+            } else {
+                $user = User::create([
+                    'name' => $googleUser->name ?? explode('@', $googleUser->email)[0],
+                    'email' => $googleUser->email,
+                    'google_id' => $googleUser->id,
+                    'avatar' => $googleUser->avatar,
+                    'password' => Hash::make(Str::random(16)),
+                    'role' => 'user',
+                ]);
+            }
+
+            Auth::login($user, true);
+            request()->session()->regenerate();
+
+            if ($user->isAdmin()) {
+                return redirect()->intended(route('admin.dashboard'))->with('success', 'Đăng nhập Google thành công với quyền Quản trị viên!');
+            }
+
+            return redirect()->intended(route('dashboard'))->with('success', 'Đăng nhập Google OAuth thành công! Xin chào ' . $user->name);
+
+        } catch (\Exception $e) {
+            return redirect()->route('login')->with('error', 'Đăng nhập bằng Google chưa hoàn tất hoặc bị hủy: ' . $e->getMessage());
+        }
+    }
 }

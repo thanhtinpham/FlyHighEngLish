@@ -17,23 +17,41 @@
             <p class="text-xs text-slate-500">Nhập tài khoản <strong class="text-slate-800">Gmail (@gmail.com)</strong> để truy cập phòng học ngay</p>
         </div>
 
-        <!-- 1-Click Quick Login Buttons -->
+        <!-- Google OAuth 1-Click Login Button -->
+        <div class="space-y-3">
+            <a href="{{ route('auth.google') }}" class="w-full py-3.5 px-4 bg-white hover:bg-slate-50 text-slate-700 font-bold text-xs rounded-2xl border border-slate-300 shadow-sm transition-all flex items-center justify-center gap-3 hover:shadow-md hover:border-slate-400 group">
+                <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24">
+                    <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/>
+                    <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.28v3.15C3.25 21.3 7.31 24 12 24z"/>
+                    <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.28C.46 8.2.0 10.04.0 12s.46 3.8 1.28 5.42l4-3.15z"/>
+                    <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24.0 12 .0 7.31.0 3.25 2.7 1.28 6.58l4 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+                </svg>
+                <span class="font-heading">Đăng Nhập Nhanh Bằng Google OAuth</span>
+            </a>
+
+            <div class="relative flex items-center justify-center py-1">
+                <div class="border-t border-slate-200 w-full"></div>
+                <span class="bg-white px-3 text-[10px] uppercase font-bold text-slate-400 shrink-0">Hoặc nhập email bên dưới</span>
+            </div>
+        </div>
+
+        <!-- 1-Click Demo Login Shortcuts -->
         <div class="p-3.5 rounded-2xl bg-rose-50/60 border border-rose-100 space-y-2">
             <span class="text-[11px] font-extrabold text-rose-800 uppercase tracking-wider flex items-center gap-1">
-                <i data-lucide="zap" class="w-3.5 h-3.5 text-amber-500"></i> Đăng nhập nhanh 1-Click:
+                <i data-lucide="zap" class="w-3.5 h-3.5 text-amber-500"></i> Chọn mẫu Gmail thử nghiệm:
             </span>
 
             <div class="grid grid-cols-2 gap-2">
                 <button type="button" onclick="fillEmail('hocvien@gmail.com')" 
                         class="py-2 px-3 rounded-xl bg-white hover:bg-rose-100/50 border border-rose-200 text-left transition-all shadow-soft-sm">
                     <span class="text-xs font-bold text-rose-700 block font-heading">📧 Gmail Học Viên</span>
-                    <span class="text-[10px] text-slate-400 block">Click chọn hocvien@gmail.com</span>
+                    <span class="text-[10px] text-slate-400 block">hocvien@gmail.com</span>
                 </button>
 
                 <button type="button" onclick="fillAdmin('admin@flyhighenglish.com', 'password')" 
                         class="py-2 px-3 rounded-xl bg-white hover:bg-amber-50 border border-amber-200 text-left transition-all shadow-soft-sm">
                     <span class="text-xs font-bold text-amber-700 block font-heading">🛡️ Admin</span>
-                    <span class="text-[10px] text-slate-400 block">Click chọn Quản trị viên</span>
+                    <span class="text-[10px] text-slate-400 block">Quản trị viên</span>
                 </button>
             </div>
         </div>

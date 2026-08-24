@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VSTEP B1 Grammar Reference — Fly High English</title>
+<style>
+:root{--blue:#1a73e8;--gold:#f9ab00;--green:#34a853;--red:#ea4335;--bg:#f8f9fa;--ink:#202124;--muted:#5f6368;--shadow:0 2px 10px rgba(0,0,0,.08)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;font-family:'Nunito','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+header{background:linear-gradient(135deg,var(--blue),#0b57c4);color:#fff;padding:16px;position:sticky;top:0;z-index:20;box-shadow:var(--shadow)}
+.brand{display:flex;align-items:center;gap:8px;font-weight:800}
+.badge{background:var(--gold);color:#3a2a00;font-size:.7rem;font-weight:800;padding:3px 8px;border-radius:999px;margin-left:auto}
+h1{font-size:1.15rem;margin:6px 0 2px}.sub{font-size:.8rem;opacity:.9}
+.bar-wrap{background:rgba(255,255,255,.25);border-radius:999px;height:10px;margin-top:10px;overflow:hidden}
+.bar{background:var(--gold);height:100%;width:0;transition:width .4s}
+.stats{display:flex;gap:10px;margin-top:8px;font-size:.82rem;font-weight:700}
+.xp{background:rgba(255,255,255,.18);padding:4px 10px;border-radius:999px}
+.wrap{max-width:760px;margin:0 auto;padding:14px}
+button{font-family:inherit;cursor:pointer;border:none;border-radius:8px;font-weight:700;padding:10px 14px;min-height:44px;font-size:.9rem;transition:transform .08s}
+button:active{transform:scale(.97)}
+.btn-gold{background:var(--gold);color:#3a2a00}.btn-ghost{background:#fff;color:var(--blue);border:2px solid var(--blue)}
+.gcard{background:#fff;border-radius:12px;box-shadow:var(--shadow);margin:14px 0;overflow:hidden}
+.ghead{padding:14px;cursor:pointer;display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.02rem}
+.ghead .ic{font-size:1.3rem}
+.ghead .done{margin-left:auto;font-size:.8rem;color:var(--green);font-weight:800}
+.gbody{padding:0 14px 14px;display:none}
+.gcard.open .gbody{display:block}
+.rule{background:#eef4ff;border-left:4px solid var(--blue);border-radius:8px;padding:10px 12px;margin:8px 0}
+.rule code{background:#fff;padding:2px 6px;border-radius:5px;font-weight:700;color:var(--blue)}
+.rule .vi{color:var(--muted);font-size:.86rem;display:block;margin-top:6px}
+.ex{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px dashed #eee}
+.ex .spk{background:var(--blue);color:#fff;border-radius:50%;width:32px;height:32px;min-height:auto;padding:0;flex:0 0 auto}
+.drill{margin-top:12px;background:#fffdf5;border:1px solid #ffe9b0;border-radius:8px;padding:12px}
+.q{margin:10px 0}
+.q p{margin:0 0 6px;font-weight:700}
+.opt{display:block;width:100%;text-align:left;background:#fff;border:2px solid #e0e0e0;color:var(--ink);margin:5px 0;font-weight:600}
+.opt.correct{background:#e6f4ea;border-color:var(--green);color:#1e7e34}
+.opt.wrong{background:#fdecea;border-color:var(--red);color:#b3261e}
+.opt:disabled{opacity:1}
+.stars{font-size:1.3rem}
+.metrics{background:#fff;border-radius:12px;box-shadow:var(--shadow);padding:14px;margin:20px 0}
+.mrow{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px dashed #eee;font-size:.88rem}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(120px);background:var(--ink);color:#fff;padding:12px 20px;border-radius:999px;font-weight:700;z-index:50;transition:transform .35s}
+.toast.show{transform:translateX(-50%) translateY(0)}
+footer{text-align:center;padding:22px;color:var(--muted);font-size:.82rem;font-weight:700}footer span{color:var(--blue)}
+small.viz{color:var(--muted);font-size:.78rem;font-weight:600}
+@media print{.drill,.toast,.bar-wrap{display:none}.gbody{display:block!important}}
+</style>
+</head>
+<body>
+<header>
+ <div class="brand">🛩️ Fly High English <span class="badge">VSTEP B1</span></div>
+ <h1>Grammar Reference</h1>
+ <div class="sub">8 key structures from B1 VSTEP Mock Tests 1–10 • rule + examples 🔊 + drills</div>
+ <div class="bar-wrap"><div class="bar" id="bar"></div></div>
+ <div class="stats"><span class="xp">⭐ XP <span id="xp">0</span></span><span id="prog">0 / 8 mastered</span></div>
+</header>
+<div class="wrap">
+ <button class="btn-gold" onclick="toggleLang()" id="langBtn">Tiếng Việt / English</button>
+ <small class="viz">  Tap a structure to open. Each drill = +10 XP per correct answer. 5/5 = mastered ⭐</small>
+ <div id="content"></div>
+ <div class="metrics">
+  <h3>📊 Learning Metrics</h3>
+  <div class="mrow"><span>Structures mastered</span><b id="m1">0</b></div>
+  <div class="mrow"><span>Drill questions correct</span><b id="m2">0</b></div>
+  <div class="mrow"><span>Total XP</span><b id="m3">0</b></div>
+  <div class="mrow"><span>Overall rating</span><span class="stars" id="m4">☆☆☆</span></div>
+  <button class="btn-ghost" style="margin-top:10px;width:100%" onclick="resetAll()">↺ Reset my progress</button>
+ </div>
+</div>
+<footer>Fly High English | Zalo <span>0907294800</span></footer>
+<div class="toast" id="toast"></div>
+<script>
+const KEY="flyhigh_vstepb1_grammar";
+const G=[
+ {ic:"⏳",name:"Present Perfect",ruleEN:"Use <code>have/has + past participle</code> for past actions with a present result, or experiences without an exact time.",ruleVI:"Dùng cho hành động trong quá khứ có kết quả ở hiện tại, hoặc trải nghiệm không nói rõ thời gian.",
+  ex:["The development of the Internet has enabled distant communication.","Humanity may have won that battle, but the war is not over.","I have lived in Manchester for three months."],
+  drill:[
+   {q:"The teacher ____ already explained the rule.",o:["has","have","is","was"],a:0},
+   {q:"I ____ never been to Hanoi.",o:["have","has","am","did"],a:0},
+   {q:"She ____ finished her essay yet.",o:["hasn't","didn't","isn't","won't"],a:0},
+   {q:"They have lived here ____ 2019.",o:["since","for","from","at"],a:0},
+   {q:"Choose the correct sentence.",o:["We have known him for years.","We has knew him for years.","We are know him for years.","We knowing him for years."],a:0}]},
+ {ic:"⚖️",name:"Comparatives & Superlatives",ruleEN:"Short adj: <code>-er / the -est</code>. Long adj: <code>more / the most</code>. Use <code>than</code> to compare two things.",ruleVI:"Tính từ ngắn thêm -er/-est; tính từ dài dùng more/the most; dùng 'than' khi so sánh hai vật.",
+  ex:["The English classes are harder than I expected.","It is much bigger than the others.","Tourists are travelling farther and farther each year."],
+  drill:[
+   {q:"Manchester is ____ than Ho Chi Minh City.",o:["colder","more cold","coldest","cold"],a:0},
+   {q:"This is the ____ interesting passage in the test.",o:["most","more","much","very"],a:0},
+   {q:"My new phone is ____ expensive than my old one.",o:["more","most","much","the"],a:0},
+   {q:"Online learning is ____ flexible than classes.",o:["more","most","mostly","much more most"],a:0},
+   {q:"He runs ____ of all the students.",o:["the fastest","faster","more fast","fast"],a:0}]},
+ {ic:"🔄",name:"Passive Voice",ruleEN:"Use <code>be + past participle</code> when the action matters more than who does it.",ruleVI:"Dùng 'be + quá khứ phân từ' khi hành động quan trọng hơn người thực hiện.",
+  ex:["The bacteria are not able to be reproduced.","Single-use plastics should be banned in schools.","The room was decorated first."],
+  drill:[
+   {q:"English ____ all over the world.",o:["is spoken","speaks","is speaking","spoken"],a:0},
+   {q:"The letter ____ yesterday.",o:["was sent","sent","is sent","sends"],a:0},
+   {q:"Plastic bags should ____ avoided.",o:["be","being","been","to be"],a:0},
+   {q:"The test ____ by the teacher now.",o:["is being marked","is marking","marks","marked"],a:0},
+   {q:"Choose the passive sentence.",o:["The homework was done on time.","The students did homework.","She does homework.","They will do it."],a:0}]},
+ {ic:"❓",name:"First Conditional",ruleEN:"<code>If + present simple, will + verb</code> for a real future possibility.",ruleVI:"Câu điều kiện loại 1: If + hiện tại đơn, will + động từ — khả năng có thật ở tương lai.",
+  ex:["If the levy rises, fewer cars will appear on the streets.","If you study hard, you will pass the VSTEP.","People will be healthier if they exercise regularly."],
+  drill:[
+   {q:"If it rains, we ____ at home.",o:["will stay","stay","stayed","would stay"],a:0},
+   {q:"If she ____ early, she will catch the bus.",o:["leaves","will leave","left","leave"],a:0},
+   {q:"You will improve if you ____ every day.",o:["practise","will practise","practised","practising"],a:0},
+   {q:"If we recycle, we ____ pollution.",o:["will reduce","reduce","reduced","would reduce"],a:0},
+   {q:"Pick the correct first conditional.",o:["If I have time, I will help you.","If I will have time, I help you.","If I had time, I will help.","If I having time, I help."],a:0}]},
+ {ic:"💭",name:"Second Conditional",ruleEN:"<code>If + past simple, would + verb</code> for unreal or imaginary situations now.",ruleVI:"Câu điều kiện loại 2: If + quá khứ đơn, would + động từ — tình huống không có thật/giả định ở hiện tại.",
+  ex:["If you could change one thing about your school, what would it be?","If I were rich, I would travel the world.","Would you prefer the city if you had a choice?"],
+  drill:[
+   {q:"If I ____ you, I would study harder.",o:["were","am","was being","be"],a:0},
+   {q:"She would buy a car if she ____ enough money.",o:["had","has","have","would have"],a:0},
+   {q:"If we lived in the city, we ____ less time commuting.",o:["would spend","will spend","spend","spent"],a:0},
+   {q:"What would you do if you ____ the lottery?",o:["won","win","will win","would win"],a:0},
+   {q:"Choose the second conditional.",o:["If I had wings, I would fly.","If I have wings, I fly.","If I will have wings, I fly.","If I has wings, I flew."],a:0}]},
+ {ic:"🗣️",name:"Reported Speech",ruleEN:"Move the tense back one step and change pronouns/time words: <code>say → said</code>, <code>will → would</code>, <code>now → then</code>.",ruleVI:"Lùi thì một bậc và đổi đại từ/trạng từ thời gian khi tường thuật lại lời nói.",
+  ex:["She said (that) she was living in Manchester.","He told me he had finished the report.","They said they would arrive the next day."],
+  drill:[
+   {q:"\"I am tired.\" → She said she ____ tired.",o:["was","is","were","be"],a:0},
+   {q:"\"I will call you.\" → He said he ____ call me.",o:["would","will","is","was"],a:0},
+   {q:"\"I have eaten.\" → She said she ____ eaten.",o:["had","has","have","was"],a:0},
+   {q:"\"I live here now.\" → He said he lived there ____.",o:["then","now","today","yet"],a:0},
+   {q:"Choose correct reported speech.",o:["He said he liked tea.","He said he likes tea then.","He say he liked tea.","He said does he like tea."],a:0}]},
+ {ic:"🔗",name:"Relative Clauses",ruleEN:"Use <code>who</code> (people), <code>which</code> (things), <code>that</code> (both), <code>where</code> (places) to add information.",ruleVI:"Dùng who (người), which (vật), that (cả hai), where (nơi chốn) để bổ sung thông tin.",
+  ex:["Bacteria which have incomplete cell walls cannot reproduce.","The teacher who talks fast is hard to follow.","This is the city where I grew up."],
+  drill:[
+   {q:"The man ____ lives next door is a doctor.",o:["who","which","where","whom does"],a:0},
+   {q:"I read a book ____ changed my life.",o:["that","who","where","when"],a:0},
+   {q:"That's the school ____ I studied English.",o:["where","which","who","that"],a:0},
+   {q:"Students ____ practise daily improve fast.",o:["who","which","where","whose are"],a:0},
+   {q:"Choose the correct sentence.",o:["The phone which I bought is new.","The phone who I bought is new.","The phone where I bought is new.","The phone what I bought is new."],a:0}]},
+ {ic:"🎯",name:"Modal Verbs",ruleEN:"<code>should</code> (advice), <code>must</code> (obligation), <code>can</code> (ability), <code>might</code> (possibility) + base verb.",ruleVI:"should (lời khuyên), must (bắt buộc), can (khả năng), might (khả năng có thể) + động từ nguyên thể.",
+  ex:["You should spend about 20 minutes on this task.","Governments must protect public health.","Technology might make our lives more complicated."],
+  drill:[
+   {q:"You ____ see a doctor if you feel ill.",o:["should","must to","can to","would"],a:0},
+   {q:"Students ____ submit the form by Friday (it's a rule).",o:["must","might","could","should not"],a:0},
+   {q:"She ____ speak three languages.",o:["can","musts","shoulds","is can"],a:0},
+   {q:"It ____ rain later, so take an umbrella.",o:["might","must not","can't","should not"],a:0},
+   {q:"Choose the correct modal sentence.",o:["You should exercise more.","You should to exercise more.","You shoulds exercise.","You should exercising."],a:0}]}
+];
+let xp=0,lang="en",mastered={},correct=0,answered={};
+function load(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s){xp=s.xp||0;mastered=s.mastered||{};correct=s.correct||0;answered=s.answered||{}}}catch(e){}}
+function save(){localStorage.setItem(KEY,JSON.stringify({xp,mastered,correct,answered}))}
+function render(){
+ const c=document.getElementById('content');c.innerHTML="";
+ G.forEach((g,gi)=>{
+  const card=document.createElement('div');card.className='gcard';
+  card.innerHTML=`<div class="ghead" onclick="this.parentNode.classList.toggle('open')">
+     <span class="ic">${g.ic}</span> ${g.name}
+     <span class="done">${mastered[gi]?'⭐ mastered':''}</span></div>
+   <div class="gbody">
+     <div class="rule"><span class="en">${g.ruleEN}</span><span class="vi">${g.ruleVI}</span></div>
+     <div><b>Examples</b>${g.ex.map(e=>`<div class="ex"><button class="spk" onclick="speak(this.dataset.t)" data-t="${e.replace(/"/g,'&quot;')}">🔊</button><span>${e}</span></div>`).join('')}</div>
+     <div class="drill"><b>📝 Practice drill (5)</b>
+       ${g.drill.map((q,qi)=>`<div class="q"><p>${qi+1}. ${q.q}</p>${q.o.map((o,oi)=>`<button class="opt" onclick="answer(${gi},${qi},${oi},${q.a},this)">${o}</button>`).join('')}</div>`).join('')}
+     </div>
+   </div>`;
+  c.appendChild(card);
+ });
+ applyLang();updateHUD();
+}
+function answer(gi,qi,oi,ai,btn){
+ const key=gi+'-'+qi;if(answered[key])return;answered[key]=true;
+ const parent=btn.parentNode;parent.querySelectorAll('.opt').forEach((b,i)=>{b.disabled=true;if(i===ai)b.classList.add('correct')});
+ if(oi===ai){btn.classList.add('correct');xp+=10;correct++;answered[key+'_ok']=true;toast('✅ Correct • +10 XP')}
+ else{btn.classList.add('wrong');toast('❌ Keep trying!')}
+ // mastery = every question in this structure answered correctly
+ const allq=G[gi].drill.length;let got=0,ok=0;
+ for(let i=0;i<allq;i++){if(answered[gi+'-'+i]){got++;if(answered[gi+'-'+i+'_ok'])ok++}}
+ if(got===allq&&ok===allq&&!mastered[gi]){mastered[gi]=true;toast('⭐ '+G[gi].name+' mastered!')}
+ save();updateHUD();
+ // refresh mastered label
+ document.querySelectorAll('.ghead .done')[gi].textContent=mastered[gi]?'⭐ mastered':'';
+}
+function updateHUD(){
+ const total=G.length,m=Object.keys(mastered).length;
+ document.getElementById('xp').textContent=xp;document.getElementById('prog').textContent=m+' / '+total+' mastered';
+ document.getElementById('bar').style.width=(m/total*100)+'%';
+ document.getElementById('m1').textContent=m;document.getElementById('m2').textContent=correct;document.getElementById('m3').textContent=xp;
+ const pct=m/total;document.getElementById('m4').textContent=pct>=.8?'⭐⭐⭐':pct>=.5?'⭐⭐☆':pct>=.2?'⭐☆☆':'☆☆☆';
+}
+function speak(t){if(!('speechSynthesis'in window)){toast('Audio not supported');return}const u=new SpeechSynthesisUtterance(t);u.lang='en-US';u.rate=.9;speechSynthesis.cancel();speechSynthesis.speak(u)}
+function applyLang(){document.querySelectorAll('.rule .en').forEach(e=>e.style.display=lang==='vi'?'none':'block');document.querySelectorAll('.rule .vi').forEach(e=>e.style.display=lang==='en'?'none':'block')}
+function toggleLang(){lang=lang==='en'?'vi':'en';applyLang();toast(lang==='vi'?'Tiếng Việt':'English')}
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),1700)}
+function resetAll(){if(confirm('Reset all progress?')){xp=0;mastered={};correct=0;answered={};save();render();toast('Reset done')}}
+load();render();
+</script>
+</body>
+</html>

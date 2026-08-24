@@ -26,6 +26,7 @@
 </head>
 <body class="bg-slate-50 text-slate-900 antialiased min-h-screen flex flex-col font-sans">
 
+    @unless(request()->routeIs('lessons.show'))
     <!-- Top Info Notification Bar -->
     <div class="bg-slate-900 text-slate-200 text-xs py-2 px-4 border-b border-slate-800">
         <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
@@ -44,6 +45,7 @@
             </div>
         </div>
     </div>
+    @endunless
 
     <!-- Header Navigation -->
     <header class="bg-white border-b border-slate-200 sticky top-0 z-50">
@@ -51,45 +53,36 @@
             <div class="flex items-center justify-between h-16">
                 
                 <!-- Logo -->
-                <a href="{{ route('home') }}" class="flex items-center gap-2.5">
-                    <div class="w-9 h-9 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold shadow-sm">
-                        <i data-lucide="graduation-cap" class="w-5 h-5"></i>
-                    </div>
-                    <div>
-                        <div class="flex items-center gap-1 leading-none">
-                            <span class="text-xl font-extrabold tracking-tight text-slate-900 font-heading">FlyHigh</span>
-                            <span class="text-xl font-extrabold tracking-tight text-blue-600 font-heading">English</span>
-                        </div>
-                        <span class="text-[10px] uppercase font-bold tracking-wider text-slate-500 block">Hệ Thống Đào Tạo Tiếng Anh 4.0</span>
-                    </div>
+                <a href="{{ route('home') }}" class="flex items-center gap-2.5 py-1">
+                    <img src="{{ asset('images/logo.png') }}" alt="Fly High English" class="h-10 sm:h-12 w-auto object-contain transition-transform hover:scale-[1.02]">
                 </a>
 
-                <!-- Desktop Nav Tabs -->
-                <nav class="hidden lg:flex items-center gap-1 bg-slate-100 p-1 rounded-xl border border-slate-200 font-medium text-xs text-slate-600">
-                    <a href="{{ route('home') }}" class="px-3.5 py-1.5 rounded-lg transition-all {{ request()->routeIs('home') ? 'nav-tab-active' : 'hover:text-slate-900' }}">
+                <!-- Navigation Tabs (Visible on all devices) -->
+                <nav class="flex items-center gap-0.5 sm:gap-1 bg-slate-100 p-1 rounded-xl border border-slate-200 font-medium text-[11px] sm:text-xs text-slate-600 overflow-x-auto max-w-full whitespace-nowrap scrollbar-none mx-1 sm:mx-2">
+                    <a href="{{ route('home') }}" class="px-2.5 sm:px-3.5 py-1.5 rounded-lg transition-all shrink-0 {{ request()->routeIs('home') ? 'nav-tab-active' : 'hover:text-slate-900' }}">
                         <i data-lucide="home" class="w-3.5 h-3.5 inline mr-1 text-blue-600"></i>Trang Chủ
                     </a>
 
-                    <a href="{{ route('about') }}" class="px-3.5 py-1.5 rounded-lg transition-all {{ request()->routeIs('about') ? 'nav-tab-active' : 'hover:text-slate-900' }}">
+                    <a href="{{ route('about') }}" class="px-2.5 sm:px-3.5 py-1.5 rounded-lg transition-all shrink-0 {{ request()->routeIs('about') ? 'nav-tab-active' : 'hover:text-slate-900' }}">
                         <i data-lucide="info" class="w-3.5 h-3.5 inline mr-1 text-slate-500"></i>Giới Thiệu
                     </a>
 
-                    <a href="{{ route('courses.index') }}" class="px-3.5 py-1.5 rounded-lg transition-all {{ request()->routeIs('courses.*') ? 'nav-tab-active' : 'hover:text-slate-900' }}">
+                    <a href="{{ route('courses.index') }}" class="px-2.5 sm:px-3.5 py-1.5 rounded-lg transition-all shrink-0 {{ request()->routeIs('courses.*') ? 'nav-tab-active' : 'hover:text-slate-900' }}">
                         <i data-lucide="book-open" class="w-3.5 h-3.5 inline mr-1 text-slate-500"></i>Khóa Học
                     </a>
 
-                    <a href="{{ route('documents.index') }}" class="px-3.5 py-1.5 rounded-lg transition-all {{ request()->routeIs('documents.*') ? 'nav-tab-active' : 'hover:text-slate-900' }}">
+                    <a href="{{ route('documents.index') }}" class="px-2.5 sm:px-3.5 py-1.5 rounded-lg transition-all shrink-0 {{ request()->routeIs('documents.*') ? 'nav-tab-active' : 'hover:text-slate-900' }}">
                         <i data-lucide="file-text" class="w-3.5 h-3.5 inline mr-1 text-slate-500"></i>Tài Liệu
                     </a>
 
 
                     @auth
-                    <a href="{{ route('learning_hub.index') }}" class="px-3.5 py-1.5 rounded-lg transition-all {{ request()->routeIs('learning_hub.*') ? 'nav-tab-active' : 'hover:text-slate-900' }}">
+                    <a href="{{ route('learning_hub.index') }}" class="px-2.5 sm:px-3.5 py-1.5 rounded-lg transition-all shrink-0 {{ request()->routeIs('learning_hub.*') ? 'nav-tab-active' : 'hover:text-slate-900' }}">
                         <i data-lucide="layout-dashboard" class="w-3.5 h-3.5 inline mr-1 text-blue-600"></i>Góc Học Tập
                     </a>
 
                     @if(auth()->user()->isAdmin())
-                    <a href="{{ route('admin.dashboard') }}" class="px-3 py-1 rounded-lg bg-amber-500 text-slate-950 font-bold transition-all hover:bg-amber-400">
+                    <a href="{{ route('admin.dashboard') }}" class="px-2.5 sm:px-3 py-1.5 rounded-lg bg-amber-500 text-slate-950 font-bold transition-all hover:bg-amber-400 shrink-0">
                         <i data-lucide="shield-check" class="w-3.5 h-3.5 inline mr-1"></i>Admin
                     </a>
                     @endif
@@ -210,38 +203,8 @@
         </div>
     </header>
 
-    <!-- Mobile Bottom Quick Navigation Bar (Sticky at bottom) -->
-    <div class="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 px-2 py-1.5 shadow-lg">
-        <div class="grid grid-cols-4 text-center">
-            <a href="{{ route('home') }}" class="flex flex-col items-center py-1 text-[10px] font-bold {{ request()->routeIs('home') ? 'text-blue-600' : 'text-slate-500' }}">
-                <i data-lucide="home" class="w-5 h-5 mb-0.5"></i>
-                <span>Trang chủ</span>
-            </a>
-            <a href="{{ route('courses.index') }}" class="flex flex-col items-center py-1 text-[10px] font-bold {{ request()->routeIs('courses.*') ? 'text-blue-600' : 'text-slate-500' }}">
-                <i data-lucide="book-open" class="w-5 h-5 mb-0.5"></i>
-                <span>Khóa học</span>
-            </a>
-            <a href="{{ route('documents.index') }}" class="flex flex-col items-center py-1 text-[10px] font-bold {{ request()->routeIs('documents.*') ? 'text-blue-600' : 'text-slate-500' }}">
-                <i data-lucide="file-text" class="w-5 h-5 mb-0.5"></i>
-                <span>Tài liệu</span>
-            </a>
-            @auth
-            <a href="{{ route('learning_hub.index') }}" class="flex flex-col items-center py-1 text-[10px] font-bold {{ request()->routeIs('learning_hub.*') ? 'text-blue-600' : 'text-slate-500' }}">
-                <i data-lucide="layout-dashboard" class="w-5 h-5 mb-0.5"></i>
-                <span>Góc học</span>
-            </a>
-            @else
-            <a href="{{ route('login') }}" class="flex flex-col items-center py-1 text-[10px] font-bold text-slate-500">
-                <i data-lucide="user" class="w-5 h-5 mb-0.5"></i>
-                <span>Đăng nhập</span>
-            </a>
-            @endauth
-        </div>
-    </div>
-
-
     <!-- Main Content Area -->
-    <main class="flex-grow">
+    <main class="flex-grow flex flex-col">
         @if(session('success'))
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
             <div class="bg-emerald-50 border border-emerald-200 text-emerald-900 px-5 py-4 rounded-2xl flex items-center justify-between shadow-soft">
@@ -386,13 +349,14 @@
         </div>
     </div>
 
+    @unless(request()->routeIs('lessons.show'))
     <!-- Light & Fresh Modern Footer -->
     <footer class="bg-slate-900 text-slate-300 py-12 mt-16 border-t border-slate-800 relative overflow-hidden">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8 mb-10">
             <div class="md:col-span-2 space-y-3">
-                <div class="flex items-center gap-2.5">
-                    <div class="w-9 h-9 rounded-lg bg-blue-600 text-white flex items-center justify-center font-bold shadow-sm">
-                        <i data-lucide="graduation-cap" class="w-5 h-5"></i>
+                <div class="flex items-center gap-3">
+                    <div class="bg-white p-1 rounded-xl shadow-sm flex items-center justify-center">
+                        <img src="{{ asset('images/logo.png') }}" alt="Fly High English" class="h-9 w-auto object-contain">
                     </div>
                     <span class="text-xl font-bold text-white font-heading">FlyHigh English System</span>
                 </div>
@@ -434,6 +398,7 @@
             </p>
         </div>
     </footer>
+    @endunless
 
 
     <script>
