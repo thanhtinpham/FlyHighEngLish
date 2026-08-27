@@ -45,8 +45,9 @@ Route::get('/notifications/{notification}', [NotificationController::class, 'sho
 // Registration Forms (Zalo Trial, VSTEP Exam, Consultations)
 Route::post('/registrations', [RegistrationController::class, 'store'])->name('registrations.store');
 
-// HTML Lesson Player (Available for preview or authenticated enrolled users)
+// HTML Lesson Player & Downloads (Available for preview or authenticated enrolled users)
 Route::get('/lessons/{lesson}', [LessonController::class, 'show'])->name('lessons.show');
+Route::get('/lessons/{lesson}/download', [LessonController::class, 'download'])->name('lessons.download');
 Route::post('/lessons/{lesson}/progress', [LessonController::class, 'saveProgress'])->name('lessons.progress');
 
 // Authentication Routes

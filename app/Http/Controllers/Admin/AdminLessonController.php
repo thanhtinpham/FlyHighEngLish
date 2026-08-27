@@ -52,12 +52,6 @@ class AdminLessonController extends Controller
             $file = $request->file('html_file');
             $path = $file->store('lessons', $disk);
             $htmlFilePath = $path;
-
-            // Automatically extract text content from uploaded HTML file into DB as permanent fallback!
-            $fileText = @file_get_contents($file->getRealPath());
-            if ($fileText && empty($htmlContent)) {
-                $htmlContent = $fileText;
-            }
         }
 
         Lesson::create([
@@ -72,7 +66,7 @@ class AdminLessonController extends Controller
             'order' => $validated['order'] ?? 1,
         ]);
 
-        return redirect()->route('admin.lessons.index')->with('success', 'Đã lưu & tải lên bài học HTML thành công (Đã sao lưu CSDL)!');
+        return redirect()->route('admin.lessons.index')->with('success', 'Đã lưu & tải lên tệp bài học thành công!');
     }
 
     public function edit(Lesson $lesson)
@@ -107,12 +101,6 @@ class AdminLessonController extends Controller
                 }
             }
             $htmlFilePath = $file->store('lessons', $disk);
-
-            // Automatically extract text content from uploaded HTML file into DB as permanent fallback!
-            $fileText = @file_get_contents($file->getRealPath());
-            if ($fileText && (empty($validated['html_content']) || empty($htmlContent))) {
-                $htmlContent = $fileText;
-            }
         }
 
         $lesson->update([

@@ -66,4 +66,45 @@ class LessonController extends Controller
             'progress' => $progress,
         ]);
     }
+
+    public function download(Lesson $lesson)
+    {
+        $user = auth()->user();
+
+        // Access check
+        if (!$lesson->is_preview) {
+            if (!auth()->check()) {
+                return redirect()->route('login')->with('error', 'Bạn cần đăng nhập để tải về bài học này.');
+            }
+            if (!$user->isEnrolledIn($lesson->course_id)) {
+                return redirect()->route('courses.show', $lesson->course->slug)
+                    ->with('error', 'Bạn chưa đăng ký khóa học này.');
+            }
+        }
+
+        $disk = config('filesystems.default', 'public');
+        $targetDisk = null;
+
+        if ($lesson->html_file_path) {
+            if (\Illuminate\Support\Facades\Storage::disk($disk)->exists($lesson->html_file_path)) {
+                $targetDisk = $disk;
+            } elseif (\Illuminate\Support\Facades\Storage::disk('public')->exists($lesson->html_file_path)) {
+                $targetDisk = 'public';
+            }
+        }
+
+        if ($targetDisk) {
+            $fileName = \Illuminate\Support\Str::slug($lesson->title) . '.html';
+            return \Illuminate\Support\Facades\Storage::disk($targetDisk)->download($lesson->html_file_path, $fileName);
+        }
+
+        if (!empty($lesson->html_content)) {
+            $fileName = \Illuminate\Support\Str::slug($lesson->title) . '.html';
+            return response()->streamDownload(function () use ($lesson) {
+                echo $lesson->html_content;
+            }, $fileName, ['Content-Type' => 'text/html']);
+        }
+
+        return back()->with('error', 'Bài học này chưa có tệp đính kèm để tải về!');
+    }
 }
