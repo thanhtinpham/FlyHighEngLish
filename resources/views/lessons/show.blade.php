@@ -61,7 +61,7 @@
 
             <a href="{{ route('lessons.download', $lesson->id) }}" 
                class="px-6 py-3.5 bg-white text-emerald-700 hover:bg-emerald-50 font-black text-sm rounded-2xl shadow-lg transition-all flex items-center gap-2 shrink-0 hover:scale-[1.02]">
-                <i data-lucide="download" class="w-5 h-5"></i> Tải Về Tệp Bài Học
+                <i data-lucide="download" class="w-5 h-5"></i> Tải Bài Học
             </a>
         </div>
 

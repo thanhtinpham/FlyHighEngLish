@@ -48,7 +48,18 @@ class User extends Authenticatable
         if ($this->isAdmin()) {
             return true;
         }
-        return $this->enrollments()->where('course_id', $courseId)->exists();
+        return $this->enrollments()
+            ->where('course_id', $courseId)
+            ->where('status', 'active')
+            ->exists();
+    }
+
+    public function hasPendingEnrollmentIn(int $courseId): bool
+    {
+        return $this->enrollments()
+            ->where('course_id', $courseId)
+            ->where('status', 'pending')
+            ->exists();
     }
 
     protected $hidden = [

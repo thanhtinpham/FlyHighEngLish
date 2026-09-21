@@ -32,6 +32,7 @@ Route::get('/about', [AboutController::class, 'index'])->name('about');
 // Courses Browsing
 Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
 Route::get('/courses/{slug}', [CourseController::class, 'show'])->name('courses.show');
+Route::post('/courses/{course}/enroll-request', [CourseController::class, 'requestEnrollment'])->name('courses.enroll_request')->middleware('auth');
 
 // Document Center (Public & Downloads)
 Route::get('/documents', [DocumentController::class, 'index'])->name('documents.index');
@@ -92,6 +93,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // Student Enrollments Management
     Route::get('enrollments', [AdminEnrollmentController::class, 'index'])->name('enrollments.index');
     Route::post('enrollments', [AdminEnrollmentController::class, 'store'])->name('enrollments.store');
+    Route::patch('enrollments/{enrollment}/approve', [AdminEnrollmentController::class, 'approve'])->name('enrollments.approve');
+    Route::patch('enrollments/{enrollment}/reject', [AdminEnrollmentController::class, 'reject'])->name('enrollments.reject');
     Route::delete('enrollments/{enrollment}', [AdminEnrollmentController::class, 'destroy'])->name('enrollments.destroy');
 
     // Lead Registrations Management

@@ -25,10 +25,21 @@
                     <a href="{{ route('learning_hub.index') }}" class="w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-extrabold rounded-xl flex items-center justify-center gap-2 shadow-emerald-glow transition-all">
                         <i data-lucide="check-circle" class="w-4 h-4"></i> Bạn Đã Đăng Ký Khóa Học
                     </a>
-                @else
-                    <button onclick="openModal('zaloModal')" class="w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-extrabold rounded-xl flex items-center justify-center gap-2 shadow-emerald-glow transition-all">
-                        <i data-lucide="user-plus" class="w-4 h-4"></i> Đăng Ký Khóa Học Này
+                @elseif($userPending)
+                    <button disabled class="w-full py-3.5 bg-amber-500 text-white text-xs font-extrabold rounded-xl flex items-center justify-center gap-2 shadow-sm cursor-not-allowed">
+                        <i data-lucide="clock" class="w-4 h-4"></i> Đã Gửi Yêu Cầu (Chờ Admin Duyệt)
                     </button>
+                @elseif(auth()->check())
+                    <form action="{{ route('courses.enroll_request', $course->id) }}" method="POST">
+                        @csrf
+                        <button type="submit" class="w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-extrabold rounded-xl flex items-center justify-center gap-2 shadow-emerald-glow transition-all">
+                            <i data-lucide="send" class="w-4 h-4"></i> Đăng Ký Khóa Học Này
+                        </button>
+                    </form>
+                @else
+                    <a href="{{ route('login') }}" class="w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-extrabold rounded-xl flex items-center justify-center gap-2 shadow-emerald-glow transition-all">
+                        <i data-lucide="log-in" class="w-4 h-4"></i> Đăng Nhập Để Đăng Ký Khóa Học
+                    </a>
                 @endif
             </div>
         </div>
@@ -96,10 +107,21 @@
                         <a href="{{ route('lessons.show', $lesson->id) }}" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl flex items-center justify-center gap-2 transition-all shadow-emerald-glow">
                             <i data-lucide="play" class="w-3.5 h-3.5"></i> Vào Học Bài Này
                         </a>
-                    @else
-                        <button onclick="openModal('zaloModal')" class="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl flex items-center justify-center gap-2 transition-all">
-                            <i data-lucide="lock" class="w-3.5 h-3.5"></i> Đăng Ký Để Học
+                    @elseif($userPending)
+                        <button disabled class="px-5 py-2.5 bg-amber-100 text-amber-800 text-xs font-bold rounded-xl flex items-center justify-center gap-2 cursor-not-allowed">
+                            <i data-lucide="clock" class="w-3.5 h-3.5"></i> Đang Chờ Duyệt
                         </button>
+                    @elseif(auth()->check())
+                        <form action="{{ route('courses.enroll_request', $course->id) }}" method="POST" class="inline">
+                            @csrf
+                            <button type="submit" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl flex items-center justify-center gap-2 transition-all shadow-emerald-glow">
+                                <i data-lucide="send" class="w-3.5 h-3.5"></i> Gửi Yêu Cầu Đăng Ký
+                            </button>
+                        </form>
+                    @else
+                        <a href="{{ route('login') }}" class="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl flex items-center justify-center gap-2 transition-all">
+                            <i data-lucide="lock" class="w-3.5 h-3.5"></i> Đăng Nhập Để Học
+                        </a>
                     @endif
                 </div>
             </div>

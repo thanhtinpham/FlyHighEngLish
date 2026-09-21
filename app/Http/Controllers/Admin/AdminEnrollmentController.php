@@ -12,11 +12,20 @@ class AdminEnrollmentController extends Controller
 {
     public function index()
     {
-        $enrollments = Enrollment::with(['user', 'course'])->latest()->get();
+        $pendingEnrollments = Enrollment::with(['user', 'course'])
+            ->where('status', 'pending')
+            ->latest()
+            ->get();
+
+        $activeEnrollments = Enrollment::with(['user', 'course'])
+            ->where('status', 'active')
+            ->latest()
+            ->get();
+
         $users = User::where('role', 'student')->orWhere('role', 'user')->get();
         $courses = Course::all();
 
-        return view('admin.enrollments.index', compact('enrollments', 'users', 'courses'));
+        return view('admin.enrollments.index', compact('pendingEnrollments', 'activeEnrollments', 'users', 'courses'));
     }
 
     public function store(Request $request)
@@ -26,7 +35,7 @@ class AdminEnrollmentController extends Controller
             'course_id' => 'required|exists:courses,id',
         ]);
 
-        Enrollment::firstOrCreate(
+        Enrollment::updateOrCreate(
             [
                 'user_id' => $validated['user_id'],
                 'course_id' => $validated['course_id'],
@@ -38,6 +47,26 @@ class AdminEnrollmentController extends Controller
         );
 
         return redirect()->route('admin.enrollments.index')->with('success', 'Ghi danh học viên vào khóa học thành công!');
+    }
+
+    public function approve(Enrollment $enrollment)
+    {
+        $enrollment->update([
+            'status' => 'active',
+            'enrolled_at' => now(),
+        ]);
+
+        $userName = $enrollment->user->name ?? 'Học viên';
+        $courseTitle = $enrollment->course->title ?? 'Khóa học';
+
+        return redirect()->route('admin.enrollments.index')->with('success', "Đã phê duyệt học viên {$userName} vào khóa học \"{$courseTitle}\"!");
+    }
+
+    public function reject(Enrollment $enrollment)
+    {
+        $enrollment->delete();
+
+        return redirect()->route('admin.enrollments.index')->with('success', 'Đã từ chối yêu cầu đăng ký khóa học.');
     }
 
     public function destroy(Enrollment $enrollment)
