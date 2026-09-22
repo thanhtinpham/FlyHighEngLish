@@ -23,14 +23,14 @@ class AuthController extends Controller
         $request->validate([
             'email' => ['required', 'email'],
         ], [
-            'email.required' => 'Vui lòng nhập địa chỉ Gmail học viên.',
+            'email.required' => 'Vui lòng nhập địa chỉ email.',
             'email.email' => 'Email không đúng định dạng.',
         ]);
 
         $email = trim(strtolower($request->email));
         $user = User::where('email', $email)->first();
 
-        // Admin login path with password validation if admin user
+        // Admin login path with password validation
         if ($user && $user->isAdmin() && $request->filled('password')) {
             if (Auth::attempt(['email' => $email, 'password' => $request->password], $request->boolean('remember'))) {
                 $request->session()->regenerate();
@@ -39,38 +39,8 @@ class AuthController extends Controller
             return back()->withErrors(['password' => 'Mật khẩu quản trị viên không chính xác.'])->onlyInput('email');
         }
 
-        // Enforce Gmail requirement for student login (must end with @gmail.com)
-        if (!Str::endsWith($email, '@gmail.com') && !($user && $user->isAdmin())) {
-            return back()->withErrors([
-                'email' => 'Hệ thống chỉ hỗ trợ đăng nhập bằng Gmail (ví dụ: tenban@gmail.com).',
-            ])->onlyInput('email');
-        }
-
-        // Student/User login directly via Gmail
-        if ($user) {
-            Auth::login($user, $request->boolean('remember', true));
-            $request->session()->regenerate();
-
-            if ($user->isAdmin()) {
-                return redirect()->intended(route('admin.dashboard'))->with('success', 'Đăng nhập thành công với quyền Quản trị viên!');
-            }
-
-            return redirect()->intended(route('dashboard'))->with('success', 'Đăng nhập thành công với Gmail: ' . $user->email);
-        }
-
-        // Auto-register new student account if Gmail not found
-        $nameFromEmail = Str::title(str_replace(['.', '_', '-'], ' ', explode('@', $email)[0]));
-        $newUser = User::create([
-            'name' => $nameFromEmail,
-            'email' => $email,
-            'password' => Hash::make(Str::random(16)),
-            'role' => 'user',
-        ]);
-
-        Auth::login($newUser, true);
-        $request->session()->regenerate();
-
-        return redirect()->route('dashboard')->with('success', 'Chào mừng học viên mới! Tài khoản Gmail đã được đăng ký & đăng nhập thành công.');
+        // Student/Regular Users must use Google OAuth
+        return redirect()->route('auth.google');
     }
 
     public function showRegister()
@@ -83,41 +53,8 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
-        $request->validate([
-            'email' => ['required', 'string', 'email', 'max:255'],
-        ], [
-            'email.required' => 'Vui lòng nhập địa chỉ Gmail học viên.',
-            'email.email' => 'Email không đúng định dạng.',
-        ]);
-
-        $email = trim(strtolower($request->email));
-
-        // Enforce Gmail requirement for registration
-        if (!Str::endsWith($email, '@gmail.com')) {
-            return back()->withErrors([
-                'email' => 'Hệ thống chỉ chấp nhận đăng ký bằng Gmail (ví dụ: tenban@gmail.com).',
-            ])->onlyInput('email');
-        }
-
-        $user = User::where('email', $email)->first();
-
-        if (!$user) {
-            $name = $request->filled('name')
-                ? $request->name
-                : Str::title(str_replace(['.', '_', '-'], ' ', explode('@', $email)[0]));
-
-            $user = User::create([
-                'name' => $name,
-                'email' => $email,
-                'password' => Hash::make(Str::random(16)),
-                'role' => 'user',
-            ]);
-        }
-
-        Auth::login($user, true);
-        $request->session()->regenerate();
-
-        return redirect()->route('dashboard')->with('success', 'Đăng ký & Đăng nhập thành công với Gmail: ' . $user->email);
+        // Enforce Google OAuth for all student registrations
+        return redirect()->route('auth.google');
     }
 
     public function logout(Request $request)
@@ -134,7 +71,7 @@ class AuthController extends Controller
     public function redirectToGoogle()
     {
         if (!config('services.google.client_id') || !config('services.google.client_secret')) {
-            return redirect()->route('login')->with('error', '⚠️ Hệ thống chưa nhận được GOOGLE_CLIENT_ID & GOOGLE_CLIENT_SECRET trong file .env. Bạn cần lấy bộ khóa này từ Google Cloud Console (miễn phí) để bấm vào tài khoản Google thực tế.');
+            return redirect()->route('login')->with('error', '⚠️ Hệ thống yêu cầu cấu hình GOOGLE_CLIENT_ID & GOOGLE_CLIENT_SECRET trong file .env để chọn tài khoản Google cá nhân. Vui lòng thêm bộ khóa từ Google Cloud Console.');
         }
 
         return \Laravel\Socialite\Facades\Socialite::driver('google')->redirect();

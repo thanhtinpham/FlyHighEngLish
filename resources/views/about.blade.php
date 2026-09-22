@@ -51,7 +51,7 @@
                         </div>
                     </div>
                     <div class="flex items-start gap-4">
-                        <div class="w-10 h-10 rounded-xl bg-gold-500 text-slate-950 flex items-center justify-center shrink-0 font-bold font-heading shadow-gold-glow">98%</div>
+                        <div class="w-10 h-10 rounded-xl bg-gold-500 text-slate-950 flex items-center justify-center shrink-0 font-bold font-heading shadow-gold-glow">80%</div>
                         <div>
                             <h4 class="font-extrabold text-slate-900 text-base font-heading">Tỷ lệ hài lòng cao</h4>
                             <p class="text-xs text-slate-500">Nhận xét tích cực về phương pháp bài học HTML tương tác</p>

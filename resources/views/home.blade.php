@@ -133,7 +133,7 @@
                 <p class="text-xs text-slate-400 font-medium">Học viên tin tưởng</p>
             </div>
             <div class="space-y-1">
-                <p class="text-2xl sm:text-3xl font-extrabold text-blue-400 font-heading">98%</p>
+                <p class="text-2xl sm:text-3xl font-extrabold text-blue-400 font-heading">80%</p>
                 <p class="text-xs text-slate-400 font-medium">Tỷ lệ đạt B1 / IELTS target</p>
             </div>
             <div class="space-y-1">
