@@ -28,7 +28,7 @@
                 </div>
                 <h2 class="text-2xl sm:text-3xl font-black text-slate-900 font-heading">Lịch Sử & Kinh Nghiệm Giảng Dạy</h2>
                 <p class="text-slate-600 text-sm leading-relaxed">
-                    Được thành lập từ năm 2018, <strong>Fly High English</strong> đã có hơn 8 năm đồng hành cùng hơn 15,000 học viên trên khắp cả nước. Trung tâm bắt đầu từ những lớp học tiếng Anh giao tiếp nhỏ và dần mở rộng quy mô thành hệ thống đào tạo Anh ngữ toàn diện cho mọi lứa tuổi và mục tiêu.
+                    Được thành lập từ năm 2011, <strong>Fly High English</strong> đã có hơn 15 năm đồng hành cùng hơn 5,000 học viên trên khắp cả nước. Trung tâm bắt đầu từ những lớp học tiếng Anh giao tiếp nhỏ và dần mở rộng quy mô thành hệ thống đào tạo Anh ngữ toàn diện cho mọi lứa tuổi và mục tiêu.
                 </p>
                 <p class="text-slate-600 text-sm leading-relaxed">
                     Đội ngũ giảng viên tại trung tâm đều sở hữu chứng chỉ quốc tế (TESOL, CELTA, IELTS 8.0+ / VSTEP C1) với tối thiểu 4 năm kinh nghiệm đứng lớp trực tiếp và giảng dạy trực tuyến.
@@ -44,7 +44,7 @@
                         </div>
                     </div>
                     <div class="flex items-start gap-4">
-                        <div class="w-10 h-10 rounded-xl bg-sky-600 text-white flex items-center justify-center shrink-0 font-bold font-heading shadow-sky-glow">15k+</div>
+                        <div class="w-10 h-10 rounded-xl bg-sky-600 text-white flex items-center justify-center shrink-0 font-bold font-heading shadow-sky-glow">4k+</div>
                         <div>
                             <h4 class="font-extrabold text-slate-900 text-base font-heading">Học viên tốt nghiệp</h4>
                             <p class="text-xs text-slate-500">Đạt mục tiêu chuẩn đầu ra ra trường & thăng tiến sự nghiệp</p>
