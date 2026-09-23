@@ -14,8 +14,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
     
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Lucide Icons (Local Asset + CDN Fallback) -->
+    <script src="{{ asset('js/lucide.min.js') }}"></script>
+    <script>
+        if (!window.lucide) {
+            document.write('<script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"><\/script>');
+        }
+    </script>
 
     <!-- Compiled Static Assets (Vite & Hosting Fallback) -->
     @if (file_exists(public_path('build/manifest.json')))
@@ -402,11 +407,18 @@
 
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            if (window.lucide) {
+        function initLucideIcons() {
+            if (window.lucide && typeof window.lucide.createIcons === 'function') {
                 window.lucide.createIcons();
             }
-        });
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initLucideIcons);
+        } else {
+            initLucideIcons();
+        }
+        window.addEventListener('load', initLucideIcons);
 
         function toggleMobileMenu() {
             const menu = document.getElementById('mobileMenu');

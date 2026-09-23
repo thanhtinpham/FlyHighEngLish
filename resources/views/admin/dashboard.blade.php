@@ -23,48 +23,107 @@
 <section class="py-12 bg-slate-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         
-        <!-- Stats Cards -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
-            <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
-                <span class="text-xs text-slate-400 font-bold block uppercase mb-1">Tổng Khóa Học</span>
-                <span class="text-3xl font-black text-indigo-600">{{ $totalCourses }}</span>
+        <!-- Compact Stats Cards -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
+            <div class="bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-200/90 shadow-xs flex items-center justify-between">
+                <div>
+                    <span class="text-[10px] sm:text-xs text-slate-400 font-bold block uppercase tracking-wider mb-0.5">Tổng Khóa Học</span>
+                    <span class="text-xl sm:text-2xl font-black text-indigo-600">{{ $totalCourses }}</span>
+                </div>
+                <div class="w-9 h-9 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0">
+                    <i data-lucide="book-open" class="w-4 h-4"></i>
+                </div>
             </div>
 
-            <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
-                <span class="text-xs text-slate-400 font-bold block uppercase mb-1">Bài Học HTML</span>
-                <span class="text-3xl font-black text-emerald-600">{{ $totalLessons }}</span>
+            <div class="bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-200/90 shadow-xs flex items-center justify-between">
+                <div>
+                    <span class="text-[10px] sm:text-xs text-slate-400 font-bold block uppercase tracking-wider mb-0.5">Bài Học HTML</span>
+                    <span class="text-xl sm:text-2xl font-black text-emerald-600">{{ $totalLessons }}</span>
+                </div>
+                <div class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+                    <i data-lucide="file-code-2" class="w-4 h-4"></i>
+                </div>
             </div>
 
-            <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
-                <span class="text-xs text-slate-400 font-bold block uppercase mb-1">Lượt Ghi Danh</span>
-                <span class="text-3xl font-black text-amber-500">{{ $totalEnrollments }}</span>
+            <div class="bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-200/90 shadow-xs flex items-center justify-between">
+                <div>
+                    <span class="text-[10px] sm:text-xs text-slate-400 font-bold block uppercase tracking-wider mb-0.5">Lượt Ghi Danh</span>
+                    <span class="text-xl sm:text-2xl font-black text-amber-500">{{ $totalEnrollments }}</span>
+                </div>
+                <div class="w-9 h-9 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
+                    <i data-lucide="graduation-cap" class="w-4 h-4"></i>
+                </div>
             </div>
 
-            <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
-                <span class="text-xs text-slate-400 font-bold block uppercase mb-1">Học Viên</span>
-                <span class="text-3xl font-black text-violet-600">{{ $totalStudents }}</span>
+            <div class="bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-200/90 shadow-xs flex items-center justify-between">
+                <div>
+                    <span class="text-[10px] sm:text-xs text-slate-400 font-bold block uppercase tracking-wider mb-0.5">Học Viên</span>
+                    <span class="text-xl sm:text-2xl font-black text-violet-600">{{ $totalStudents }}</span>
+                </div>
+                <div class="w-9 h-9 rounded-xl bg-violet-50 text-violet-600 flex items-center justify-center shrink-0">
+                    <i data-lucide="users" class="w-4 h-4"></i>
+                </div>
             </div>
 
-            <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
-                <span class="text-xs text-slate-400 font-bold block uppercase mb-1">Đăng Ký Mới</span>
-                <span class="text-3xl font-black text-rose-500">{{ $pendingRegistrations }}</span>
+            <div class="bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-200/90 shadow-xs flex items-center justify-between col-span-2 sm:col-span-1">
+                <div>
+                    <span class="text-[10px] sm:text-xs text-slate-400 font-bold block uppercase tracking-wider mb-0.5">Đăng Ký Mới</span>
+                    <span class="text-xl sm:text-2xl font-black text-rose-500">{{ $pendingRegistrations }}</span>
+                </div>
+                <div class="w-9 h-9 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center shrink-0">
+                    <i data-lucide="bell" class="w-4 h-4"></i>
+                </div>
             </div>
         </div>
 
-        <!-- Admin Quick Navigation Tabs -->
-        <div class="flex gap-3 border-b border-slate-200 pb-4">
-            <a href="{{ route('admin.courses.index') }}" class="px-4 py-2.5 bg-white border border-slate-200 hover:bg-indigo-50 hover:text-indigo-600 text-xs font-extrabold rounded-xl transition-all shadow-sm">
-                📚 Quản Lý Khóa Học
-            </a>
-            <a href="{{ route('admin.lessons.index') }}" class="px-4 py-2.5 bg-white border border-slate-200 hover:bg-emerald-50 hover:text-emerald-600 text-xs font-extrabold rounded-xl transition-all shadow-sm">
-                🖥️ Quản Lý Bài Học HTML
-            </a>
-            <a href="{{ route('admin.enrollments.index') }}" class="px-4 py-2.5 bg-white border border-slate-200 hover:bg-amber-50 hover:text-amber-600 text-xs font-extrabold rounded-xl transition-all shadow-sm">
-                🎓 Ghi Danh Học Viên
-            </a>
-            <a href="{{ route('admin.registrations.index') }}" class="px-4 py-2.5 bg-white border border-slate-200 hover:bg-rose-50 hover:text-rose-600 text-xs font-extrabold rounded-xl transition-all shadow-sm">
-                💬 Đăng Ký Học Thử & Thi VSTEP
-            </a>
+        <!-- Prominent Admin Quick Navigation Cards -->
+        <div>
+            <div class="flex items-center justify-between mb-3">
+                <h2 class="text-xs font-black uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                    <i data-lucide="layout-grid" class="w-4 h-4 text-indigo-600"></i> Quản Lý Chức Năng Hệ Thống
+                </h2>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <a href="{{ route('admin.courses.index') }}" class="group flex items-center gap-4 p-4 bg-gradient-to-r from-indigo-600 to-indigo-700 text-white rounded-2xl shadow-md shadow-indigo-200 hover:shadow-xl hover:shadow-indigo-300/40 hover:-translate-y-0.5 transition-all duration-200">
+                    <div class="w-11 h-11 rounded-xl bg-white/20 flex items-center justify-center shrink-0 backdrop-blur-sm group-hover:scale-110 transition-transform">
+                        <i data-lucide="book-open" class="w-5 h-5 text-white"></i>
+                    </div>
+                    <div>
+                        <span class="block text-[11px] text-indigo-100 font-semibold uppercase tracking-wider">Danh mục</span>
+                        <span class="text-sm font-black tracking-wide">Quản Lý Khóa Học</span>
+                    </div>
+                </a>
+
+                <a href="{{ route('admin.lessons.index') }}" class="group flex items-center gap-4 p-4 bg-gradient-to-r from-emerald-600 to-teal-600 text-white rounded-2xl shadow-md shadow-emerald-200 hover:shadow-xl hover:shadow-emerald-300/40 hover:-translate-y-0.5 transition-all duration-200">
+                    <div class="w-11 h-11 rounded-xl bg-white/20 flex items-center justify-center shrink-0 backdrop-blur-sm group-hover:scale-110 transition-transform">
+                        <i data-lucide="file-code-2" class="w-5 h-5 text-white"></i>
+                    </div>
+                    <div>
+                        <span class="block text-[11px] text-emerald-100 font-semibold uppercase tracking-wider">Nội dung HTML</span>
+                        <span class="text-sm font-black tracking-wide">Quản Lý Bài Học</span>
+                    </div>
+                </a>
+
+                <a href="{{ route('admin.enrollments.index') }}" class="group flex items-center gap-4 p-4 bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 rounded-2xl shadow-md shadow-amber-200 hover:shadow-xl hover:shadow-amber-300/40 hover:-translate-y-0.5 transition-all duration-200">
+                    <div class="w-11 h-11 rounded-xl bg-slate-950/15 flex items-center justify-center shrink-0 backdrop-blur-sm group-hover:scale-110 transition-transform">
+                        <i data-lucide="graduation-cap" class="w-5 h-5 text-slate-950"></i>
+                    </div>
+                    <div>
+                        <span class="block text-[11px] text-slate-900/70 font-bold uppercase tracking-wider">Duyệt học viên</span>
+                        <span class="text-sm font-black tracking-wide">Ghi Danh Học Viên</span>
+                    </div>
+                </a>
+
+                <a href="{{ route('admin.registrations.index') }}" class="group flex items-center gap-4 p-4 bg-gradient-to-r from-rose-600 to-pink-600 text-white rounded-2xl shadow-md shadow-rose-200 hover:shadow-xl hover:shadow-rose-300/40 hover:-translate-y-0.5 transition-all duration-200">
+                    <div class="w-11 h-11 rounded-xl bg-white/20 flex items-center justify-center shrink-0 backdrop-blur-sm group-hover:scale-110 transition-transform">
+                        <i data-lucide="message-square" class="w-5 h-5 text-white"></i>
+                    </div>
+                    <div>
+                        <span class="block text-[11px] text-rose-100 font-semibold uppercase tracking-wider">Tư vấn & VSTEP</span>
+                        <span class="text-sm font-black tracking-wide">Đăng Ký & VSTEP</span>
+                    </div>
+                </a>
+            </div>
         </div>
 
         <!-- Recent Leads & Registrations Table -->
