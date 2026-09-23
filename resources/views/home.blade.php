@@ -22,7 +22,7 @@
                 </h1>
 
                 <p class="text-slate-600 text-sm leading-relaxed max-w-2xl font-normal">
-                    Fly High English kết hợp phương pháp giảng dạy phản xạ trực quan với hệ thống **bài học HTML 4.0 tương tác**. Giúp học viên dễ dàng theo dõi tiến độ, thực hành 4 kỹ năng và sẵn sàng chinh phục các kỳ thi chuẩn hóa quốc gia & quốc tế.
+                    Fly High English kết hợp phương pháp giảng dạy phản xạ trực quan với hệ thống **Bài học tương tác HTML 4.0**. Giúp học viên dễ dàng theo dõi tiến độ, thực hành 4 kỹ năng và sẵn sàng chinh phục các kỳ thi chuẩn hóa quốc gia & quốc tế.
                 </p>
 
                 <!-- 4 Primary Action CTAs -->

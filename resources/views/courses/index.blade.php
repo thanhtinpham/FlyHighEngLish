@@ -63,7 +63,7 @@
                     <div class="space-y-2 text-xs font-medium text-slate-600 border-t border-slate-100 pt-4">
                         <div class="flex items-center gap-2">
                             <i data-lucide="book-open" class="w-4 h-4 text-emerald-500"></i>
-                            <span>Sĩ số bài học: <strong>{{ $course->lessons_count }} bài HTML tương tác</strong></span>
+                            <span>Số lượng bài học: <strong>{{ $course->lessons_count }} bài HTML tương tác</strong></span>
                         </div>
                         <div class="flex items-center gap-2">
                             <i data-lucide="award" class="w-4 h-4 text-gold-500"></i>
