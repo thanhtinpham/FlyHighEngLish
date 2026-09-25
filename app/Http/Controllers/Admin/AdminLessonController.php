@@ -40,7 +40,7 @@ class AdminLessonController extends Controller
             'level_or_week' => 'required|string|max:255',
             'description' => 'nullable|string',
             'html_content' => 'nullable|string',
-            'html_file' => 'nullable|file|max:10240',
+            'html_file' => 'nullable|file|max:51200', // 50MB max
             'order' => 'nullable|integer',
         ]);
 
@@ -52,6 +52,14 @@ class AdminLessonController extends Controller
             $file = $request->file('html_file');
             $path = $file->store('lessons', $disk);
             $htmlFilePath = $path;
+
+            // Auto populate html_content if empty and uploaded file is HTML
+            if (empty($htmlContent) && (strtolower($file->getClientOriginalExtension()) === 'html' || strtolower($file->getClientOriginalExtension()) === 'htm')) {
+                $realPath = $file->getRealPath();
+                if ($realPath && file_exists($realPath)) {
+                    $htmlContent = file_get_contents($realPath);
+                }
+            }
         }
 
         Lesson::create([
@@ -66,7 +74,7 @@ class AdminLessonController extends Controller
             'order' => $validated['order'] ?? 1,
         ]);
 
-        return redirect()->route('admin.lessons.index')->with('success', 'Đã lưu & tải lên tệp bài học thành công!');
+        return redirect()->route('admin.lessons.index')->with('success', 'Đã lưu & tải lên tệp bài học HTML thành công!');
     }
 
     public function edit(Lesson $lesson)
@@ -83,7 +91,7 @@ class AdminLessonController extends Controller
             'level_or_week' => 'required|string|max:255',
             'description' => 'nullable|string',
             'html_content' => 'nullable|string',
-            'html_file' => 'nullable|file|max:10240',
+            'html_file' => 'nullable|file|max:51200', // 50MB max
             'order' => 'nullable|integer',
         ]);
 
@@ -101,6 +109,14 @@ class AdminLessonController extends Controller
                 }
             }
             $htmlFilePath = $file->store('lessons', $disk);
+
+            // Auto populate html_content if empty and uploaded file is HTML
+            if (empty($validated['html_content']) && (strtolower($file->getClientOriginalExtension()) === 'html' || strtolower($file->getClientOriginalExtension()) === 'htm')) {
+                $realPath = $file->getRealPath();
+                if ($realPath && file_exists($realPath)) {
+                    $htmlContent = file_get_contents($realPath);
+                }
+            }
         }
 
         $lesson->update([
@@ -115,7 +131,7 @@ class AdminLessonController extends Controller
             'order' => $validated['order'] ?? 1,
         ]);
 
-        return redirect()->route('admin.lessons.index')->with('success', 'Cập nhật bài học HTML thành công (Đã lưu CSDL)!');
+        return redirect()->route('admin.lessons.index')->with('success', 'Cập nhật bài học HTML thành công!');
     }
 
     public function destroy(Lesson $lesson)

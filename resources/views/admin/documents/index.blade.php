@@ -119,7 +119,7 @@
                             {{ $doc->download_count }}
                         </td>
                         <td class="px-6 py-4 text-xs text-slate-400">
-                            {{ $doc->created_at->format('d/m/Y H:i') }}
+                            {{ $doc->created_at ? $doc->created_at->format('d/m/Y H:i') : 'N/A' }}
                         </td>
                         <td class="px-6 py-4 text-right space-x-1.5 whitespace-nowrap">
                             <a href="{{ route('documents.download', $doc) }}" title="Tải thử file" class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 hover:bg-indigo-100 font-bold text-xs">

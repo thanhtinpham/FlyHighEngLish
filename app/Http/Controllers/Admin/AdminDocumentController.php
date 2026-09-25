@@ -36,21 +36,35 @@ class AdminDocumentController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'files' => 'required|array',
+            'files' => 'nullable',
             'files.*' => 'file|max:51200', // 50MB max per file
-        ], [
-            'files.required' => 'Vui lòng chọn ít nhất một tệp tài liệu để tải lên.',
-            'files.*.file' => 'Tệp tải lên không hợp lệ.',
-            'files.*.max' => 'Dung lượng mỗi tệp tối đa là 50MB.',
+            'file' => 'nullable|file|max:51200',
         ]);
 
-        $files = $request->file('files', []);
+        $rawFiles = $request->file('files') ?? $request->file('file');
+
+        if (!$rawFiles) {
+            return back()->with('error', 'Vui lòng chọn ít nhất một tệp tài liệu để tải lên.');
+        }
+
+        $files = is_array($rawFiles) ? $rawFiles : [$rawFiles];
         $disk = config('filesystems.default', 'public');
-        $defaultCategoryId = Category::first()?->id;
+        
+        // Find or create default category to ensure valid non-null category_id on production database
+        $defaultCategory = Category::first();
+        if (!$defaultCategory) {
+            $defaultCategory = Category::create([
+                'name' => 'Tài liệu chung',
+                'slug' => 'tai-lieu-chung-' . time(),
+            ]);
+        }
+        $categoryId = $defaultCategory->id;
+        $userId = auth()->id() ?? 1;
+
         $uploadedCount = 0;
 
         foreach ($files as $file) {
-            if (!$file->isValid()) continue;
+            if (!$file || !$file->isValid()) continue;
 
             $originalName = $file->getClientOriginalName();
             $extension = strtoupper($file->getClientOriginalExtension());
@@ -58,20 +72,20 @@ class AdminDocumentController extends Controller
             $filePath = $file->store('documents', $disk);
 
             Document::create([
-                'title' => $originalName, // Tên mặc định là tên file
+                'title' => $originalName,
                 'description' => null,
-                'category_id' => $defaultCategoryId,
+                'category_id' => $categoryId,
                 'file_path' => $filePath,
                 'file_name' => $originalName,
                 'file_size' => $size,
                 'file_type' => $extension,
-                'uploaded_by' => auth()->id(),
+                'uploaded_by' => $userId,
             ]);
 
             $uploadedCount++;
         }
 
-        return redirect()->route('admin.documents.index')->with('success', "Đã tải lên thành công {$uploadedCount} tệp tài liệu mới!");
+        return redirect()->route('admin.documents.index')->with('success', "Đã tải lên thành công {$uploadedCount} tệp tài liệu!");
     }
 
     public function edit(Document $document)
@@ -90,10 +104,12 @@ class AdminDocumentController extends Controller
 
         if ($request->hasFile('file')) {
             $disk = config('filesystems.default', 'public');
-            if (Storage::disk($disk)->exists($document->file_path)) {
-                Storage::disk($disk)->delete($document->file_path);
-            } elseif (Storage::disk('public')->exists($document->file_path)) {
-                Storage::disk('public')->delete($document->file_path);
+            if ($document->file_path) {
+                if (Storage::disk($disk)->exists($document->file_path)) {
+                    Storage::disk($disk)->delete($document->file_path);
+                } elseif (Storage::disk('public')->exists($document->file_path)) {
+                    Storage::disk('public')->delete($document->file_path);
+                }
             }
 
             $file = $request->file('file');
@@ -105,16 +121,18 @@ class AdminDocumentController extends Controller
 
         $document->save();
 
-        return redirect()->route('admin.documents.index')->with('success', 'Cập nhật tên/tệp tài liệu thành công!');
+        return redirect()->route('admin.documents.index')->with('success', 'Cập nhật tài liệu thành công!');
     }
 
     public function destroy(Document $document)
     {
         $disk = config('filesystems.default', 'public');
-        if (Storage::disk($disk)->exists($document->file_path)) {
-            Storage::disk($disk)->delete($document->file_path);
-        } elseif (Storage::disk('public')->exists($document->file_path)) {
-            Storage::disk('public')->delete($document->file_path);
+        if ($document->file_path) {
+            if (Storage::disk($disk)->exists($document->file_path)) {
+                Storage::disk($disk)->delete($document->file_path);
+            } elseif (Storage::disk('public')->exists($document->file_path)) {
+                Storage::disk('public')->delete($document->file_path);
+            }
         }
 
         $document->delete();
