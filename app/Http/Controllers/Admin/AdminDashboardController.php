@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Course;
+use App\Models\Document;
 use App\Models\Enrollment;
 use App\Models\Lesson;
 use App\Models\Registration;
@@ -16,6 +18,7 @@ class AdminDashboardController extends Controller
         $totalStudents = User::where('role', 'student')->orWhere('role', 'user')->count();
         $totalCourses = Course::count();
         $totalLessons = Lesson::count();
+        $totalDocuments = Document::count();
         $totalEnrollments = Enrollment::count();
         $pendingRegistrations = Registration::where('status', 'pending')->count();
         
@@ -26,6 +29,7 @@ class AdminDashboardController extends Controller
             'totalStudents',
             'totalCourses',
             'totalLessons',
+            'totalDocuments',
             'totalEnrollments',
             'pendingRegistrations',
             'recentRegistrations',

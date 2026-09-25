@@ -34,9 +34,10 @@ Route::get('/courses', [CourseController::class, 'index'])->name('courses.index'
 Route::get('/courses/{slug}', [CourseController::class, 'show'])->name('courses.show');
 Route::post('/courses/{course}/enroll-request', [CourseController::class, 'requestEnrollment'])->name('courses.enroll_request')->middleware('auth');
 
-// Document Center (Public & Downloads)
+// Document Center (Public, View & Downloads)
 Route::get('/documents', [DocumentController::class, 'index'])->name('documents.index');
 Route::get('/documents/{document}', [DocumentController::class, 'show'])->name('documents.show');
+Route::get('/documents/{document}/preview', [DocumentController::class, 'preview'])->name('documents.preview');
 Route::get('/documents/{document}/download', [DocumentController::class, 'download'])->name('documents.download');
 
 // System Notifications & Announcements

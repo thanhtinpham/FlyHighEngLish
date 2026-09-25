@@ -70,4 +70,28 @@ class DocumentController extends Controller
         // Trigger secure file download
         return Storage::disk($targetDisk)->download($document->file_path, $document->file_name);
     }
+
+    public function preview(Document $document)
+    {
+        $disk = config('filesystems.default', 'public');
+        $targetDisk = null;
+
+        if (Storage::disk($disk)->exists($document->file_path)) {
+            $targetDisk = $disk;
+        } elseif (Storage::disk('public')->exists($document->file_path)) {
+            $targetDisk = 'public';
+        }
+
+        if (!$targetDisk) {
+            abort(404, 'Tệp tài liệu không tồn tại trên hệ thống!');
+        }
+
+        $fullPath = Storage::disk($targetDisk)->path($document->file_path);
+        $mimeType = Storage::disk($targetDisk)->mimeType($document->file_path) ?? 'application/octet-stream';
+
+        return response()->file($fullPath, [
+            'Content-Type' => $mimeType,
+            'Content-Disposition' => 'inline; filename="' . $document->file_name . '"'
+        ]);
+    }
 }
