@@ -23,11 +23,11 @@
         <!-- Header Information -->
         <div class="space-y-4">
             <div class="flex items-center gap-3">
-                <span class="px-3 py-1 rounded-xl text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-100">
-                    {{ $document->category->name }}
-                </span>
                 <span class="px-3 py-1 rounded-xl text-xs font-bold uppercase bg-slate-100 border text-slate-700">
                     Định dạng: {{ $document->file_type ?? 'FILE' }}
+                </span>
+                <span class="text-xs text-slate-400">
+                    <i data-lucide="calendar" class="w-3.5 h-3.5 inline"></i> {{ $document->created_at->format('d/m/Y H:i') }}
                 </span>
             </div>
 
@@ -37,7 +37,6 @@
 
             <div class="flex flex-wrap items-center gap-4 sm:gap-6 text-xs text-slate-500 pt-3 border-t border-slate-100">
                 <span class="flex items-center gap-1.5"><i data-lucide="user" class="w-4 h-4 text-indigo-500"></i> Người đăng: <strong>{{ $document->uploader->name ?? 'Admin' }}</strong></span>
-                <span class="flex items-center gap-1.5"><i data-lucide="calendar" class="w-4 h-4 text-indigo-500"></i> {{ $document->created_at->format('d/m/Y H:i') }}</span>
                 <span class="flex items-center gap-1.5"><i data-lucide="hard-drive" class="w-4 h-4 text-indigo-500"></i> Dung lượng: <strong>{{ $document->formatted_size }}</strong></span>
                 <span class="flex items-center gap-1.5"><i data-lucide="download-cloud" class="w-4 h-4 text-indigo-500"></i> Lượt tải: <strong>{{ $document->download_count }} lượt</strong></span>
             </div>
@@ -109,14 +108,6 @@
             @endif
         </div>
 
-        <!-- Description Box -->
-        <div class="bg-slate-50 rounded-2xl p-6 border border-slate-200/80 space-y-2">
-            <h3 class="text-xs uppercase font-extrabold tracking-wider text-slate-400">Mô Tả & Hướng Dẫn Sử Dụng</h3>
-            <p class="text-slate-700 text-sm leading-relaxed whitespace-pre-line">
-                {{ $document->description ?? 'Không có mô tả bổ sung cho tài liệu này.' }}
-            </p>
-        </div>
-
         <!-- Big Download CTA Banner -->
         <div class="bg-gradient-to-r from-indigo-600 via-indigo-700 to-purple-700 rounded-3xl p-6 sm:p-8 text-white flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xl shadow-indigo-500/20">
             <div class="space-y-1 text-center sm:text-left">
@@ -133,11 +124,11 @@
 
     </div>
 
-    <!-- Related Documents -->
+    <!-- Related Shared Documents -->
     @if(isset($relatedDocuments) && $relatedDocuments->count() > 0)
     <div class="space-y-4 pt-4">
-        <h3 class="text-lg font-black text-slate-900">Tài liệu liên quan cùng danh mục {{ $document->category->name }}</h3>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <h3 class="text-lg font-black text-slate-900">Các tài liệu khác trong thư viện</h3>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
             @foreach($relatedDocuments as $rel)
             <div class="bg-white p-5 rounded-2xl border border-slate-100 hover:shadow-lg transition-all flex flex-col justify-between group">
                 <div>

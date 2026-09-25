@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use App\Models\Document;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -11,39 +10,28 @@ class DocumentController extends Controller
 {
     public function index(Request $request)
     {
-        $selectedCategorySlug = $request->query('category');
         $search = $request->query('search');
 
-        $categories = Category::all();
-
-        $query = Document::with(['category', 'uploader']);
-
-        if ($selectedCategorySlug) {
-            $category = Category::where('slug', $selectedCategorySlug)->first();
-            if ($category) {
-                $query->where('category_id', $category->id);
-            }
-        }
+        $query = Document::with('uploader');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
-                  ->orWhere('description', 'like', "%{$search}%")
                   ->orWhere('file_name', 'like', "%{$search}%");
             });
         }
 
-        $documents = $query->latest()->paginate(9)->withQueryString();
+        $documents = $query->latest()->paginate(12)->withQueryString();
 
-        return view('documents.index', compact('documents', 'categories', 'selectedCategorySlug', 'search'));
+        return view('documents.index', compact('documents', 'search'));
     }
 
     public function show(Document $document)
     {
-        $document->load(['category', 'uploader']);
-        $relatedDocuments = Document::where('category_id', $document->category_id)
-            ->where('id', '!=', $document->id)
-            ->take(3)
+        $document->load('uploader');
+        $relatedDocuments = Document::where('id', '!=', $document->id)
+            ->latest()
+            ->take(4)
             ->get();
 
         return view('documents.show', compact('document', 'relatedDocuments'));

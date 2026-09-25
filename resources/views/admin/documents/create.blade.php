@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Tải lên tài liệu mới - Admin')
+@section('title', 'Tải lên nhiều tài liệu mới - Admin')
 
 @section('content')
 <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-6">
@@ -11,54 +11,26 @@
 
     <div class="bg-white rounded-3xl border border-slate-100 shadow-xl p-8 sm:p-10 space-y-6">
         <div>
-            <h1 class="text-2xl font-black text-slate-900">Upload Tài Liệu Mới</h1>
-            <p class="text-sm text-slate-500">Tải tệp PDF, DOCX, MP3, ZIP... lên hệ thống và chọn danh mục kỹ năng</p>
+            <h1 class="text-2xl font-black text-slate-900">Upload Hàng Loạt Tài Liệu Mới</h1>
+            <p class="text-sm text-slate-500">Tải lên cùng lúc nhiều tệp PDF, DOCX, MP3, ZIP... Tên tài liệu mặc định lấy theo tên file.</p>
         </div>
 
         <form action="{{ route('admin.documents.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
             @csrf
 
             <div>
-                <label for="title" class="block text-sm font-bold text-slate-700 mb-1">Tên tiêu đề tài liệu <span class="text-rose-500">*</span></label>
-                <input type="text" id="title" name="title" required value="{{ old('title') }}"
-                       class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 text-sm"
-                       placeholder="Ví dụ: Bộ đề thi thử Listening IELTS Cambridge 18 Full Audio">
-                @error('title')
-                <p class="mt-1 text-xs text-rose-600 font-medium">{{ $message }}</p>
-                @enderror
-            </div>
-
-            <div>
-                <label for="category_id" class="block text-sm font-bold text-slate-700 mb-1">Danh mục kỹ năng <span class="text-rose-500">*</span></label>
-                <select id="category_id" name="category_id" required
-                        class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 text-sm font-medium">
-                    <option value="">-- Chọn kỹ năng (Nghe, Nói, Đọc, Viết) --</option>
-                    @foreach($categories as $cat)
-                    <option value="{{ $cat->id }}" {{ old('category_id') == $cat->id ? 'selected' : '' }}>
-                        {{ $cat->name }}
-                    </option>
-                    @endforeach
-                </select>
-                @error('category_id')
-                <p class="mt-1 text-xs text-rose-600 font-medium">{{ $message }}</p>
-                @enderror
-            </div>
-
-            <div>
-                <label for="description" class="block text-sm font-bold text-slate-700 mb-1">Mô tả bổ sung</label>
-                <textarea id="description" name="description" rows="4"
-                          class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 text-sm"
-                          placeholder="Mô tả nội dung tài liệu, cách học hoặc hướng dẫn làm bài...">{{ old('description') }}</textarea>
-            </div>
-
-            <div>
-                <label for="file" class="block text-sm font-bold text-slate-700 mb-1">Chọn tệp tài liệu <span class="text-rose-500">*</span></label>
-                <div class="border-2 border-dashed border-slate-200 rounded-2xl p-6 text-center hover:border-indigo-500 transition-colors bg-slate-50">
-                    <i data-lucide="upload-cloud" class="w-10 h-10 text-indigo-500 mx-auto mb-2"></i>
-                    <input type="file" id="file" name="file" required class="block w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-indigo-600 file:text-white hover:file:bg-indigo-700 cursor-pointer">
-                    <p class="mt-2 text-xs text-slate-400">Hỗ trợ các định dạng PDF, DOCX, MP3, ZIP... Dung lượng tối đa: 20MB</p>
+                <label for="files" class="block text-sm font-bold text-slate-700 mb-1">Chọn tệp tài liệu <span class="text-rose-500">*</span></label>
+                <div class="border-2 border-dashed border-slate-200 rounded-2xl p-8 text-center hover:border-indigo-500 transition-colors bg-slate-50 cursor-pointer" onclick="document.getElementById('files').click()">
+                    <i data-lucide="upload-cloud" class="w-12 h-12 text-indigo-500 mx-auto mb-3"></i>
+                    <p class="text-sm font-bold text-slate-800">Nhấn vào đây để chọn 1 hoặc nhiều file cùng lúc</p>
+                    <p class="text-xs text-slate-400 mt-1 mb-4">Giữ phím Ctrl hoặc Shift để chọn hàng loạt file. Dung lượng tối đa: 50MB/file</p>
+                    <input type="file" id="files" name="files[]" multiple required onchange="updateCreateFilesList(this)" class="hidden">
+                    <button type="button" class="px-4 py-2 bg-indigo-50 text-indigo-700 font-bold text-xs rounded-xl border border-indigo-200">
+                        Duyệt file từ máy tính
+                    </button>
                 </div>
-                @error('file')
+                <div id="createFilesListStatus" class="mt-3 text-xs font-semibold text-indigo-600"></div>
+                @error('files')
                 <p class="mt-1 text-xs text-rose-600 font-medium">{{ $message }}</p>
                 @enderror
             </div>
@@ -68,7 +40,7 @@
                     Hủy bỏ
                 </a>
                 <button type="submit" class="px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-lg shadow-indigo-500/20">
-                    Tải Lên Tài Liệu
+                    Tải Lên Tất Cả Tệp
                 </button>
             </div>
 
@@ -76,4 +48,15 @@
     </div>
 
 </div>
+
+<script>
+function updateCreateFilesList(input) {
+    const status = document.getElementById('createFilesListStatus');
+    if (input.files && input.files.length > 0) {
+        status.innerHTML = `✓ Đã chọn ${input.files.length} tệp: ` + Array.from(input.files).map(f => f.name).join(', ');
+    } else {
+        status.innerHTML = '';
+    }
+}
+</script>
 @endsection
