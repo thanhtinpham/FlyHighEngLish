@@ -4,6 +4,7 @@ use App\Http\Controllers\AboutController;
 use App\Http\Controllers\Admin\AdminCourseController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminDocumentController;
+use App\Http\Controllers\Admin\AdminDocumentButtonController;
 use App\Http\Controllers\Admin\AdminEnrollmentController;
 use App\Http\Controllers\Admin\AdminLessonController;
 use App\Http\Controllers\Admin\AdminNotificationController;
@@ -87,6 +88,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     // Documents Management
     Route::resource('documents', AdminDocumentController::class);
+    Route::resource('document-buttons', AdminDocumentButtonController::class);
 
     // System Notifications Management
     Route::resource('notifications', AdminNotificationController::class);

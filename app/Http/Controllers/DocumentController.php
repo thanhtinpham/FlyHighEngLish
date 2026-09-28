@@ -23,7 +23,12 @@ class DocumentController extends Controller
 
         $documents = $query->latest()->paginate(12)->withQueryString();
 
-        return view('documents.index', compact('documents', 'search'));
+        $customButtons = \App\Models\DocumentButton::where('is_active', true)
+            ->orderBy('sort_order', 'asc')
+            ->latest()
+            ->get();
+
+        return view('documents.index', compact('documents', 'search', 'customButtons'));
     }
 
     public function show(Document $document)

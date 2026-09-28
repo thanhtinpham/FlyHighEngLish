@@ -9,7 +9,7 @@
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-white p-6 sm:p-8 rounded-3xl border border-slate-100 shadow-sm">
         <div>
             <div class="inline-flex items-center gap-2 px-3 py-1 bg-indigo-50 text-indigo-700 rounded-full text-xs font-bold mb-2 border border-indigo-100">
-                <i data-lucide="folder-open" class="w-3.5 h-3.5"></i> Thư Viện Tài Liệu Dùng Chung
+                <i data-lucide="folder-open" class="w-3.5 h-3.5"></i> Thư Viện Tài Liệu Fly High
             </div>
             <h1 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">Kho Tài Liệu Tiếng Anh</h1>
             <p class="mt-1 text-sm text-slate-500">Tải về các tài liệu PDF, tệp âm thanh MP3, bài tập và tài liệu học tập miễn phí</p>
@@ -30,6 +30,28 @@
                 @endif
             </div>
         </form>
+    </div>
+
+    <!-- Document Section Navigation Buttons (Tài liệu chung & Tài liệu khác) -->
+    <div class="flex items-center gap-3 overflow-x-auto pb-1 scrollbar-none">
+        <!-- Nút: Tài liệu chung -->
+        <a href="{{ route('documents.index') }}" 
+           class="px-5 py-3 rounded-2xl font-bold text-xs sm:text-sm transition-all duration-200 flex items-center gap-2 bg-indigo-600 text-white shadow-lg shadow-indigo-500/25 shrink-0 hover:bg-indigo-700">
+            <i data-lucide="folder-open" class="w-4 h-4 text-white"></i>
+            <span>Tài Liệu Chung</span>
+        </a>
+
+        <!-- Nút: Tài liệu khác (Các nút do Admin tạo) -->
+        @if(isset($customButtons) && $customButtons->count() > 0)
+            @foreach($customButtons as $cBtn)
+            <a href="{{ $cBtn->url }}" target="_blank" 
+               class="px-5 py-3 rounded-2xl font-bold text-xs sm:text-sm transition-all duration-200 flex items-center gap-2 bg-white text-slate-700 border border-slate-200/80 shadow-xs hover:bg-slate-50 hover:text-indigo-600 hover:border-indigo-300 shrink-0 group">
+                <i data-lucide="{{ $cBtn->icon ?? 'external-link' }}" class="w-4 h-4 text-indigo-500 group-hover:scale-110 transition-transform"></i>
+                <span>{{ $cBtn->name }}</span>
+                <i data-lucide="external-link" class="w-3 h-3 text-slate-400 opacity-60"></i>
+            </a>
+            @endforeach
+        @endif
     </div>
 
     <!-- Document Cards List -->
